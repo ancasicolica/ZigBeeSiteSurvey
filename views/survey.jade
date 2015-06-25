@@ -2,3 +2,8 @@
    Created by kc on 25.06.15.
 
 h2 PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
+h3 RSSI {{getLatestMeasurementEntry().rssi}}
+h3 LQI {{getLatestMeasurementEntry().lqi}}
+.progress
+  .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
+    span#sr-only {{getLatestMeasurementEntry().rssi}} dB

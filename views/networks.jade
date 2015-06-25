@@ -17,6 +17,10 @@ table.table.table-striped
       td {{n.extendedPanId}}
       td {{n.permitJoin}}
       td {{n.lqi}}
-      td {{n.rssi}}
+      td 
+        .progress
+          .progress-bar(class='{{getRssiClass(n.rssi)}}' role='progressbar' aria-valuenow="{{n.rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{calculateRssiPercent(n.rssi)}}%;")
+            span#sr-only {{n.rssi}} dB
+
 
 button.btn.btn-default(ng-click='getNetworks()' ng-disabled='networkScanActive') Refresh
