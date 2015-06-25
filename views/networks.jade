@@ -1,0 +1,22 @@
+//
+   Created by kc on 25.06.15.
+
+table.table.table-striped
+  thead
+    th Channel
+    th PAN-ID
+    th Ext-PAN-ID
+    th Permit Join
+    th LQI
+    th RSSI
+  tbody
+    tr(data-ng-repeat='n in networks')
+      td {{n.channel}}
+      td
+        a(href='#' ng-click='survey(n)') {{n.panId}}
+      td {{n.extendedPanId}}
+      td {{n.permitJoin}}
+      td {{n.lqi}}
+      td {{n.rssi}}
+
+button.btn.btn-default(ng-click='getNetworks()' ng-disabled='networkScanActive') Refresh

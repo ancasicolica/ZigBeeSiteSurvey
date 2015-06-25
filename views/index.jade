@@ -1,6 +1,14 @@
 //
    Created by kc on 25.06.15.
 extends layout
-block content
-  h1 ZigBee Site Survey Tool
+block head
+  script(src='/js/surveyctrl.js')
 
+block content
+  div(ng-app='surveyApp' ng-controller='surveyCtrl')
+    h1 ZigBee Site Survey Tool
+
+    div(ng-show='panel==="networks"')
+      include networks
+    div(ng-show='panel==="survey"')
+      include survey
