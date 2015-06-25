@@ -32,4 +32,5 @@ node_modules
 # Webstorm
 .idea
 
+views/*.html
 

@@ -24,10 +24,10 @@
     "node": ">= 0.10.0",
     "npm": ">= 2.7.0"
   },
-
   "dependencies": {
     "express": "^4.13.0",
-    "lodash": "3.9.3",
+    "jade": "^1.11.0",
+    "lodash": "^3.9.3",
     "serialport": "1.7.4"
   }
 }

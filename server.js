@@ -9,26 +9,27 @@ var rapidConnector = require('./lib/rapidConnector');
 var networkScanRequest = require('./lib/tasks/networkScanRequest');
 var settings = require('./settings');
 var express = require('express');
+var path = require('path');
 var app = express();
+var indexRoute = require('./routes/index');
+var scanRoute = require('./routes/scan');
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-});
 
-app.listen(settings.port);
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use('/', indexRoute);
+app.use('/scan', scanRoute);
+
 
 rapidConnector.init(function (err) {
   if (err) {
     console.error(err);
     return;
   }
-
-  networkScanRequest.start(function(err, networks) {
-    if (err) {
-      console.error(err);
-    }
-    else {
-      console.log('Finished scan, networks found: ' + networks.length);
-    }
-  });
+  app.listen(settings.port);
+  console.log('ZigBee Survey Tool ready and listening on port ' + settings.port);
 });
