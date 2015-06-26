@@ -6,9 +6,12 @@ block head
 
 block content
   div(ng-app='surveyApp' ng-controller='surveyCtrl')
-    h1 ZigBee Site Survey Tool
+    .container
+      .row
+        .col-md-12
+          h1 ZigBee Site Survey Tool
 
-    div(ng-show='panel==="networks"')
-      include networks
-    div(ng-show='panel==="survey"')
-      include survey
+          div(ng-show='panel==="networks"')
+            include networks
+          div(ng-show='panel==="survey"')
+            include survey

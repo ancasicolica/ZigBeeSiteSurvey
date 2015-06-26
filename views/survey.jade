@@ -1,9 +1,15 @@
 //
    Created by kc on 25.06.15.
 
-h2 PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
-h3 RSSI {{getLatestMeasurementEntry().rssi}}
-h3 LQI {{getLatestMeasurementEntry().lqi}}
-.progress
-  .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
-    span#sr-only {{getLatestMeasurementEntry().rssi}} dB
+.panel.panel-default
+  .panel-heading
+    h3.panel-title PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
+  .panel-body
+    h3 RSSI: {{getLatestMeasurementEntry().rssi}}
+    h3 LQI: {{getLatestMeasurementEntry().lqi}}
+    h3 Permit Join: {{getLatestMeasurementEntry().permitJoin}}
+    .progress
+      .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
+        span#sr-only {{getLatestMeasurementEntry().rssi}} dB
+
+button.btn.btn-default(ng-click='cancelContinousScanning()' ng-disabled='!continousScanningActive') close

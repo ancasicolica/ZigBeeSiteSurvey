@@ -8,6 +8,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.panel = 'networks';
   $scope.networks = [];
   $scope.networkScanActive = false;
+  $scope.continousScanningActive = false;
   $scope.measurements = [];
   $scope.rssiMin = -100;
   $scope.rssiMax = 0;
@@ -24,6 +25,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.currentNetwork = network;
     $scope.panel = 'survey';
     $scope.measurements = [];
+    $scope.continousScanningActive = true;
     $scope.updateCurrentNetworkData();
   };
 
@@ -76,13 +78,32 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       });
   };
 
+  /**
+   * Calculates a percent values for RSSI (progress bar)
+   * @param rssi
+   * @returns {number}
+   */
   $scope.calculateRssiPercent = function(rssi) {
     return 100 - Math.abs(rssi / ($scope.rssiMax - $scope.rssiMin)) * 100;
+  };
+  /**
+   * Cancels the scanning for one single network
+   */
+  $scope.cancelContinousScanning = function() {
+    $scope.continousScanningActive = false;
   };
   /**
    * Get information about all networks
    */
   $scope.updateCurrentNetworkData = function() {
+    function continueAfterScan() {
+      if ($scope.continousScanningActive) {
+        _.delay($scope.updateCurrentNetworkData, 500);
+      }
+      else {
+        $scope.panel = 'networks';
+      }
+    }
     $scope.networkScanActive = true;
     $http.get('/scan/' + $scope.currentNetwork.channel + '/' + $scope.currentNetwork.panId).
       success(function (data) {
@@ -94,15 +115,14 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           }
         }
         $scope.networkScanActive = false;
-
-        // start again (don't forget to stop this one time...)
-        _.delay($scope.updateCurrentNetworkData, 500);
+        continueAfterScan();
       }).
       error(function (data, status) {
         console.log('error:');
         console.log(data);
         console.log(status);
         $scope.networkScanActive = false;
+        continueAfterScan();
       });
   };
 
