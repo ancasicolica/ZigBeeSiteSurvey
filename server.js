@@ -6,7 +6,6 @@
 'use strict';
 
 var rapidConnector = require('./lib/rapidConnector');
-var networkScanRequest = require('./lib/tasks/networkScanRequest');
 var settings = require('./settings');
 var express = require('express');
 var path = require('path');
@@ -19,11 +18,8 @@ var scanRoute = require('./routes/scan');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use('/', indexRoute);
 app.use('/scan', scanRoute);
-
 
 rapidConnector.init(function (err) {
   if (err) {

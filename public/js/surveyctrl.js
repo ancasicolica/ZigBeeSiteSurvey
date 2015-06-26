@@ -12,8 +12,20 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.measurements = [];
   $scope.rssiMin = -100;
   $scope.rssiMax = 0;
+  $scope.networkFailureCounter = 0;
+  $scope.currentLocation = '';
+  $scope.log = [];
 
   $(document).ready(function () {
+    $.getScript("https://www.google.com/jsapi")
+      .done(function (script, textStatus) {
+        console.log('jsapi loaded, now loading chart api');
+        google.load('visualization', '1.0', {'packages': ['corechart'], callback: $scope.drawChart});
+      })
+      .fail(function (jqxhr, settings, exception) {
+        console.log("Triggered ajaxError handler.");
+        console.log(exception);
+      });
     $scope.getNetworks();
   });
 
@@ -21,30 +33,65 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Switch to the survey mode
    * @param panId
    */
-  $scope.survey = function(network) {
+  $scope.survey = function (network) {
     $scope.currentNetwork = network;
     $scope.panel = 'survey';
     $scope.measurements = [];
     $scope.continousScanningActive = true;
+    $scope.networkFailureCounter = 0;
+    $scope.log = [];
     $scope.updateCurrentNetworkData();
   };
 
+  $scope.addLog = function() {
+    if ($scope.currentLocation.length > 0) {
+      var entry =  $scope.getLatestMeasurementEntry();
+      entry.info = $scope.currentLocation;
+      $scope.log.push(entry);
+    }
+  };
   /**
    * Returns the last entry of the measurement
    * @returns {*}
    */
-  $scope.getLatestMeasurementEntry = function() {
-    if($scope.measurements.length === 0) {
-      return {rssi:0, lqi:0};
+  $scope.getLatestMeasurementEntry = function () {
+    if ($scope.measurements.length === 0) {
+      return {rssi: 0, lqi: 0};
     }
     return _.last($scope.measurements);
+  };
+
+  $scope.drawChart = function () {
+    if (google) {
+      var chartData = new google.visualization.DataTable();
+      // The colums of the chart
+      chartData.addColumn('datetime', 'Time');
+      chartData.addColumn('number', 'dBm');
+
+      for (var i = 0; i < $scope.measurements.length; i++) {
+        chartData.addRow([$scope.measurements[i].ts, $scope.measurements[i].rssi]);
+      }
+
+      var options = {
+        curveType: 'function',
+        legend: {position: 'none'},
+        title: "RSSI [dBm]",
+        vAxis: {
+          maxValue: 3
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart'));
+
+      chart.draw(chartData, options);
+    }
   };
 
   /**
    * Return the class for the progressbar associated with the given rssi value
    * @param rssi
    */
-  $scope.getRssiClass = function(rssi) {
+  $scope.getRssiClass = function (rssi) {
     if (rssi < -63) {
       return 'progress-bar-danger';
     }
@@ -56,7 +103,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Get information about all networks
    */
-  $scope.getNetworks = function() {
+  $scope.getNetworks = function () {
     $scope.networkScanActive = true;
     $http.get('/scan/all').
       success(function (data) {
@@ -83,19 +130,19 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @param rssi
    * @returns {number}
    */
-  $scope.calculateRssiPercent = function(rssi) {
+  $scope.calculateRssiPercent = function (rssi) {
     return 100 - Math.abs(rssi / ($scope.rssiMax - $scope.rssiMin)) * 100;
   };
   /**
    * Cancels the scanning for one single network
    */
-  $scope.cancelContinousScanning = function() {
+  $scope.cancelContinousScanning = function () {
     $scope.continousScanningActive = false;
   };
   /**
    * Get information about all networks
    */
-  $scope.updateCurrentNetworkData = function() {
+  $scope.updateCurrentNetworkData = function () {
     function continueAfterScan() {
       if ($scope.continousScanningActive) {
         _.delay($scope.updateCurrentNetworkData, 500);
@@ -104,6 +151,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         $scope.panel = 'networks';
       }
     }
+
     $scope.networkScanActive = true;
     $http.get('/scan/' + $scope.currentNetwork.channel + '/' + $scope.currentNetwork.panId).
       success(function (data) {
@@ -111,7 +159,21 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           if (data.networks.length > 0) {
             var m = data.networks[0];
             m.rssiPercent = $scope.calculateRssiPercent(m.rssi);
-            $scope.measurements.push(m);
+            m.ts = new Date();
+            if (m.found) {
+              $scope.measurements.push(m);
+              $scope.networkFailureCounter = 0;
+            }
+            else {
+              // Network not found
+              $scope.networkFailureCounter++;
+              if ($scope.networkFailureCounter > 2) {
+                $scope.measurements.push(m);
+              }
+              $scope.networkFailureCounter++;
+              console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
+            }
+            $scope.drawChart();
           }
         }
         $scope.networkScanActive = false;

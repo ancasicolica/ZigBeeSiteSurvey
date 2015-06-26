@@ -10,10 +10,10 @@ var _ = require('lodash');
 var networkScanRequest = require('../lib/tasks/networkScanRequest');
 
 /**
- * Get the ranking list
+ * Get all networks
  */
 router.get('/all', function (req, res) {
-  networkScanRequest.start({}, function (err, networks) {
+  networkScanRequest.start({scanDuration: 0x03}, function (err, networks) {
     if (err) {
       res.send({status: 'error', message: err.message});
     }
@@ -25,10 +25,14 @@ router.get('/all', function (req, res) {
 });
 
 /**
- * Get the ranking list
+ * Get info about one single network
  */
 router.get('/:channel/:panId', function (req, res) {
-  networkScanRequest.start({channels: [req.params.channel], panId: req.params.panId}, function (err, networks) {
+  networkScanRequest.start({
+    channels: [req.params.channel],
+    panId: req.params.panId,
+    scanDuration: 0x06
+  }, function (err, networks) {
     if (err) {
       res.send({status: 'error', message: err.message});
     }
