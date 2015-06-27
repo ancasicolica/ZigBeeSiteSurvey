@@ -58,6 +58,11 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     if ($scope.currentLocation.length > 0) {
       var entry =  $scope.getLatestMeasurementEntry();
       entry.info = $scope.currentLocation;
+
+      if (_.find($scope.log, {ts: entry.ts})){
+        console.log('entry already in log');
+        return;
+      }
       $scope.log.push(entry);
     }
   };
