@@ -1,0 +1,18 @@
+//
+   Created by kc on 25.06.15.
+extends layout
+block head
+  link(rel='stylesheet', href='/css/survey.css',  type='text/css')
+  script(src='/js/surveyctrl.js')
+
+block content
+  div(ng-app='surveyApp' ng-controller='surveyCtrl')
+    .container
+      .row
+        .col-md-12
+          h1 ZigBee Site Survey Tool
+
+          div(ng-show='panel==="networks"')
+            include networks
+          div(ng-show='panel==="survey"')
+            include survey

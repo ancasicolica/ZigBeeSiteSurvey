@@ -1,0 +1,29 @@
+/**
+ * Settings of the zigbee site survey tool
+ * Created by kc on 23.06.15.
+ */
+'use strict';
+
+var
+  pkg = require('./package.json'),
+  fs = require('fs'),
+  path = require('path');
+
+var settings = {
+  name: pkg.name,
+  version: pkg.version,
+  debug: (process.env.NODE_ENV !== 'production' || process.env.DEBUG) ? true : false
+};
+
+process.env.DEPLOY_TYPE = process.env.DEPLOY_TYPE || 'local';
+
+settings.serialport = '/dev/tty.SLAB_USBtoUART';
+settings.serialSettings = {
+  baudrate: 115200
+};
+
+settings.simulator = process.env.SIMULATOR || false;
+settings.port = process.env.PORT || 2998;
+
+module.exports = settings;
+

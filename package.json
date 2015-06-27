@@ -1,0 +1,33 @@
+{
+  "name": "zigbee-survey-tool",
+  "version": "0.0.1",
+  "title": "Node ZigBee Survey Tool",
+  "description": "Check the ZigBee network data using MMBs RapidConnect",
+  "keywords": [
+    "ZigBee",
+    "Node.js",
+    "MMB",
+    "RapidConnect",
+    "SiteSurvey"
+  ],
+  "author": {
+    "name": "Christian Kuster, CH-8342 Wernetshausen",
+    "email": "christian@kusti.ch",
+    "url": "http://www.kusti.ch/"
+  },
+  "homepage": "http://www.kusti.ch/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/"
+  },
+  "engines": {
+    "node": ">= 0.10.0",
+    "npm": ">= 2.7.0"
+  },
+  "dependencies": {
+    "express": "^4.13.0",
+    "jade": "^1.11.0",
+    "lodash": "^3.9.3",
+    "serialport": "1.7.4"
+  }
+}

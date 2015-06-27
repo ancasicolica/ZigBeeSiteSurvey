@@ -1,0 +1,44 @@
+//
+   Created by kc on 25.06.15.
+
+.panel.panel-default
+  .panel-heading
+    h3.panel-title.network-title PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
+      a.icon-close.no-print(href='#' ng-click='closeSurvey()')
+        i.glyphicon.glyphicon-remove
+  .panel-body
+    .row
+      .col-md-3
+        h3 RSSI: {{getLatestMeasurementEntry().rssi}}
+        h3 LQI: {{getLatestMeasurementEntry().lqi}}
+        h3 Permit Join: {{getLatestMeasurementEntry().permitJoin}}
+      .col-md-9
+        #chart
+    .row.no-print
+      .col-md-12
+        .progress
+          .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
+              span#sr-only {{getLatestMeasurementEntry().rssi}} dB
+    .row.no-print
+      .col-md-10
+        input.form-control(type='text' ng-model='currentLocation')
+      .col-md-2
+        button.btn.btn-default(type='button' ng-click='addLog()') Add log entry
+    .row
+      .col-md-12
+        div(ng-show='log.length')
+          table.table.table-striped
+            thead
+              th ts
+              th Info
+              th LQI
+              th RSSI
+            tbody
+              tr(data-ng-repeat='n in log')
+                td {{n.ts | date:'dd.MM.yyyy HH:mm:ss'}}
+                td {{n.info}}
+                td {{n.lqi}}
+                td {{n.rssi}}
+
+button.btn.btn-primary.no-print(onclick='javascript:window.print()') print
+

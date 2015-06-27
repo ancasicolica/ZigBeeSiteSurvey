@@ -1,0 +1,30 @@
+//
+   Created by kc on 25.06.15.
+
+div(ng-hide='networks.length')
+  .alert.alert-warning
+    | No ZigBee networks found, please try again.
+div(ng-show='networks.length')
+  table.table.table-striped
+    thead
+      th Channel
+      th PAN-ID
+      th Ext-PAN-ID
+      th Permit Join
+      th LQI
+      th RSSI
+    tbody
+      tr(data-ng-repeat='n in networks')
+        td {{n.channel}}
+        td
+          a(href='#' ng-click='survey(n)') {{n.panId}}
+        td {{n.extendedPanId}}
+        td {{n.permitJoin}}
+        td {{n.lqi}}
+        td
+          .progress
+            .progress-bar(class='{{getRssiClass(n.rssi)}}' role='progressbar' aria-valuenow="{{n.rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{calculateRssiPercent(n.rssi)}}%;")
+              span#sr-only {{n.rssi}} dB
+
+
+button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Refresh
