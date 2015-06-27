@@ -43,6 +43,17 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.updateCurrentNetworkData();
   };
 
+  /**
+   * Close survey mode
+   */
+  $scope.closeSurvey = function() {
+    $scope.continousScanningActive = false;
+    $scope.panel = 'network';
+  };
+
+  /**
+   * Add a log entry
+   */
   $scope.addLog = function() {
     if ($scope.currentLocation.length > 0) {
       var entry =  $scope.getLatestMeasurementEntry();
@@ -61,6 +72,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     return _.last($scope.measurements);
   };
 
+  /**
+   * Draw the chart with the last measurements, we are using Google diagrams
+   */
   $scope.drawChart = function () {
     if (google) {
       var chartData = new google.visualization.DataTable();

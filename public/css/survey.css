@@ -1,0 +1,14 @@
+@media print {
+    .no-print, .no-print * {
+        display : none !important;
+    }
+}
+
+.network-title {
+    position : relative;
+}
+
+.icon-close {
+    position : absolute;
+    right    : 0px;
+}
