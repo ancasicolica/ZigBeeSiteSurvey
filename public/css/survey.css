@@ -8,6 +8,9 @@
     position : relative;
 }
 
+.main-title {
+    position: relative;
+}
 .icon-close {
     position : absolute;
     right    : 0px;

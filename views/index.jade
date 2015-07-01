@@ -7,10 +7,13 @@ block head
 
 block content
   div(ng-app='surveyApp' ng-controller='surveyCtrl')
+    include about
     .container
       .row
         .col-md-12
-          h1 ZigBee Site Survey Tool
+          h1.main-title ZigBee Site Survey Tool
+            a.icon-close.no-print(href='#' data-toggle="modal" data-target="#about")
+              i.glyphicon.glyphicon-info-sign
 
           div(ng-show='panel==="networks"')
             include networks

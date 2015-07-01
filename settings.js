@@ -22,6 +22,11 @@ settings.serialSettings = {
   baudrate: 115200
 };
 
+settings.levels = {
+  good: -85, // Everything above this level is considered as good
+  acceptable: -90 // Everything above this level and below 'good' is considered as acceptable, everything below as inacceptable.
+};
+
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;
 

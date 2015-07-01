@@ -5,6 +5,7 @@
 'use strict';
 var surveyControl = angular.module('surveyApp', []);
 surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $http) {
+  $scope.settings = {};
   $scope.panel = 'networks';
   $scope.networks = [];
   $scope.networkScanActive = false;
@@ -17,8 +18,21 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.log = [];
 
   $(document).ready(function () {
+    // Get the settings
+    $http.get('/settings').
+      success(function (data) {
+        if (data.status === 'ok') {
+          $scope.settings = data.settings
+        }
+      }).
+      error(function (data, status) {
+        console.log('error:');
+        console.log(data);
+        console.log(status);
+      });
+
     $.getScript("https://www.google.com/jsapi")
-      .done(function (script, textStatus) {
+      .done(function () {
         console.log('jsapi loaded, now loading chart api');
         google.load('visualization', '1.0', {'packages': ['corechart'], callback: $scope.drawChart});
       })
@@ -46,7 +60,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Close survey mode
    */
-  $scope.closeSurvey = function() {
+  $scope.closeSurvey = function () {
     $scope.continousScanningActive = false;
     $scope.panel = 'network';
   };
@@ -54,12 +68,12 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Add a log entry
    */
-  $scope.addLog = function() {
+  $scope.addLog = function () {
     if ($scope.currentLocation.length > 0) {
-      var entry =  $scope.getLatestMeasurementEntry();
+      var entry = $scope.getLatestMeasurementEntry();
       entry.info = $scope.currentLocation;
 
-      if (_.find($scope.log, {ts: entry.ts})){
+      if (_.find($scope.log, {ts: entry.ts})) {
         console.log('entry already in log');
         return;
       }
@@ -111,10 +125,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @param rssi
    */
   $scope.getRssiClass = function (rssi) {
-    if (rssi < -63) {
+    if (!$scope.settings || !$scope.settings.levels) {
+      return;
+    }
+    if (rssi < $scope.settings.levels.acceptable) {
       return 'progress-bar-danger';
     }
-    if (rssi > -50) {
+    if (rssi > $scope.settings.levels.good) {
       return 'progress-bar-success'
     }
     return 'progress-bar-warning';

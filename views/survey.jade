@@ -17,7 +17,7 @@
     .row.no-print
       .col-md-12
         .progress
-          .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
+          .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-130" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
               span#sr-only {{getLatestMeasurementEntry().rssi}} dB
     .row.no-print
       .col-md-10
@@ -42,3 +42,4 @@
 
 button.btn.btn-primary.no-print(onclick='javascript:window.print()') print
 
+c

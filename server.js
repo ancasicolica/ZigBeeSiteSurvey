@@ -12,6 +12,7 @@ var path = require('path');
 var app = express();
 var indexRoute = require('./routes/index');
 var scanRoute = require('./routes/scan');
+var settingsRoute = require('./routes/settings');
 
 
 // view engine setup
@@ -20,6 +21,7 @@ app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRoute);
 app.use('/scan', scanRoute);
+app.use('/settings', settingsRoute);
 
 rapidConnector.init(function (err) {
   if (err) {

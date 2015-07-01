@@ -4,13 +4,24 @@ A node.js tool for ZigBee range measurements using a RapidConnect USB stick from
 proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just fork the project
 and create your logic.
 
-## Prerequisites
+## Installation
+
+### Prerequisites
 This tool requires a current node.js release and a ready to operate RapidConnect USB dongle. The tool was developed
-and tested using Mac OS X and the Google Chrome browser but it should run on other operating systems and with other
-browsers as well.
+and tested using Mac OS X and the Google Chrome browser 
+but it should run on other operating systems and with other browsers (current releases of Firefox or Opera, but don't 
+try Internet Explorer, i've warned you!!) as well.
+
+### Step-by-step installation
+
+* Install node.js if you don't have it already. You get the current release at nodejs.org
+* Download the latest release of the ZigBee Survey Tool, extract it to a location of your choice
+* Run _npm install_ in the folder where you extracted the sources. This will install the dependencies
+* Install the drivers obtained from MMB Networks webpage for the USB dongle and attach it. For Windows get the COM port using the system tools.
+* Enter the COM Port (Mac users should not have to do anything) in settings.js, _settings.serialport_. Windows users should use a modern text editor (as notepad shows the whole content in one line)
 
 ## Run the tool
-Just star the tool using the command line 
+Just start the tool using the command line 
      
      node server.js
 

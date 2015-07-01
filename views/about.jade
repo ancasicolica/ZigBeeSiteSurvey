@@ -1,0 +1,26 @@
+//
+   Created by kc on 01.07.15.
+
+.modal.fade(id="about" tabindex="-1" role="dialog" aria-labelledby="aboutLabel" aria-hidden="true")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") &times;
+        h2(id='aboutLabel') About this tool
+      .modal-body
+        p ZigBee Site Survey Tool © 2015 Christian Kuster, CH-8342 Wernetshausen
+        p This tool ist just a proof-of-concept, no guarantee is given, use it at your own risk!
+        p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my GitHub page for further details.
+        p
+        p Version: {{settings.version}}
+        p COM-Port: {{settings.serialport}} (change it in settings.js)
+        p
+        p Level for good quality: {{settings.levels.good}}
+        p Level for poor quality: {{settings.levels.acceptable}}
+        p
+        h4 GitHub Repository:
+        p
+          a(href='https://github.com/ancasicolica/ZigBeeSiteSurvey' target='_blank') https://github.com/ancasicolica/ZigBeeSiteSurvey
+      .modal-footer
+        button(type="button" class="btn btn-default" data-dismiss="modal") close
