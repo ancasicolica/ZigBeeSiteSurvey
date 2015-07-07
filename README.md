@@ -4,6 +4,8 @@ A node.js tool for ZigBee range measurements using a RapidConnect USB stick from
 proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just fork the project
 and create your logic.
 
+Github Page: http://ancasicolica.github.io/ZigBeeSiteSurvey/
+
 ## Installation
 
 ### Prerequisites
