@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+<head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Zigbeesitesurvey : A node.js based tool for ZigBee measurements">
@@ -9,117 +9,198 @@
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
     <title>ZigBee Site Survey Tool</title>
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/ancasicolica/ZigBeeSiteSurvey">View on GitHub</a>
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+    <header class="inner">
+        <a id="forkme_banner" href="https://github.com/ancasicolica/ZigBeeSiteSurvey">View on GitHub</a>
 
-          <h1 id="project_title">ZigBee Site Survey Tool</h1>
-          <h2 id="project_tagline">A node.js based tool for ZigBee measurements</h2>
+        <h1 id="project_title">ZigBee Site Survey Tool</h1>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/ancasicolica/ZigBeeSiteSurvey/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/ancasicolica/ZigBeeSiteSurvey/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <h2 id="project_tagline">A node.js based tool for ZigBee measurements</h2>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/ancasicolica/ZigBeeSiteSurvey/zipball/master">Download
+                this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/ancasicolica/ZigBeeSiteSurvey/tarball/master">Download
+                this project as a tar.gz file</a>
+        </section>
+    </header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+    <section id="main_content" class="inner">
         <h1>
-<a id="zigbee-site-survey-tool" class="anchor" href="#zigbee-site-survey-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>ZigBee Site Survey tool</h1>
+            <a id="zigbee-site-survey-tool" class="anchor" href="#zigbee-site-survey-tool" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>ZigBee Site Survey tool</h1>
 
-<p>A node.js tool for ZigBee range measurements using a RapidConnect USB stick from MMB Networks. This tool ist just a
-proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just fork the project
-and create your logic.</p>
+        <p>A node.js tool for ZigBee range measurements using a RapidConnect USB stick from <a
+                href="http://mmbnetworks.com/">MMB Networks</a>. This tool ist
+            just a
+            proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just
+            fork the project
+            and create your logic.</p>
 
-<h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+        <h2>
+            <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>Installation</h2>
 
-<h3>
-<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h3>
+        <h3>
+            <a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>Prerequisites</h3>
 
-<p>This tool requires a current node.js release and a ready to operate RapidConnect USB dongle. The tool was developed
-and tested using Mac OS X and the Google Chrome browser
-but it should run on other operating systems and with other browsers (current releases of Firefox or Opera, but don't
-try Internet Explorer, i've warned you!!) as well.</p>
+        <p>This tool requires a current node.js release and a ready to operate RapidConnect USB dongle. There are two
+            different dongles available:</p>
+        <ul>
+            <li><strong>Z357PA22-USB-P-TC-N-C</strong>: this is the ZigBee SE (SmartEnergy) version. The tool operates
+                only with this dongle so far.
+            </li>
+            <li><strong>Z357PA30-USB-P-NC-N-X</strong>: this is the ZigBee HA (HomeAutomation) version with a slightly
+                different interface. The tool will be adapted to this version soon.
+            </li>
+        </ul>
+        <p>The dongles are available from a distributor like Avnet.</p>
 
-<h3>
-<a id="step-by-step-installation" class="anchor" href="#step-by-step-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step-by-step installation</h3>
+        <p>The tool was
+            developed
+            and tested on Mac OS X and Windows 7 using the Google Chrome browser. It should run on other operating
+            systems and with other browsers as well (current releases of Firefox or Opera,
+            but don't try it with the Internet Explorer, i don't expect it to work).
 
-<ul>
-<li>Install node.js if you don't have it already. You get the current release at nodejs.org</li>
-<li>Download the latest release of the ZigBee Survey Tool, extract it to a location of your choice</li>
-<li>Run <em>npm install</em> in the folder where you extracted the sources. This will install the dependencies</li>
-<li>Install the drivers obtained from MMB Networks webpage for the USB dongle and attach it. For Windows get the COM port using the system tools.</li>
-<li>Enter the COM Port (Mac users should not have to do anything) in settings.js, <em>settings.serialport</em>. Windows users should use a modern text editor (as notepad shows the whole content in one line)</li>
-</ul>
 
-<h2>
-<a id="run-the-tool" class="anchor" href="#run-the-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run the tool</h2>
+        <h3>
+            <a id="step-by-step-installation" class="anchor" href="#step-by-step-installation" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>Step-by-step installation</h3>
 
-<p>Just start the tool using the command line </p>
+        <ul>
+            <li>Install node.js if you don't have it already. You get the current release at nodejs.org</li>
+            <li>Download the latest release of the ZigBee Survey Tool, extract it to a location of your choice</li>
+            <li>Run <em>npm install</em> in the folder where you extracted the sources. This will install the
+                dependencies
+            </li>
+            <li>Install the drivers obtained from <a href="http://mmbnetworks.com/">MMB Networks webpage</a> for the USB
+                dongle and attach it. For Windows get
+                the COM port using the system tools.
+            </li>
+            <li>Enter the COM Port (Mac users should not have to do anything) in settings.js,
+                <em>settings.serialport</em>. Windows users should use a modern text editor (as notepad shows the whole
+                content in one line)
+            </li>
+        </ul>
+
+        <h2>
+            <a id="run-the-tool" class="anchor" href="#run-the-tool" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>Run the tool</h2>
+
+        <p>Just start the tool using the command line </p>
 
 <pre><code> node server.js
 </code></pre>
 
-<p>If the environment variable SIMULATOR is set to true, simple simulated data is used. This mode enables debugging the UI without
-a ZigBee network or hardware.</p>
+        <p>If the environment variable SIMULATOR is set to true, simple simulated data is used. This mode enables
+            debugging the UI without
+            a ZigBee network or hardware.</p>
 
-<p>Open the URL supplied in the console in your web browser (defaults: simulator: http://localhost:2999, real: http://localhost:2998)</p>
+        <p>Open the URL supplied in the console in your web browser (defaults: simulator: http://localhost:2999, real:
+            http://localhost:2998)</p>
 
-<p>For the diagram the tool needs a network connection as the Google charts API has to be loaded. If there is no network connection,
-the chart is not displayed (but the tool should still run).</p>
+        <p>For the diagram the tool needs a network connection as the Google charts API has to be loaded. If there is no
+            network connection,
+            the chart is not displayed (but the tool should still run).</p>
 
-<h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+        <h2>
+            <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage
+        </h2>
 
-<p>The first page shows the networks available, press the refresh button to scan again. If you select a network by clicking on its
-PAN-ID, the second page opens with detailed data about the selected network and a continous scan mode.</p>
+        <p>The first page shows the networks available, press the refresh button to scan again. If you select a network
+            by clicking on its
+            PAN-ID, the second page opens with detailed data about the selected network and a continous scan mode.</p>
 
-<p>Use the log field to enter some data (e.g. 'Room 201') and press the button right of the input. This logs the measurement and adds
-it to the list. </p>
+        <p>Use the log field to enter some data (e.g. 'Room 201') and press the button right of the input. This logs the
+            measurement and adds
+            it to the list. </p>
 
-<p>After finishing your survey, print the page (generate a PDF) and return to the main page by pressing the 'x' in the title bar.</p>
+        <p>After finishing your survey, print the page (generate a PDF) and return to the main page by pressing the 'x'
+            in the title bar.</p>
 
-<h2>
-<a id="configuration-options" class="anchor" href="#configuration-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration options</h2>
+        <h2>
+            <a id="configuration-options" class="anchor" href="#configuration-options" aria-hidden="true"><span
+                    class="octicon octicon-link"></span></a>Configuration options</h2>
 
-<p>See settings.js for the options available. </p>
+        <p>See settings.js for the options available. </p>
 
-<h2>Screenshots</h2>
-<p><img src='images/screenshot0.png'></p>
-<p><img src='images/screenshot1.png'></p>
-<h2>
-<a id="licence" class="anchor" href="#licence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licence</h2>
+        <h2>Screenshots</h2>
 
-<p>MIT, © 2015 Christian Kuster, CH-8342 Wernetshausen</p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Zigbeesitesurvey maintained by <a href="https://github.com/ancasicolica">ancasicolica</a></p>
+        <figure><img src='images/screenshot0.png'>
+            <figcaption>The main screen, displaying all networks found</figcaption>
+        </figure>
+
+        <figure><img src='images/screenshot1.png'>
+            <figcaption>Scanning one specific network over the time</figcaption>
+        </figure>
+
+        <h2>
+            <a id="licence" class="anchor" href="#licence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licence
+        </h2>
+
+        <p>
+
+        <h3>The MIT License (MIT)</h3>
+
+        Copyright © 2015 Christian Kuster, CH-8342 Wernetshausen<br/>
+        <br/>
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:<br/>
+        <br/>
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.<br/>
+        <br/>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE. </p>
+    </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+    <footer class="inner">
+        <p class="copyright">Zigbeesitesurvey maintained by <a href="https://github.com/ancasicolica">ancasicolica</a>
+        </p>
+
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+    </footer>
+</div>
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    
-      ga('create', 'UA-58163984-3', 'auto');
-      ga('send', 'pageview');
-    
-    </script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  </body>
+    ga('create', 'UA-58163984-3', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
 </html>
