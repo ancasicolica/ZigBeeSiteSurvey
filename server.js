@@ -5,6 +5,10 @@
  */
 'use strict';
 
+console.log('ZigBee Site Survey Tool ©2015 Christian Kuster, CH-8342 Wernetshausen');
+console.log('See http://ancasicolica.github.io/ZigBeeSiteSurvey/ for more information.');
+console.log('');
+
 var rapidConnector = require('./lib/rapidConnector');
 var settings = require('./settings');
 var express = require('express');
@@ -23,11 +27,10 @@ app.use('/', indexRoute);
 app.use('/scan', scanRoute);
 app.use('/settings', settingsRoute);
 
+app.listen(settings.port);
+console.log('ZigBee Survey Tool ready and listening on port ' + settings.port);
 rapidConnector.init(function (err) {
   if (err) {
     console.error(err);
-    return;
   }
-  app.listen(settings.port);
-  console.log('ZigBee Survey Tool ready and listening on port ' + settings.port);
 });

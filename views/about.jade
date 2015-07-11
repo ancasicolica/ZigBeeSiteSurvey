@@ -14,13 +14,13 @@
         p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my GitHub page for further details.
         p
         p Version: {{settings.version}}
-        p COM-Port: {{settings.serialport}} (change it in settings.js)
+        p COM-Port: {{getConnectedSerialPort()}}
         p
         p Level for good quality: {{settings.levels.good}}
         p Level for poor quality: {{settings.levels.acceptable}}
         p
         h4 GitHub Repository:
         p
-          a(href='https://github.com/ancasicolica/ZigBeeSiteSurvey' target='_blank') https://github.com/ancasicolica/ZigBeeSiteSurvey
+          a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') http://ancasicolica.github.io/ZigBeeSiteSurvey/
       .modal-footer
         button(type="button" class="btn btn-default" data-dismiss="modal") close

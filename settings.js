@@ -5,9 +5,7 @@
 'use strict';
 
 var
-  pkg = require('./package.json'),
-  fs = require('fs'),
-  path = require('path');
+  pkg = require('./package.json');
 
 var settings = {
   name: pkg.name,
@@ -16,11 +14,6 @@ var settings = {
 };
 
 process.env.DEPLOY_TYPE = process.env.DEPLOY_TYPE || 'local';
-
-settings.serialport = '/dev/tty.SLAB_USBtoUART';
-settings.serialSettings = {
-  baudrate: 115200
-};
 
 settings.levels = {
   good: -85, // Everything above this level is considered as good

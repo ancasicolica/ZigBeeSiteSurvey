@@ -1,5 +1,5 @@
 /**
- *
+ * Angular.js controller for the site survey tool
  * Created by kc on 25.06.15.
  */
 'use strict';
@@ -19,17 +19,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
 
   $(document).ready(function () {
     // Get the settings
-    $http.get('/settings').
-      success(function (data) {
-        if (data.status === 'ok') {
-          $scope.settings = data.settings
-        }
-      }).
-      error(function (data, status) {
-        console.log('error:');
-        console.log(data);
-        console.log(status);
-      });
+    $scope.refreshSettings();
 
     $.getScript("https://www.google.com/jsapi")
       .done(function () {
@@ -43,6 +33,41 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.getNetworks();
   });
 
+  /**
+   * Refresh the settings (and more important the current COM port)
+   */
+  $scope.refreshSettings = function() {
+    $http.get('/settings').success(function (data) {
+      if (data.status === 'ok') {
+        $scope.settings = data.settings;
+        $scope.connectedSerialPort = data.serialport;
+      }
+      _.delay($scope.refreshSettings, 5000);
+    }).
+      error(function (data, status) {
+        console.log('error:');
+        console.log(data);
+        console.log(status);
+      });
+  };
+  /**
+   * Returns the currently connected serial port
+   */
+  $scope.getConnectedSerialPort = function() {
+    if($scope.connectedSerialPort) {
+      return $scope.connectedSerialPort.comName;
+    }
+    else {
+      return 'NOT CONNECTED!';
+    }
+  };
+  /**
+   * Check whether the USB dongle is attached or not
+   * @returns {boolean}
+   */
+  $scope.isConnectedToSerialPort = function() {
+    return !_.isUndefined($scope.connectedSerialPort);
+  };
   /**
    * Switch to the survey mode
    * @param panId
