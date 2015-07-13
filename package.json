@@ -20,7 +20,7 @@
     "type": "git",
     "url": "https://github.com/ancasicolica/ZigBeeSiteSurvey.git"
   },
-  "license" : "MIT",
+  "license": "MIT",
   "engines": {
     "node": ">= 0.10.0",
     "npm": ">= 2.7.0"
@@ -29,7 +29,8 @@
     "express": "4.13.0",
     "jade": "1.11.0",
     "lodash": "3.9.3",
-    "serialport": "1.7.4"
+    "serialport": "1.7.4",
+    "usb-detection": "1.1.0"
   },
   "devDependencies": {
     "grunt": "0.4.5",
