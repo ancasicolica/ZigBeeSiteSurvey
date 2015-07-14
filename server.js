@@ -29,8 +29,4 @@ app.use('/settings', settingsRoute);
 
 app.listen(settings.port);
 console.log('ZigBee Survey Tool ready and listening on port ' + settings.port);
-rapidConnector.init(function (err) {
-  if (err) {
-    console.error(err);
-  }
-});
+
