@@ -17,7 +17,12 @@ var app = express();
 var indexRoute = require('./routes/index');
 var scanRoute = require('./routes/scan');
 var settingsRoute = require('./routes/settings');
+var determineDongleType = require('./lib/tasks/determineDongleType');
 
+rapidConnector.on('open', function() {
+  determineDongleType.run();
+});
+rapidConnector.connectToRapid();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
