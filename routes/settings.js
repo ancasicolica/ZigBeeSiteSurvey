@@ -9,12 +9,13 @@ var router = express.Router();
 var _ = require('lodash');
 var settings = require('../settings');
 var rapidConnector = require('../lib/rapidConnector');
+var dongleType = require('../lib/tasks/determineDongleType');
 
 /**
  * Get all networks
  */
 router.get('/', function (req, res) {
-  res.send({status: 'ok', settings: settings, serialport: rapidConnector.getCurrentSerialPort()});
+  res.send({status: 'ok', settings: settings, serialport: rapidConnector.getCurrentSerialPort(), usbDongle: dongleType.getInfo()});
 });
 
 module.exports = router;

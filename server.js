@@ -18,6 +18,7 @@ var indexRoute = require('./routes/index');
 var scanRoute = require('./routes/scan');
 var settingsRoute = require('./routes/settings');
 var determineDongleType = require('./lib/tasks/determineDongleType');
+var socket = require('./lib/socket');
 
 rapidConnector.on('open', function() {
   determineDongleType.run();
@@ -32,6 +33,7 @@ app.use('/', indexRoute);
 app.use('/scan', scanRoute);
 app.use('/settings', settingsRoute);
 
-app.listen(settings.port);
+
+socket.init(app.listen(settings.port));
 console.log('ZigBee Survey Tool ready and listening on port ' + settings.port);
 

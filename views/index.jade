@@ -4,6 +4,7 @@ extends layout
 block head
   link(rel='stylesheet', href='/css/survey.css',  type='text/css')
   script(src='/js/surveyctrl.js')
+  script(src='/socket.io/socket.io.js')
 
 block content
   div(ng-app='surveyApp' ng-controller='surveyCtrl')
@@ -12,9 +13,9 @@ block content
       .row
         .col-md-12
           h1.main-title ZigBee Site Survey Tool
-            a.icon-close.no-print(href='#' data-toggle="modal" data-target="#about")
+            a.icon-close.no-print(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
               i.glyphicon.glyphicon-info-sign
-          div(ng-hide='isConnectedToSerialPort()')
+          div(ng-hide='usbConnected')
             .alert.alert-danger
               | No RapidConnect USB dongle found, scanning is disabled!
           div(ng-show='panel==="networks"')

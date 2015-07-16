@@ -15,7 +15,7 @@
     "email": "christian@kusti.ch",
     "url": "http://www.kusti.ch/"
   },
-  "homepage": "http://www.kusti.ch/",
+  "homepage": "http://ancasicolica.github.io/ZigBeeSiteSurvey/",
   "repository": {
     "type": "git",
     "url": "https://github.com/ancasicolica/ZigBeeSiteSurvey.git"
@@ -30,6 +30,7 @@
     "jade": "1.11.0",
     "lodash": "3.9.3",
     "serialport": "1.7.4",
+    "socket.io": "1.3.6",
     "usb-detection": "1.1.0"
   },
   "devDependencies": {

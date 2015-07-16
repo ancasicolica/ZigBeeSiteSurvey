@@ -16,6 +16,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.networkFailureCounter = 0;
   $scope.currentLocation = '';
   $scope.log = [];
+  $scope.usbConnected = false;
 
   $(document).ready(function () {
     // Get the settings
@@ -31,18 +32,36 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         console.log(exception);
       });
     $scope.getNetworks();
+
+    var socket = io();
+    socket.on('usbConnected', function(info) {
+      console.log('USB CONNECTED');
+      $scope.usbConnected = true;
+      _.delay($scope.refreshSettings, 1000); // not all information would be available else
+      $scope.$apply();
+    });
+
+    socket.on('usbDisconnected', function() {
+      console.log('USB DISCONNECTED');
+      $scope.usbConnected = false;
+      $scope.refreshSettings();
+      $scope.$apply();
+    })
   });
 
   /**
    * Refresh the settings (and more important the current COM port)
    */
-  $scope.refreshSettings = function() {
+  $scope.refreshSettings = function () {
     $http.get('/settings').success(function (data) {
       if (data.status === 'ok') {
         $scope.settings = data.settings;
         $scope.connectedSerialPort = data.serialport;
+        $scope.usbDongle = data.usbDongle;
+        if (data.serialport) {
+          $scope.usbConnected = true;
+        }
       }
-      _.delay($scope.refreshSettings, 5000);
     }).
       error(function (data, status) {
         console.log('error:');
@@ -53,21 +72,15 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Returns the currently connected serial port
    */
-  $scope.getConnectedSerialPort = function() {
-    if($scope.connectedSerialPort) {
+  $scope.getConnectedSerialPort = function () {
+    if ($scope.connectedSerialPort) {
       return $scope.connectedSerialPort.comName;
     }
     else {
       return 'NOT CONNECTED!';
     }
   };
-  /**
-   * Check whether the USB dongle is attached or not
-   * @returns {boolean}
-   */
-  $scope.isConnectedToSerialPort = function() {
-    return !_.isUndefined($scope.connectedSerialPort);
-  };
+
   /**
    * Switch to the survey mode
    * @param panId
@@ -237,7 +250,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             $scope.drawChart();
           }
         }
-        $scope.networkScanActive = false;
         continueAfterScan();
       }).
       error(function (data, status) {

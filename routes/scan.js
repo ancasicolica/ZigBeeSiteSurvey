@@ -8,7 +8,6 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var networkScanRequest = require('../lib/tasks/networkScanRequest');
-
 /**
  * Get all networks
  */

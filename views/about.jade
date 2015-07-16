@@ -11,10 +11,16 @@
       .modal-body
         p ZigBee Site Survey Tool © 2015 Christian Kuster, CH-8342 Wernetshausen
         p This tool ist just a proof-of-concept, no guarantee is given, use it at your own risk!
-        p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my GitHub page for further details.
+        p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my&nbsp;
+          a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') GitHub page
+          | &nbsp;for further details.
         p
-        p Version: {{settings.version}}
+        p Tool Version: {{settings.version}}
+        p
         p COM-Port: {{getConnectedSerialPort()}}
+        p USB Dongle: {{usbDongle.applicationType}}
+        p Hardware: {{usbDongle.hardware}}
+        p Firmware: {{usbDongle.version}}
         p
         p Level for good quality: {{settings.levels.good}}
         p Level for poor quality: {{settings.levels.acceptable}}
