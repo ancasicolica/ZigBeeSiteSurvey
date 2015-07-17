@@ -56,41 +56,37 @@
         <p>This tool requires a current node.js release and a ready to operate RapidConnect USB dongle. There are two
             different dongles available:</p>
         <ul>
-            <li><strong>Z357PA22-USB-P-TC-N-C</strong>: this is the ZigBee SE (SmartEnergy) version. The tool operates
-                only with this dongle so far.
+            <li><strong>Z357PA22-USB-P-TC-N-C</strong>: this is the ZigBee SE (SmartEnergy) version.
             </li>
-            <li><strong>Z357PA30-USB-P-NC-N-X</strong>: this is the ZigBee HA (HomeAutomation) version with a slightly
-                different interface. The tool will be adapted to this version soon.
+            <li><strong>Z357PA30-USB-P-NC-N-X</strong>: this is the ZigBee HA (HomeAutomation) version.
             </li>
         </ul>
         <p>The dongles are available from a distributor like Avnet.</p>
 
         <p>The tool was
             developed
-            and tested on Mac OS X and Windows 7 using the Google Chrome browser. It should run on other operating
+            and tested on Mac OS X and Windows 7/8.1 (64 Bit) using the Google Chrome browser. It should run on other operating
             systems and with other browsers as well (current releases of Firefox or Opera,
             but don't try it with the Internet Explorer, i don't expect it to work).
 
 
         <h3>
             <a id="step-by-step-installation" class="anchor" href="#step-by-step-installation" aria-hidden="true"><span
-                    class="octicon octicon-link"></span></a>Step-by-step installation</h3>
+                    class="octicon octicon-link"></span></a>Step-by-step installation for Mac OS X and Windows 7/8 64 Bit</h3>
 
         <ul>
-            <li>Install node.js if you don't have it already. You get the current release at nodejs.org</li>
-            <li>Download the latest release of the ZigBee Survey Tool, extract it to a location of your choice</li>
-            <li>Run <em>npm install</em> in the folder where you extracted the sources. This will install the
-                dependencies
-            </li>
-            <li>Install the drivers obtained from <a href="http://mmbnetworks.com/">MMB Networks webpage</a> for the USB
-                dongle and attach it. For Windows get
-                the COM port using the system tools.
-            </li>
-            <li>Enter the COM Port (Mac users should not have to do anything) in settings.js,
-                <em>settings.serialport</em>. Windows users should use a modern text editor (as notepad shows the whole
-                content in one line)
-            </li>
+          <li>Install node.js if you don't have it already. You get the current release at <a href="nodejs.org">nodejs.org</a></li>
+          <li>Download the latest release of the ZigBee Survey Tool (the binaries, not the sources) build, extract it to a location of your choice</li>
+          <li>Install the drivers obtained from <a href="http://mmbnetworks.com/downloads/">MMB Networks</a> webpage for the USB
+              dongle and attach it.
+          </li>
         </ul>
+
+        <h3><a id="step-by-step-installation" class="anchor" href="#step-by-step-installation" aria-hidden="true"><span
+                class="octicon octicon-link"></span></a>Homemade build</h3>
+        If you want to build the tool on your own, you need some additional development tools on your machine in order to compile the native sources. Check
+        <a href="https://github.com/TooTallNate/node-gyp/" target="_blank">TooTallNates node-gyp page</a> for the tools needed for your operating system before
+        running <code>npm install</code>.
 
         <h2>
             <a id="run-the-tool" class="anchor" href="#run-the-tool" aria-hidden="true"><span
@@ -106,7 +102,7 @@
             a ZigBee network or hardware.</p>
 
         <p>Open the URL supplied in the console in your web browser (defaults: simulator: http://localhost:2999, real:
-            http://localhost:2998)</p>
+            <a href="http://localhost:2998" target="_blank">http://localhost:2998</a>)</p>
 
         <p>For the diagram the tool needs a network connection as the Google charts API has to be loaded. If there is no
             network connection,
