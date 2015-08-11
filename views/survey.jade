@@ -12,8 +12,12 @@
         h3 RSSI: {{getLatestMeasurementEntry().rssi}}
         h3 LQI: {{getLatestMeasurementEntry().lqi}}
         h3 Permit Join: {{getLatestMeasurementEntry().permitJoin}}
-      .col-md-9#chart-container
+        p
+          button.btn.btn-default.no-print(ng-click='toggleMeasurement()') {{getActionText()}}
+
+      .col-md-9
         linechart(data='measurements' options='chartOptions' mode='' height='400')
+
     .row.no-print
       .col-md-12
         .progress
@@ -41,5 +45,3 @@
                 td {{n.rssi}}
 
 button.btn.btn-primary.no-print(onclick='javascript:window.print()') print
-
-c

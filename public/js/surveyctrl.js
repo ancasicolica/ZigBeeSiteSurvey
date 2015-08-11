@@ -17,14 +17,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
-  $scope.data = [
-    {x: 0, value: 4, otherValue: 14},
-    {x: 1, value: 8, otherValue: 1},
-    {x: 2, value: 15, otherValue: 11},
-    {x: 3, value: 16, otherValue: 147},
-    {x: 4, value: 23, otherValue: 87},
-    {x: 5, value: 42, otherValue: 45}
-  ];
+
   $scope.chartOptions = {
     axes: {
       x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date'},
@@ -32,7 +25,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       y2: {type: 'linear', min: 0, max: 255}
     },
     margin: {
-      left: 100
+      left: 10
     },
     series: [
       {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
@@ -71,6 +64,28 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       $scope.$apply();
     })
   });
+
+  /**
+   * Toggles measurement: on / off
+   */
+  $scope.toggleMeasurement = function() {
+    $scope.continousScanningActive = !$scope.continousScanningActive;
+
+    if ($scope.continousScanningActive) {
+      $scope.updateCurrentNetworkData();
+    }
+  };
+
+  /**
+   * Returns the text for the pause/continue button
+   * @returns {*}
+   */
+  $scope.getActionText = function() {
+    if ($scope.continousScanningActive) {
+      return 'pause';
+    }
+    return 'continue';
+  };
 
   /**
    * Refresh the settings (and more important the current COM port)
@@ -123,7 +138,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    */
   $scope.closeSurvey = function () {
     $scope.continousScanningActive = false;
-    $scope.panel = 'network';
+    $scope.panel = 'networks';
   };
 
   /**
@@ -215,9 +230,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       if ($scope.continousScanningActive) {
         _.delay($scope.updateCurrentNetworkData, 500);
       }
-      else {
-        $scope.panel = 'networks';
-      }
     }
 
     $scope.networkScanActive = true;
@@ -243,6 +255,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             }
           }
         }
+        $scope.networkScanActive = false;
         continueAfterScan();
       }).
       error(function (data, status) {
