@@ -36,16 +36,23 @@ module.exports = function (grunt) {
         prereleaseName: false,
         regExp: false
       }
+    },
+
+    zip: {
+      'make': {
+        src: ['./**/**'],
+        dest: '../ZigBeeSiteSurvey_x.y.z_OS_.zip',
+        compression: 'DEFLATE'
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-shell');
+
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-zip');
   grunt.registerTask('minify', ['concat', 'uglify:js']);
   grunt.registerTask('v:patch', ['bump:patch']);
   grunt.registerTask('v:minor', ['bump:minor']);
   grunt.registerTask('v:major', ['bump:major']);
-  grunt.registerTask('demo', ['shell']);
-  grunt.registerTask('update', ['copy']);
-  grunt.registerTask('lint', ['eslint']);
+  grunt.registerTask('make', ['zip:make']);
 };
