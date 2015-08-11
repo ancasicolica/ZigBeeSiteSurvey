@@ -25,7 +25,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       y2: {type: 'linear', min: 0, max: 255}
     },
     margin: {
-      left: 10
+      left: 30
     },
     series: [
       {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
