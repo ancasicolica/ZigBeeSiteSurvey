@@ -12,8 +12,8 @@
         h3 RSSI: {{getLatestMeasurementEntry().rssi}}
         h3 LQI: {{getLatestMeasurementEntry().lqi}}
         h3 Permit Join: {{getLatestMeasurementEntry().permitJoin}}
-      .col-md-9
-        #chart
+      .col-md-9#chart-container
+        linechart(data='measurements' options='chartOptions' mode='' height='400')
     .row.no-print
       .col-md-12
         .progress

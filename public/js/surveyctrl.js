@@ -3,7 +3,7 @@
  * Created by kc on 25.06.15.
  */
 'use strict';
-var surveyControl = angular.module('surveyApp', []);
+var surveyControl = angular.module('surveyApp', ['n3-line-chart']);
 surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $http) {
   $scope.settings = {};
   $scope.panel = 'networks';
@@ -17,31 +17,54 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
+  $scope.data = [
+    {x: 0, value: 4, otherValue: 14},
+    {x: 1, value: 8, otherValue: 1},
+    {x: 2, value: 15, otherValue: 11},
+    {x: 3, value: 16, otherValue: 147},
+    {x: 4, value: 23, otherValue: 87},
+    {x: 5, value: 42, otherValue: 45}
+  ];
+  $scope.chartOptions = {
+    axes: {
+      x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date'},
+      y: {type: 'linear', min: -120, max: 1},
+      y2: {type: 'linear', min: 0, max: 255}
+    },
+    margin: {
+      left: 100
+    },
+    series: [
+      {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
+      {y: 'lqi', axis:'y2', color: 'red', thickness: '2px', type: 'line', label: 'LQI'}
+    ],
+    lineMode: 'linear',
+    tension: 0.7,
+    tooltip: {
+      mode: 'scrubber', formatter: function (x, y, series) {
+        return y + ' @ ' + x ;
+      }
+    },
+    drawLegend: true,
+    drawDots: false,
+    hideOverflow: false,
+    columnsHGap: 5
+  };
 
   $(document).ready(function () {
     // Get the settings
     $scope.refreshSettings();
-
-    $.getScript("https://www.google.com/jsapi")
-      .done(function () {
-        console.log('jsapi loaded, now loading chart api');
-        google.load('visualization', '1.0', {'packages': ['corechart'], callback: $scope.drawChart});
-      })
-      .fail(function (jqxhr, settings, exception) {
-        console.log("Triggered ajaxError handler.");
-        console.log(exception);
-      });
     $scope.getNetworks();
 
     var socket = io();
-    socket.on('usbConnected', function(info) {
+    socket.on('usbConnected', function (info) {
       console.log('USB CONNECTED');
       $scope.usbConnected = true;
       _.delay($scope.refreshSettings, 1000); // not all information would be available else
       $scope.$apply();
     });
 
-    socket.on('usbDisconnected', function() {
+    socket.on('usbDisconnected', function () {
       console.log('USB DISCONNECTED');
       $scope.usbConnected = false;
       $scope.refreshSettings();
@@ -127,35 +150,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       return {rssi: 0, lqi: 0};
     }
     return _.last($scope.measurements);
-  };
-
-  /**
-   * Draw the chart with the last measurements, we are using Google diagrams
-   */
-  $scope.drawChart = function () {
-    if (google) {
-      var chartData = new google.visualization.DataTable();
-      // The colums of the chart
-      chartData.addColumn('datetime', 'Time');
-      chartData.addColumn('number', 'dBm');
-
-      for (var i = 0; i < $scope.measurements.length; i++) {
-        chartData.addRow([$scope.measurements[i].ts, $scope.measurements[i].rssi]);
-      }
-
-      var options = {
-        curveType: 'function',
-        legend: {position: 'none'},
-        title: "RSSI [dBm]",
-        vAxis: {
-          maxValue: 3
-        }
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('chart'));
-
-      chart.draw(chartData, options);
-    }
   };
 
   /**
@@ -247,7 +241,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
               $scope.networkFailureCounter++;
               console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
             }
-            $scope.drawChart();
           }
         }
         continueAfterScan();
