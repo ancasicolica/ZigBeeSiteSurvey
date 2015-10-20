@@ -3,7 +3,7 @@
  * Created by kc on 25.06.15.
  */
 'use strict';
-var surveyControl = angular.module('surveyApp', ['n3-line-chart']);
+var surveyControl = angular.module('surveyApp', ['n3-line-chart', 'ngSanitize', 'ngCsv']);
 surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $http) {
   $scope.settings = {};
   $scope.panel = 'networks';
