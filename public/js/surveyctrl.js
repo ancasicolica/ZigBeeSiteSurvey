@@ -27,11 +27,12 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       y2: {type: 'linear', min: 0, max: 255}
     },
     margin: {
-      left: 30
+      left: 30,
+      right: 60
     },
     series: [
       {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
-      {y: 'lqi', axis:'y2', color: 'red', thickness: '2px', type: 'line', label: 'LQI'}
+      {y: 'lqi', axis:'y2', color: '#A901DB', thickness: '2px', type: 'line', label: 'LQI'}
     ],
     lineMode: 'linear',
     tension: 0.7,
@@ -229,6 +230,14 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.continousScanningActive = false;
   };
   /**
+   * Returns the filename for a complete file (all measurements)
+   * @returns {string}
+   */
+  $scope.getFileNameForAllData = function() {
+    var first = _.first($scope.measurements) || 'measurements';
+    return moment().format('YYMMDD-HHmmss') + '-all-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
+  };
+  /**
    * Get information about all networks
    */
   $scope.updateCurrentNetworkData = function () {
@@ -245,6 +254,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           if (data.networks.length > 0) {
             var m = data.networks[0];
             m.rssiPercent = $scope.calculateRssiPercent(m.rssi);
+            m.lqiPercent = m.lqi / 255 * 100;
             m.ts = new Date();
             if (m.found) {
               $scope.measurements.push(m);
