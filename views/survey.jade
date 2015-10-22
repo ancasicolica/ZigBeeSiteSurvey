@@ -7,21 +7,23 @@
       .panel-heading
         h3.panel-title.network-title PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
       .panel-body
+       .row.no-print
+          .col-md-1.col-sm-2.col-xs-2 RSSI
+          .col-md-1.col-sm-2.col-xs-3 {{getLatestMeasurementEntry().rssi}} dB
+          .col-md-10.col-sm-8.col-xs-7
+            .progress.progress-rssi
+              .progress-bar.progress-bar-danger(style="width:{{getLatestRssiProgressbarData().progressBarDangerWidth}}%")
+              .progress-bar.progress-bar-warning(style="width:{{getLatestRssiProgressbarData().progressBarWarningWidth}}%")
+              .progress-bar.progress-bar-success(style="width:{{getLatestRssiProgressbarData().progressBarSuccessWidth}}%")
         .row.no-print
-          .col-md-2 RSSI
-          .col-md-10
-            .progress
-              .progress-bar(class='{{getRssiClass(getLatestMeasurementEntry().rssi)}}' role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().rssi}}" aria-valuemin="-130" aria-valuemax="0" style="width: {{getLatestMeasurementEntry().rssiPercent}}%;")
-                span#sr-only {{getLatestMeasurementEntry().rssi}} dB
+          .col-md-1.col-sm-2.col-xs-2 LQI
+          .col-md-1.col-sm-2.col-xs-3 {{getLatestMeasurementEntry().lqi}}
+          .col-md-10.col-sm-8.col-xs-7
+            //.progress
+              .progress-bar.lqi-bar(style="width: {{getLatestMeasurementEntry().lqiPercent}}%;")
         .row.no-print
-          .col-md-2 LQI
-          .col-md-10
-            .progress
-              .progress-bar.lqi-bar(role='progressbar' aria-valuenow="{{getLatestMeasurementEntry().lqi}}" aria-valuemin="0" aria-valuemax="255" style="width: {{getLatestMeasurementEntry().lqiPercent}}%;")
-                span#sr-only {{getLatestMeasurementEntry().lqi}}
-        .row.no-print
-          .col-md-12
-            | Joining Permitted: {{getLatestMeasurementEntry().permitJoin}}
+          .col-md-1.col-sm-2.col-xs-2 Joining
+          .col-md-2.col-sm-3.col-xs-4 {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
         .row
           .col-md-12.chart-area
             linechart(data='measurements' options='chartOptions' mode='' width='' height='')

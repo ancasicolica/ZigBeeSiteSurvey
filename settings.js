@@ -16,8 +16,8 @@ var settings = {
 process.env.DEPLOY_TYPE = process.env.DEPLOY_TYPE || 'local';
 
 settings.levels = {
-  good: -85, // Everything above this level is considered as good
-  acceptable: -90 // Everything above this level and below 'good' is considered as acceptable, everything below as inacceptable.
+  good: -82, // Everything above this level is considered as good
+  acceptable: -87 // Everything above this level and below 'good' is considered as acceptable, everything below as inacceptable.
 };
 
 settings.simulator = process.env.SIMULATOR || false;

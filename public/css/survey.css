@@ -28,7 +28,7 @@
 
 .icon-close {
     position : absolute;
-    right    : 0px;
+    right    : 0;
 }
 
 .found-networks {
@@ -36,7 +36,10 @@
 }
 
 .lqi-bar {
-    background-image : linear-gradient(to bottom, #A901DB 0, #BE81F7 100%)
+    background-image : linear-gradient(to bottom, steelblue 0, #6873f7 100%)
 }
 
+.progress-rssi {
+    margin-bottom: 0;
+}
 

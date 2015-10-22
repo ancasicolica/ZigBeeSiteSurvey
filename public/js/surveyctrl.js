@@ -22,8 +22,8 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
 
   $scope.chartOptions = {
     axes: {
-      x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date'},
-      y: {type: 'linear', min: -120, max: 1},
+      x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date', zoomable: true},
+      y: {type: 'linear', min: $scope.rssiMin, max: $scope.rssiMax + 1},
       y2: {type: 'linear', min: 0, max: 255}
     },
     margin: {
@@ -31,19 +31,19 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       right: 60
     },
     series: [
-      {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
-      {y: 'lqi', axis: 'y2', color: '#A901DB', thickness: '2px', type: 'line', label: 'LQI'}
+      {y: 'rssi', color: 'blue', thickness: '2px', type: 'line', label: 'RSSI'},
+      {y: 'lqi', axis: 'y2', color: 'goldenrod', thickness: '2px', type: 'line', label: 'LQI'}
     ],
     lineMode: 'linear',
     tension: 0.7,
     tooltip: {
       mode: 'scrubber', formatter: function (x, y, series) {
-        return y + ' @ ' + x;
+        return y + ' @ ' + moment(x).format('HH:mm:ss');
       }
     },
     drawLegend: true,
     drawDots: false,
-    hideOverflow: false,
+    hideOverflow: true,
     columnsHGap: 5
   };
 
@@ -101,6 +101,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         $scope.settings = data.settings;
         $scope.connectedSerialPort = data.serialport;
         $scope.usbDongle = data.usbDongle;
+        $scope.calculateProgressBarLimits();
         if (data.serialport) {
           $scope.usbConnected = true;
           $scope.surveyReady = true;
@@ -169,7 +170,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    */
   $scope.getLatestMeasurementEntry = function () {
     if ($scope.measurements.length === 0) {
-      return {rssi: 0, lqi: 0};
+      return {rssi: $scope.rssiMin, lqi: 0};
     }
     return _.last($scope.measurements);
   };
@@ -190,6 +191,63 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     }
     return 'progress-bar-warning';
   };
+
+
+  $scope.calculateProgressBarLimits = function () {
+    if (!$scope.settings) {
+      console.warn('Settings not available, can not calculate limits');
+      return;
+    }
+    var rssiRange = Math.abs($scope.rssiMax - $scope.rssiMin);
+    $scope.progressBarDangerWidth = Math.abs($scope.settings.levels.acceptable - $scope.rssiMin) / rssiRange * 100;
+    $scope.progressBarWarningWidth = Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) / rssiRange * 100;
+    $scope.progressBarSuccessWidth = Math.abs($scope.rssiMax - $scope.settings.levels.good) / rssiRange * 100;
+    console.log($scope.progressBarDangerWidth);
+    console.log($scope.progressBarWarningWidth);
+    console.log($scope.progressBarSuccessWidth);
+  };
+  /**
+   * Shortcut for the progressbars
+   * @returns {{progressBarDangerWidth, progressBarWarningWidth, progressBarSuccessWidth}}
+   */
+  $scope.getLatestRssiProgressbarData = function () {
+    return $scope.getProgressBarWidth($scope.getLatestMeasurementEntry().rssi);
+  };
+
+  /**
+   * Gets the widths of the different progressbars
+   * @param rssi
+   * @returns {*}
+   */
+  $scope.getProgressBarWidth = function (rssi) {
+    if (!$scope.settings || !$scope.settings.levels) {
+      return {
+        progressBarDangerWidth: 0,
+        progressBarWarningWidth: 0,
+        progressBarSuccessWidth: 0
+      };
+    }
+    if (rssi < $scope.settings.levels.acceptable) {
+      return {
+        progressBarDangerWidth: Math.abs(rssi - $scope.rssiMin) / Math.abs($scope.settings.levels.acceptable - $scope.rssiMin) * $scope.progressBarDangerWidth,
+        progressBarWarningWidth: 0,
+        progressBarSuccessWidth: 0
+      };
+    }
+    if (rssi > $scope.settings.levels.good) {
+      return {
+        progressBarDangerWidth: $scope.progressBarDangerWidth,
+        progressBarWarningWidth: $scope.progressBarWarningWidth,
+        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.rssiMax - $scope.settings.levels.good) * $scope.progressBarSuccessWidth
+      };
+    }
+    return {
+      progressBarDangerWidth: $scope.progressBarDangerWidth,
+      progressBarWarningWidth: Math.abs(rssi - $scope.settings.levels.acceptable) / Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) * $scope.progressBarWarningWidth,
+      progressBarSuccessWidth: 0
+    };
+  };
+
   /**
    * Get information about all networks
    */
@@ -240,7 +298,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Returns the filename for the log
    */
-  $scope.getFileNameForLog = function() {
+  $scope.getFileNameForLog = function () {
     var first = _.first($scope.measurements) || 'measurements';
     return moment().format('YYMMDD-HHmmss') + '-log-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
   };
