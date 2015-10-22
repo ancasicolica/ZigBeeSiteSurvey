@@ -86,9 +86,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    */
   $scope.getActionText = function () {
     if ($scope.continousScanningActive) {
-      return 'pause';
+      return 'Pause measurement';
     }
-    return 'continue';
+    return 'Continue measurement';
   };
 
   /**
@@ -236,6 +236,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.getFileNameForAllData = function () {
     var first = _.first($scope.measurements) || 'measurements';
     return moment().format('YYMMDD-HHmmss') + '-all-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
+  };
+  /**
+   * Returns the filename for the log
+   */
+  $scope.getFileNameForLog = function() {
+    var first = _.first($scope.measurements) || 'measurements';
+    return moment().format('YYMMDD-HHmmss') + '-log-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
   };
   /**
    * Get information about all networks

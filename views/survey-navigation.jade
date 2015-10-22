@@ -1,0 +1,49 @@
+// Navigation buttons for the survey page
+   Created by kc on 22.10.15.
+
+.row
+   .col-md-12.col-lg-12.hidden-xs.hidden-sm
+      // Large screen buttons
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+         .btn-group
+            button.btn.btn-default(ng-csv='log' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+         .btn-group
+            button.btn.btn-default(onclick='javascript:window.print()') Print page
+         .btn-group
+            button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
+         .btn-group
+            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list
+   // Medium screen buttons
+   .col-xs-12.col-sm-12.hidden-xs.hidden-md.hidden-lg
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+         .btn-group
+            button.btn.btn-default(ng-csv='log' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+         .btn-group
+            button.btn.btn-default(onclick='javascript:window.print()') Print page
+   .col-xs-12.col-sm-12.hidden-xs.hidden-md.hidden-lg
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
+         .btn-group
+            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list
+   // Small screen buttons
+   .col-xs-12.visible-xs
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+         .btn-group
+            button.btn.btn-default(ng-csv='log' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+   .col-xs-12.visible-xs
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(onclick='javascript:window.print()') Print page
+   .col-xs-12.visible-xs
+      .btn-group.btn-group-justified.no-print(role='group')
+         .btn-group
+            button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
+         .btn-group
+            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list

@@ -45,11 +45,4 @@
                     td {{n.info}}
                     td {{n.lqi}}
                     td {{n.rssi}}
-
-    button.btn.btn-primary.no-print(onclick='javascript:window.print()') print
-    p
-      button.btn.btn-default.no-print(ng-click='toggleMeasurement()') {{getActionText()}}
-    p
-      button.btn.btn-default.no-print(ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
-    p
-      button.btn.btn-default.no-print(ng-click='closeSurvey()') close
+include survey-navigation
