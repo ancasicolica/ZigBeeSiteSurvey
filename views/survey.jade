@@ -6,8 +6,6 @@
     .panel.panel-default
       .panel-heading
         h3.panel-title.network-title PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
-          a.icon-close.no-print(href='#' ng-click='closeSurvey()')
-            i.glyphicon.glyphicon-remove
       .panel-body
         .row.no-print
           .col-md-2 RSSI
@@ -52,4 +50,6 @@
     p
       button.btn.btn-default.no-print(ng-click='toggleMeasurement()') {{getActionText()}}
     p
-      button.btn.btn-default.no-print(type='button' ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+      button.btn.btn-default.no-print(ng-csv='measurements' field-separator=';' lazy-load='true' csv-label='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+    p
+      button.btn.btn-default.no-print(ng-click='closeSurvey()') close

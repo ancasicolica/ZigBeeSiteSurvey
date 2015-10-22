@@ -32,13 +32,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     },
     series: [
       {y: 'rssi', color: 'steelblue', thickness: '2px', type: 'line', label: 'RSSI'},
-      {y: 'lqi', axis:'y2', color: '#A901DB', thickness: '2px', type: 'line', label: 'LQI'}
+      {y: 'lqi', axis: 'y2', color: '#A901DB', thickness: '2px', type: 'line', label: 'LQI'}
     ],
     lineMode: 'linear',
     tension: 0.7,
     tooltip: {
       mode: 'scrubber', formatter: function (x, y, series) {
-        return y + ' @ ' + x ;
+        return y + ' @ ' + x;
       }
     },
     drawLegend: true,
@@ -72,7 +72,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   /**
    * Toggles measurement: on / off
    */
-  $scope.toggleMeasurement = function() {
+  $scope.toggleMeasurement = function () {
     $scope.continousScanningActive = !$scope.continousScanningActive;
 
     if ($scope.continousScanningActive) {
@@ -84,7 +84,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Returns the text for the pause/continue button
    * @returns {*}
    */
-  $scope.getActionText = function() {
+  $scope.getActionText = function () {
     if ($scope.continousScanningActive) {
       return 'pause';
     }
@@ -233,7 +233,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Returns the filename for a complete file (all measurements)
    * @returns {string}
    */
-  $scope.getFileNameForAllData = function() {
+  $scope.getFileNameForAllData = function () {
     var first = _.first($scope.measurements) || 'measurements';
     return moment().format('YYMMDD-HHmmss') + '-all-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
   };
@@ -283,5 +283,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       });
   };
 
+  // Warning before unloading
+  window.onbeforeunload = function () {
+    if ($scope.continousScanningActive) {
+      return 'Measurement is in active.\n\nDo you want to cancel the measurements and leave the page?';
+    }
+  };
 
 }]);
+
+
