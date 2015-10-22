@@ -17,6 +17,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
+  $scope.startingUp = true;
   $scope.surveyReady = false; // True when connected and dongle first time seen
 
   $scope.chartOptions = {
@@ -95,6 +96,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.refreshSettings = function () {
     $http.get('/settings').success(function (data) {
       if (data.status === 'ok') {
+        $scope.startingUp = false;
         $scope.settings = data.settings;
         $scope.connectedSerialPort = data.serialport;
         $scope.usbDongle = data.usbDongle;
@@ -105,6 +107,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       }
     }).
       error(function (data, status) {
+        $scope.startingUp = false;
         console.log('error:');
         console.log(data);
         console.log(status);

@@ -9,7 +9,7 @@ block head
 block content
   div(ng-app='surveyApp' ng-controller='surveyCtrl')
     include about
-    .container
+    .container(ng-hide='startingUp')
       .row(ng-hide='surveyReady')
         div(ng-hide='usbConnected')
           p
