@@ -17,6 +17,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
+  $scope.surveyReady = false; // True when connected and dongle first time seen
 
   $scope.chartOptions = {
     axes: {
@@ -53,6 +54,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     socket.on('usbConnected', function (info) {
       console.log('USB CONNECTED');
       $scope.usbConnected = true;
+      $scope.surveyReady = true;
       _.delay($scope.refreshSettings, 1000); // not all information would be available else
       $scope.$apply();
     });
@@ -98,6 +100,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         $scope.usbDongle = data.usbDongle;
         if (data.serialport) {
           $scope.usbConnected = true;
+          $scope.surveyReady = true;
         }
       }
     }).
