@@ -9,6 +9,22 @@ console.log('ZigBee Site Survey Tool ©2015 Christian Kuster, CH-8342 Wernetshau
 console.log('See http://ancasicolica.github.io/ZigBeeSiteSurvey/ for more information.');
 console.log('');
 
+//do something when app is closing
+process.on('exit', function(code) {
+  console.log('Process is about to exit with code: ', code);
+});
+
+//catches ctrl+c event
+process.on('SIGINT',  function(code) {
+  console.log('Process is about to exit with code: ', code);
+});
+
+//catches uncaught exceptions
+process.on('uncaughtException',  function(err) {
+  console.log('Caught exception: ' + err);
+  process.exit(-1);
+});
+
 var rapidConnector = require('./lib/rapidConnector');
 var settings = require('./settings');
 var express = require('express');
