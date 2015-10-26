@@ -5,14 +5,17 @@
 'use strict';
 var surveyControl = angular.module('surveyApp', ['n3-line-chart', 'ngSanitize', 'ngCsv']);
 surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $http) {
-  $scope.settings = {};
+  $scope.settings = {
+    levels: {
+      min: -128, // just a default until we loaded the data from the server
+      max: 0
+    }
+  };
   $scope.panel = 'networks';
   $scope.networks = [];
   $scope.networkScanActive = false;
   $scope.continousScanningActive = false;
   $scope.measurements = [];
-  $scope.rssiMin = -100;
-  $scope.rssiMax = 0;
   $scope.networkFailureCounter = 0;
   $scope.currentLocation = '';
   $scope.log = [];
@@ -23,7 +26,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.chartOptions = {
     axes: {
       x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date', zoomable: true},
-      y: {type: 'linear', min: $scope.rssiMin, max: $scope.rssiMax + 1},
+      y: {type: 'linear', min: $scope.settings.levels.min, max: $scope.settings.levels.max + 1},
       y2: {type: 'linear', min: 0, max: 255}
     },
     margin: {
@@ -170,7 +173,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    */
   $scope.getLatestMeasurementEntry = function () {
     if ($scope.measurements.length === 0) {
-      return {rssi: $scope.rssiMin, lqi: 0};
+      return {rssi: $scope.settings.levels.min, lqi: 0};
     }
     return _.last($scope.measurements);
   };
@@ -198,10 +201,10 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       console.warn('Settings not available, can not calculate limits');
       return;
     }
-    var rssiRange = Math.abs($scope.rssiMax - $scope.rssiMin);
-    $scope.progressBarDangerWidth = Math.abs($scope.settings.levels.acceptable - $scope.rssiMin) / rssiRange * 100;
+    var rssiRange = Math.abs($scope.settings.levels.max - $scope.settings.levels.min);
+    $scope.progressBarDangerWidth = Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) / rssiRange * 100;
     $scope.progressBarWarningWidth = Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) / rssiRange * 100;
-    $scope.progressBarSuccessWidth = Math.abs($scope.rssiMax - $scope.settings.levels.good) / rssiRange * 100;
+    $scope.progressBarSuccessWidth = Math.abs($scope.settings.levels.max - $scope.settings.levels.good) / rssiRange * 100;
     console.log($scope.progressBarDangerWidth);
     console.log($scope.progressBarWarningWidth);
     console.log($scope.progressBarSuccessWidth);
@@ -228,8 +231,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       };
     }
     if (rssi < $scope.settings.levels.acceptable) {
+      console.log('RSSI to low');
+      console.log(Math.abs(rssi - $scope.settings.levels.min) / Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) * $scope.progressBarDangerWidth);
+      console.log(Math.abs(rssi - $scope.settings.levels.min));
+      console.log(Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min));
+      console.log($scope.progressBarDangerWidth);
       return {
-        progressBarDangerWidth: Math.abs(rssi - $scope.rssiMin) / Math.abs($scope.settings.levels.acceptable - $scope.rssiMin) * $scope.progressBarDangerWidth,
+        progressBarDangerWidth: Math.abs(rssi - $scope.settings.levels.min) / Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) * $scope.progressBarDangerWidth,
         progressBarWarningWidth: 0,
         progressBarSuccessWidth: 0
       };
@@ -238,7 +246,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       return {
         progressBarDangerWidth: $scope.progressBarDangerWidth,
         progressBarWarningWidth: $scope.progressBarWarningWidth,
-        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.rssiMax - $scope.settings.levels.good) * $scope.progressBarSuccessWidth
+        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.settings.levels.max- $scope.settings.levels.good) * $scope.progressBarSuccessWidth
       };
     }
     return {
@@ -279,7 +287,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @returns {number}
    */
   $scope.calculateRssiPercent = function (rssi) {
-    return 100 - Math.abs(rssi / ($scope.rssiMax - $scope.rssiMin)) * 100;
+    return 100 - Math.abs(rssi / ($scope.settings.levels.max- $scope.settings.levels.min)) * 100;
   };
   /**
    * Cancels the scanning for one single network
