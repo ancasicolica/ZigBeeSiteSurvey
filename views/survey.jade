@@ -26,7 +26,7 @@
           .col-md-2.col-sm-3.col-xs-4 {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
         .row
           .col-md-12.chart-area
-            linechart(data='measurements' options='chartOptions' mode='' width='' height='')
+            #chart
         .row.no-print
           .col-md-10
             input.form-control(type='text' ng-model='currentLocation')

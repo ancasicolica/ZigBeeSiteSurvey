@@ -41,3 +41,12 @@
     margin-bottom: 0;
 }
 
+.c3-region.region-acceptable {
+    fill: yellow;
+}
+.c3-region.region-bad {
+    fill: red;
+}
+.c3-region.region-good {
+    fill: green;
+}

@@ -16,39 +16,18 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.networkScanActive = false;
   $scope.continousScanningActive = false;
   $scope.measurements = [];
+  $scope.columns = {
+    x: ['x'],
+    rssi: ['RSSI'],
+    lqi: ['LQI']
+  };
+  $scope.chart = {};
   $scope.networkFailureCounter = 0;
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
   $scope.startingUp = true;
   $scope.surveyReady = false; // True when connected and dongle first time seen
-
-  $scope.chartOptions = {
-    axes: {
-      x: {key: 'ts', ticksFormat: '%H:%M:%S', type: 'date', zoomable: true},
-      y: {type: 'linear', min: $scope.settings.levels.min, max: $scope.settings.levels.max + 1},
-      y2: {type: 'linear', min: 0, max: 255}
-    },
-    margin: {
-      left: 30,
-      right: 60
-    },
-    series: [
-      {y: 'rssi', color: 'blue', thickness: '2px', type: 'line', label: 'RSSI'},
-      {y: 'lqi', axis: 'y2', color: 'goldenrod', thickness: '2px', type: 'line', label: 'LQI'}
-    ],
-    lineMode: 'linear',
-    tension: 0.7,
-    tooltip: {
-      mode: 'scrubber', formatter: function (x, y, series) {
-        return y + ' @ ' + moment(x).format('HH:mm:ss');
-      }
-    },
-    drawLegend: true,
-    drawDots: false,
-    hideOverflow: true,
-    columnsHGap: 5
-  };
 
   $(document).ready(function () {
     // Get the settings
@@ -72,6 +51,58 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     })
   });
 
+  $scope.getChartOptions = function() {
+    return {
+      bindto: '#chart',
+      data: {
+        x: 'x',
+        columns: [],
+        axes: {
+          LQI: 'y2'
+        }
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%d.%m%.%Y %H:%M:%S'
+          }
+        },
+        y: {
+          max: $scope.settings.levels.max,
+          min: $scope.settings.levels.min,
+          tick: {
+            format: function (d) {
+              return d + ' dB';
+            }
+          }
+        },
+        y2: {
+          show: true
+        }
+      },
+      regions: [
+        {
+          axis: 'y',
+          start: $scope.settings.levels.min,
+          end: $scope.settings.levels.acceptable,
+          class: 'region-bad'
+        },
+        {
+          axis: 'y',
+          start: $scope.settings.levels.acceptable,
+          end: $scope.settings.levels.good,
+          class: 'region-acceptable'
+        },
+        {
+          axis: 'y',
+          start: $scope.settings.levels.good,
+          end: $scope.settings.levels.max,
+          class: 'region-good'
+        }
+      ]
+    }
+  };
   /**
    * Toggles measurement: on / off
    */
@@ -142,6 +173,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.networkFailureCounter = 0;
     $scope.log = [];
     $scope.updateCurrentNetworkData();
+    $scope.chart = c3.generate($scope.getChartOptions());
   };
 
   /**
@@ -195,7 +227,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     return 'progress-bar-warning';
   };
 
-
+  /**
+   * Calculates the limits of the progress bar
+   */
   $scope.calculateProgressBarLimits = function () {
     if (!$scope.settings) {
       console.warn('Settings not available, can not calculate limits');
@@ -246,7 +280,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       return {
         progressBarDangerWidth: $scope.progressBarDangerWidth,
         progressBarWarningWidth: $scope.progressBarWarningWidth,
-        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.settings.levels.max- $scope.settings.levels.good) * $scope.progressBarSuccessWidth
+        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.settings.levels.max - $scope.settings.levels.good) * $scope.progressBarSuccessWidth
       };
     }
     return {
@@ -287,7 +321,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @returns {number}
    */
   $scope.calculateRssiPercent = function (rssi) {
-    return 100 - Math.abs(rssi / ($scope.settings.levels.max- $scope.settings.levels.min)) * 100;
+    return 100 - Math.abs(rssi / ($scope.settings.levels.max - $scope.settings.levels.min)) * 100;
   };
   /**
    * Cancels the scanning for one single network
@@ -311,6 +345,25 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     return moment().format('YYMMDD-HHmmss') + '-log-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
   };
   /**
+   * Updates the chart with a new entry
+   * @param newEntry
+   */
+  $scope.updateChart = function (newEntry) {
+    // Add entry first to our measurement list
+    $scope.measurements.push(newEntry);
+
+    $scope.columns.x.push(newEntry.ts);
+    $scope.columns.rssi.push(newEntry.rssi);
+    $scope.columns.lqi.push(newEntry.lqi);
+    $scope.chart.load({
+      columns: [
+        $scope.columns.x,
+        $scope.columns.rssi,
+        $scope.columns.lqi
+      ]
+    });
+  };
+  /**
    * Get information about all networks
    */
   $scope.updateCurrentNetworkData = function () {
@@ -330,14 +383,14 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             m.lqiPercent = m.lqi / 255 * 100;
             m.ts = new Date();
             if (m.found) {
-              $scope.measurements.push(m);
+              $scope.updateChart(m);
               $scope.networkFailureCounter = 0;
             }
             else {
               // Network not found
               $scope.networkFailureCounter++;
               if ($scope.networkFailureCounter > 2) {
-                $scope.measurements.push(m);
+                $scope.updateChart(m);
               }
               $scope.networkFailureCounter++;
               console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
