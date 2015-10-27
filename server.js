@@ -14,11 +14,6 @@ process.on('exit', function(code) {
   console.log('Process is about to exit with code: ', code);
 });
 
-//catches ctrl+c event
-process.on('SIGINT',  function(code) {
-  console.log('Process is about to exit with code: ', code);
-});
-
 //catches uncaught exceptions
 process.on('uncaughtException',  function(err) {
   console.log('Caught exception: ' + err);
