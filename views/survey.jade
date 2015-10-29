@@ -20,10 +20,11 @@
           .col-md-12.chart-area
             #chart
         .row.no-print
-          .col-md-10
-            input.form-control(type='text' ng-model='currentLocation')
-          .col-md-2
-            button.btn.btn-default(type='button' ng-click='addLog()') Add log entry
+          form
+            .col-md-10
+              input.form-control(type='text' autocomplete='true' ng-model='currentLocation')
+            .col-md-2
+              button.btn.btn-default(type='submit' ng-click='addLog()') Add log entry
         .row
           .col-md-12
             div(ng-show='log.length')

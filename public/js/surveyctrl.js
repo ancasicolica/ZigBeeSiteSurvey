@@ -212,6 +212,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         console.log('entry already in log');
         return;
       }
+      $scope.currentLocation = '';
       $scope.log.push(entry);
     }
   };
@@ -360,12 +361,29 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     var first = _.first($scope.measurements) || 'measurements';
     return moment().format('YYMMDD-HHmmss') + '-log-' + _.camelCase(first.extendedPanId).toUpperCase() + '.csv';
   };
+
+  /**
+   * Get the csv settings for different attributes and downloads
+   */
+  $scope.getCsvHeaderForAll = function () {
+    return(['Date', 'RSSI', 'LQI', 'Found', 'Channel', 'PAN ID', 'Extended PAN ID', 'Info']);
+  };
+  $scope.getCsvColumnsForAll = function () {
+    return(['ts', 'rssi', 'lqi', 'found', 'channel', 'panId', 'extendedPanId', 'info']);
+  };
+  $scope.getCsvHeaderForLog = function () {
+    return(['Date', 'RSSI', 'LQI', 'Found', 'Info']);
+  };
+  $scope.getCsvColumnsForLog = function () {
+    return(['ts', 'rssi', 'lqi', 'found', 'info']);
+  };
   /**
    * Updates the chart with a new entry
    * @param newEntry
    */
   $scope.updateChart = function (newEntry) {
     // Add entry first to our measurement list
+    console.log('push', newEntry);
     $scope.measurements.push(newEntry);
 
     $scope.columns.x.push(newEntry.ts);
