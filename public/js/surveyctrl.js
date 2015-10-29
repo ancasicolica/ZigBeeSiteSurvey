@@ -51,21 +51,25 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     })
   });
 
-  $scope.getChartOptions = function() {
+  $scope.getChartOptions = function () {
     return {
       bindto: '#chart',
+      size: {
+        height: 400
+      },
       data: {
         x: 'x',
         columns: [],
         axes: {
           LQI: 'y2'
-        }
+        },
+        type: 'line'
       },
       axis: {
         x: {
           type: 'timeseries',
           tick: {
-            format: '%d.%m%.%Y %H:%M:%S'
+            format: '%H:%M:%S'
           }
         },
         y: {
@@ -75,16 +79,20 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             format: function (d) {
               return d + ' dB';
             }
-          }
+          },
+          padding: {top: 0, bottom: 0}
         },
         y2: {
-          show: true
+          show: true,
+          max: 255,
+          min: 0,
+          padding: {top: 10, bottom: 0}
         }
       },
       regions: [
         {
           axis: 'y',
-          start: $scope.settings.levels.min,
+          start: $scope.settings.levels.min - 10,
           end: $scope.settings.levels.acceptable,
           class: 'region-bad'
         },
@@ -100,7 +108,10 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           end: $scope.settings.levels.max,
           class: 'region-good'
         }
-      ]
+      ],
+      zoom: { // Zoom is marked as experimental, still use it
+        enabled: true
+      }
     }
   };
   /**
@@ -172,6 +183,11 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.continousScanningActive = true;
     $scope.networkFailureCounter = 0;
     $scope.log = [];
+    $scope.columns = {
+      x: ['x'],
+      rssi: ['RSSI'],
+      lqi: ['LQI']
+    };
     $scope.updateCurrentNetworkData();
     $scope.chart = c3.generate($scope.getChartOptions());
   };

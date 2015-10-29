@@ -7,23 +7,15 @@
       .panel-heading
         h3.panel-title.network-title PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
       .panel-body
-       .row.no-print
-          .col-md-1.col-sm-2.col-xs-2 RSSI
-          .col-md-1.col-sm-2.col-xs-3 {{getLatestMeasurementEntry().rssi}} dB
-          .col-md-10.col-sm-8.col-xs-7
-            .progress.progress-rssi
-              .progress-bar.progress-bar-danger(style="width:{{getLatestRssiProgressbarData().progressBarDangerWidth}}%")
-              .progress-bar.progress-bar-warning(style="width:{{getLatestRssiProgressbarData().progressBarWarningWidth}}%")
-              .progress-bar.progress-bar-success(style="width:{{getLatestRssiProgressbarData().progressBarSuccessWidth}}%")
         .row.no-print
-          .col-md-1.col-sm-2.col-xs-2 LQI
-          .col-md-1.col-sm-2.col-xs-3 {{getLatestMeasurementEntry().lqi}}
-          .col-md-10.col-sm-8.col-xs-7
-            //.progress
-              .progress-bar.lqi-bar(style="width: {{getLatestMeasurementEntry().lqiPercent}}%;")
-        .row.no-print
-          .col-md-1.col-sm-2.col-xs-2 Joining
-          .col-md-2.col-sm-3.col-xs-4 {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
+          .col-md-4
+            h2 RSSI: {{getLatestMeasurementEntry().rssi}} dB
+              span.rssi-color-tag &nbsp;&#11044;
+          .col-md-4
+            h2 LQI: {{getLatestMeasurementEntry().lqi}}
+              span.lqi-color-tag &nbsp;&#11044;
+          .col-md-4
+            h2 Joining {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
         .row
           .col-md-12.chart-area
             #chart

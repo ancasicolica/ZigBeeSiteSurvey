@@ -1,11 +1,6 @@
 //
    Created by kc on 25.06.15.
 extends layout
-block head
-  link(rel='stylesheet', href='/css/survey.css',  type='text/css')
-  script(src='/js/surveyctrl.js')
-  script(src='/socket.io/socket.io.js')
-
 block content
   div(ng-app='surveyApp' ng-controller='surveyCtrl')
     include about
