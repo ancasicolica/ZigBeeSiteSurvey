@@ -20,9 +20,10 @@
           .col-md-12.chart-area
             #chart
         .row.no-print
-          form
+          form.form
             .col-md-10
-              input.form-control(type='text' autocomplete='true' ng-model='currentLocation')
+              .form-group
+                input.form-control#infoText(type='text' autocomplete='true' placeholder='Add your log info here' ng-model='currentLocation')
             .col-md-2
               button.btn.btn-default(type='submit' ng-click='addLog()') Add log entry
         .row
@@ -30,12 +31,18 @@
             div(ng-show='log.length')
               table.table.table-striped
                 thead
-                  th ts
-                  th Info
-                  th LQI
-                  th RSSI
+                  th
+                    span(ng-click="sortLog('ts', !reverse)") ts
+                    //span.glyphicon.glyphicon-chevron-up(ng-click="sortLog('ts', false)")
+                    //span.glyphicon.glyphicon-chevron-down(ng-click="sortLog('ts', true)")
+                  th
+                    span(ng-click="sortLog('info', !reverse)") Info
+                  th
+                    span(ng-click="sortLog('lqi', !reverse)") LQI
+                  th
+                    span(ng-click="sortLog('rssi', !reverse)") RSSI
                 tbody
-                  tr(data-ng-repeat='n in log')
+                  tr(data-ng-repeat='n in log | orderBy:predicate:reverse')
                     td {{n.ts | date:'dd.MM.yyyy HH:mm:ss'}}
                     td {{n.info}}
                     td {{n.lqi}}

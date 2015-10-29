@@ -28,6 +28,8 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.usbConnected = false;
   $scope.startingUp = true;
   $scope.surveyReady = false; // True when connected and dongle first time seen
+  $scope.predicate = 'ts';
+  $scope.reverse = false;
 
   $(document).ready(function () {
     // Get the settings
@@ -51,6 +53,20 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     })
   });
 
+  /**
+   * Sets the order of the log table
+   * @param predicate
+   * @param reverse
+   */
+  $scope.sortLog = function (predicate, reverse) {
+    $scope.predicate = predicate;
+    $scope.reverse = reverse;
+  };
+
+  /**
+   * Returns the chart options
+   * @returns
+   * */
   $scope.getChartOptions = function () {
     return {
       bindto: '#chart',
@@ -256,9 +272,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     $scope.progressBarDangerWidth = Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) / rssiRange * 100;
     $scope.progressBarWarningWidth = Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) / rssiRange * 100;
     $scope.progressBarSuccessWidth = Math.abs($scope.settings.levels.max - $scope.settings.levels.good) / rssiRange * 100;
-    console.log($scope.progressBarDangerWidth);
-    console.log($scope.progressBarWarningWidth);
-    console.log($scope.progressBarSuccessWidth);
   };
   /**
    * Shortcut for the progressbars
@@ -366,16 +379,16 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Get the csv settings for different attributes and downloads
    */
   $scope.getCsvHeaderForAll = function () {
-    return(['Date', 'RSSI', 'LQI', 'Found', 'Channel', 'PAN ID', 'Extended PAN ID', 'Info']);
+    return (['Date', 'RSSI', 'LQI', 'Found', 'Channel', 'PAN ID', 'Extended PAN ID', 'Info']);
   };
   $scope.getCsvColumnsForAll = function () {
-    return(['ts', 'rssi', 'lqi', 'found', 'channel', 'panId', 'extendedPanId', 'info']);
+    return (['ts', 'rssi', 'lqi', 'found', 'channel', 'panId', 'extendedPanId', 'info']);
   };
   $scope.getCsvHeaderForLog = function () {
-    return(['Date', 'RSSI', 'LQI', 'Found', 'Info']);
+    return (['Date', 'RSSI', 'LQI', 'Found', 'Info']);
   };
   $scope.getCsvColumnsForLog = function () {
-    return(['ts', 'rssi', 'lqi', 'found', 'info']);
+    return (['ts', 'rssi', 'lqi', 'found', 'info']);
   };
   /**
    * Updates the chart with a new entry
@@ -383,9 +396,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    */
   $scope.updateChart = function (newEntry) {
     // Add entry first to our measurement list
-    console.log('push', newEntry);
     $scope.measurements.push(newEntry);
-
     $scope.columns.x.push(newEntry.ts);
     $scope.columns.rssi.push(newEntry.rssi);
     $scope.columns.lqi.push(newEntry.lqi);
