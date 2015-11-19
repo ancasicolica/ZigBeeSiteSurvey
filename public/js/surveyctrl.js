@@ -11,6 +11,8 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       max: 0
     }
   };
+  $scope.noRssiValue = -128;
+
   $scope.panel = 'networks';
   $scope.networks = [];
   $scope.networkScanActive = false;
@@ -34,7 +36,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $(document).ready(function () {
     // Get the settings
     $scope.refreshSettings();
-    $scope.getNetworks();
 
     var socket = io();
     socket.on('usbConnected', function (info) {
@@ -50,8 +51,66 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       $scope.usbConnected = false;
       $scope.refreshSettings();
       $scope.$apply();
-    })
+    });
+
+    socket.on('networks', $scope.updateNetworkData);
   });
+
+  /**
+   * Receiving the network data
+   * @param networks
+   */
+  $scope.updateNetworkData = function (networks) {
+    for (var i = 0; i < networks.length; i++) {
+      var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
+      if (!network) {
+        network = networks[i];
+        console.log('INIT CHART ','#chart-' + network.id);
+        network.measurements = [{rssi: networks[i].rssi, lqi: networks[i].lqi, ts: new Date(networks[i].ts)}];
+        network.chart = c3.generate({
+          bindTo: '#chart-' + network.id,
+          size:{
+            height: 100
+          },
+          data: {
+            json: network.measurements,
+            keys: {
+              x: 'ts',
+              value: ['rssi', 'lqi']
+            }
+          },
+          axis: {
+            x: {
+              type: 'timeseries',
+              tick: {
+                format: '%H:%M:%S'
+              }
+            }
+          }
+        });
+        $scope.networks.push(network);
+      }
+      else {
+        if (networks[i].found) {
+          network.measurements.push({rssi: networks[i].rssi, lqi: networks[i].lqi, found: true, ts: new Date(networks[i].ts)});
+        }
+        else {
+          network.measurements.push({rssi: $scope.noRssiValue, lqi: 0, found: false, ts: new Date(networks[i].ts)});
+        }
+        console.log(network.chart);
+        network.chart.load({
+          json: network.measurements,
+          keys: {
+            x: 'ts',
+            value: ['rssi', 'lqi']
+          }
+        });
+      }
+    }
+
+    $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
+    $scope.$apply();
+  };
 
   /**
    * Sets the order of the log table
@@ -67,9 +126,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Returns the chart options
    * @returns
    * */
-  $scope.getChartOptions = function () {
+  $scope.getChartOptions = function (options) {
     return {
-      bindto: '#chart',
+      bindto: options.bindTo || '#chart',
       size: {
         height: 400
       },
@@ -169,12 +228,12 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         }
       }
     }).
-      error(function (data, status) {
-        $scope.startingUp = false;
-        console.log('error:');
-        console.log(data);
-        console.log(status);
-      });
+    error(function (data, status) {
+      $scope.startingUp = false;
+      console.log('error:');
+      console.log(data);
+      console.log(status);
+    });
   };
   /**
    * Returns the currently connected serial port
@@ -190,7 +249,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
 
   /**
    * Switch to the survey mode
-   * @param panId
+   * @param network
    */
   $scope.survey = function (network) {
     $scope.currentNetwork = network;
@@ -320,30 +379,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     };
   };
 
-  /**
-   * Get information about all networks
-   */
-  $scope.getNetworks = function () {
-    $scope.networkScanActive = true;
-    $http.get('/scan/all').
-      success(function (data) {
-        if (data.status === 'ok') {
-          $scope.networks = data.networks
-        }
-        else {
-          $scope.networks = [];
-        }
-        $scope.networkScanActive = false;
-
-      }).
-      error(function (data, status) {
-        console.log('error:');
-        console.log(data);
-        console.log(status);
-        $scope.networks = [];
-        $scope.networkScanActive = false;
-      });
-  };
 
   /**
    * Calculates a percent values for RSSI (progress bar)
@@ -420,38 +455,38 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
 
     $scope.networkScanActive = true;
     $http.get('/scan/' + $scope.currentNetwork.channel + '/' + $scope.currentNetwork.panId).
-      success(function (data) {
-        if (data.status === 'ok') {
-          if (data.networks.length > 0) {
-            var m = data.networks[0];
-            m.rssiPercent = $scope.calculateRssiPercent(m.rssi);
-            m.lqiPercent = m.lqi / 255 * 100;
-            m.ts = new Date();
-            if (m.found) {
+    success(function (data) {
+      if (data.status === 'ok') {
+        if (data.networks.length > 0) {
+          var m = data.networks[0];
+          m.rssiPercent = $scope.calculateRssiPercent(m.rssi);
+          m.lqiPercent = m.lqi / 255 * 100;
+          m.ts = new Date();
+          if (m.found) {
+            $scope.updateChart(m);
+            $scope.networkFailureCounter = 0;
+          }
+          else {
+            // Network not found
+            $scope.networkFailureCounter++;
+            if ($scope.networkFailureCounter > 2) {
               $scope.updateChart(m);
-              $scope.networkFailureCounter = 0;
             }
-            else {
-              // Network not found
-              $scope.networkFailureCounter++;
-              if ($scope.networkFailureCounter > 2) {
-                $scope.updateChart(m);
-              }
-              $scope.networkFailureCounter++;
-              console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
-            }
+            $scope.networkFailureCounter++;
+            console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
           }
         }
-        $scope.networkScanActive = false;
-        continueAfterScan();
-      }).
-      error(function (data, status) {
-        console.log('error:');
-        console.log(data);
-        console.log(status);
-        $scope.networkScanActive = false;
-        continueAfterScan();
-      });
+      }
+      $scope.networkScanActive = false;
+      continueAfterScan();
+    }).
+    error(function (data, status) {
+      console.log('error:');
+      console.log(data);
+      console.log(status);
+      $scope.networkScanActive = false;
+      continueAfterScan();
+    });
   };
 
   // Warning before unloading

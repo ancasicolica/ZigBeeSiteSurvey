@@ -30,6 +30,19 @@ div(ng-show='networks.length')
         td {{n.channel}}
         td {{n.permitJoin}}
 
-
+div(ng-show='networks.length')
+  .row
+    .col-xs-12.col-sm-6.col-md-4.col-lg-3(data-ng-repeat='n in networks')
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title {{n.extendedPanId}}
+        .panel-body
+          .chart-area(id='chart-{{n.id}}')
+          p {{n.rssi}}
+          p {{n.lqi}}
+          p {{n.isDevelcoDevice}}
+          p {{n.found}}
+          p {{n.measurements.length}}
+          p {{_.last(n.measurements).rssi}}
 
 button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks

@@ -10,5 +10,8 @@ var router = express.Router();
 router.get('/', function (req, res) {
   res.render('index', {title: 'ZigBee Site Survey'});
 });
+router.get('/test', function (req, res) {
+  res.render('test', {title: 'ZigBee Site Survey'});
+});
 
 module.exports = router;

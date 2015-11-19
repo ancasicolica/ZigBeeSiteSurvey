@@ -30,6 +30,7 @@ var scanRoute = require('./routes/scan');
 var settingsRoute = require('./routes/settings');
 var determineDongleType = require('./lib/tasks/determineDongleType');
 var socket = require('./lib/socket');
+require('./lib/networkPool');
 
 rapidConnector.on('open', function() {
   determineDongleType.run();
