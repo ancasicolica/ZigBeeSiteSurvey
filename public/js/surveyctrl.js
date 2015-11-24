@@ -65,46 +65,102 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
       if (!network) {
         network = networks[i];
-        console.log('INIT CHART ','#chart-' + network.id);
+        console.log('INIT CHART ', '#chart-' + network.id);
         network.measurements = [{rssi: networks[i].rssi, lqi: networks[i].lqi, ts: new Date(networks[i].ts)}];
-        network.chart = c3.generate({
-          bindTo: '#chart-' + network.id,
-          size:{
-            height: 100
-          },
-          data: {
-            json: network.measurements,
-            keys: {
-              x: 'ts',
-              value: ['rssi', 'lqi']
-            }
-          },
-          axis: {
-            x: {
-              type: 'timeseries',
-              tick: {
-                format: '%H:%M:%S'
-              }
-            }
-          }
-        });
+        // We can't generate the chart right here, as the chart area does currently not exist.
+        // Set flag that chart has to be generated before loading data
+        network.chartGenerated = false;
         $scope.networks.push(network);
       }
       else {
         if (networks[i].found) {
-          network.measurements.push({rssi: networks[i].rssi, lqi: networks[i].lqi, found: true, ts: new Date(networks[i].ts)});
+          network.measurements.push({
+            rssi: networks[i].rssi,
+            lqi: networks[i].lqi,
+            found: true,
+            ts: new Date(networks[i].ts)
+          });
         }
         else {
           network.measurements.push({rssi: $scope.noRssiValue, lqi: 0, found: false, ts: new Date(networks[i].ts)});
         }
         console.log(network.chart);
-        network.chart.load({
-          json: network.measurements,
-          keys: {
-            x: 'ts',
-            value: ['rssi', 'lqi']
-          }
-        });
+        if (network.chartGenerated) {
+          // Chart was generated before, just load the data
+          network.chart.load({
+            json: network.measurements,
+            keys: {
+              x: 'ts',
+              value: ['rssi', 'lqi']
+            }
+          });
+        }
+        else {
+          // Generate chart first
+          network.chart = c3.generate({
+            bindto: '#chart-' + network.id,
+
+            data: {
+              json: network.measurements,
+              keys: {
+                x: 'ts',
+                value: ['rssi', 'lqi']
+              },
+              axes: {
+                lqi: 'y2'
+              },
+              type: 'line'
+            },
+            axis: {
+              x: {
+                type: 'timeseries',
+                tick: {
+                  format: '%H:%M:%S'
+                }
+              },
+              y: {
+                max: $scope.settings.levels.max,
+                min: $scope.settings.levels.min,
+                tick: {
+                  format: function (d) {
+                    return d + ' dB';
+                  }
+                },
+                padding: {top: 0, bottom: 0}
+              },
+              y2: {
+                show: true,
+                max: 255,
+                min: 0,
+                padding: {top: 10, bottom: 0}
+              }
+            },
+            regions: [
+              {
+                axis: 'y',
+                start: $scope.settings.levels.min - 10,
+                end: $scope.settings.levels.acceptable,
+                class: 'region-bad'
+              },
+              {
+                axis: 'y',
+                start: $scope.settings.levels.acceptable,
+                end: $scope.settings.levels.good,
+                class: 'region-acceptable'
+              },
+              {
+                axis: 'y',
+                start: $scope.settings.levels.good,
+                end: $scope.settings.levels.max,
+                class: 'region-good'
+              }
+            ],
+            zoom: { // do not zoom in overview
+              enabled: false
+            }
+          });
+          network.chartGenerated = true;
+        }
       }
     }
 

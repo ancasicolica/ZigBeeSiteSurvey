@@ -3,41 +3,45 @@
 
 div(ng-hide='networks.length')
   .alert.alert-warning
-    | No ZigBee networks found, please try again.
+    | No ZigBee networks found yet, still searching... &nbsp;&nbsp;
+    i.fa.fa-spinner.fa-spin
 div(ng-show='networks.length')
-  p.found-networks Found {{networks.length}} ZigBee {{networks.length > 1 ? 'networks':'network'}}:
-  table.table.table-striped
-    thead
-      th Extended PAN-ID
-      th LQI
-      th RSSI
-      th PAN-ID
-      th Channel
-      th Joining permitted
+  //
+    p.found-networks Found {{networks.length}} ZigBee {{networks.length > 1 ? 'networks':'network'}}:
+    table.table.table-striped
+      thead
+        th Extended PAN-ID
+        th LQI
+        th RSSI
+        th PAN-ID
+        th Channel
+        th Joining permitted
 
-    tbody
-      tr(data-ng-repeat='n in networks')
-        td
-          a(href='#' ng-click='survey(n)')
-            | {{n.extendedPanId}}
-            span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-        td {{n.lqi}}
-        td
-          .progress.progress-rssi
-            .progress-bar(class='{{getRssiClass(n.rssi)}}' role='progressbar' aria-valuenow="{{n.rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{calculateRssiPercent(n.rssi)}}%;")
-              span#sr-only {{n.rssi}} dB
-        td {{n.panId}}
-        td {{n.channel}}
-        td {{n.permitJoin}}
+      tbody
+        tr(data-ng-repeat='n in networks')
+          td
+            a(href='#' ng-click='survey(n)')
+              | {{n.extendedPanId}}
+              span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+          td {{n.lqi}}
+          td
+            .progress.progress-rssi
+              .progress-bar(class='{{getRssiClass(n.rssi)}}' role='progressbar' aria-valuenow="{{n.rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{calculateRssiPercent(n.rssi)}}%;")
+                span#sr-only {{n.rssi}} dB
+          td {{n.panId}}
+          td {{n.channel}}
+          td {{n.permitJoin}}
 
 div(ng-show='networks.length')
   .row
-    .col-xs-12.col-sm-6.col-md-4.col-lg-3(data-ng-repeat='n in networks')
+    .col-xs-12.col-sm-6.col-md-4.col-lg-4(data-ng-repeat='n in networks')
       .panel.panel-default
         .panel-heading
           h3.panel-title {{n.extendedPanId}}
         .panel-body
-          .chart-area(id='chart-{{n.id}}')
+          .small-chart-area.wait-for-data(ng-hide='n.chartGenerated')
+            i.fa.fa-spinner.fa-spin
+          .small-chart-area(id='chart-{{n.id}}' ng-show='n.chartGenerated')
           p {{n.rssi}}
           p {{n.lqi}}
           p {{n.isDevelcoDevice}}
@@ -45,4 +49,4 @@ div(ng-show='networks.length')
           p {{n.measurements.length}}
           p {{_.last(n.measurements).rssi}}
 
-button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks
+// button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks

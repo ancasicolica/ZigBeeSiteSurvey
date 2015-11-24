@@ -12,14 +12,20 @@ surveyControl.controller('testCtrl', ['$scope', '$http', function ($scope, $http
   var a = _.random(1, 10);
   var b = _.random(1, 10);
 
+  var data = [ {ts: new Date(), a: a, b: b}];
+
   $scope.data = [
     {ts: new Date(), a: a, b: b}
   ];
 
   var chart = c3.generate({
     bindto: '#chart-test',
+    size:{
+      height: 200
+
+    },
     data: {
-      json: $scope.data,
+      json: data,
       keys: {
         x: 'ts',
         value: ['a', 'b']
@@ -41,9 +47,10 @@ surveyControl.controller('testCtrl', ['$scope', '$http', function ($scope, $http
 
     var newEntry = {ts: new Date(), a: a, b: b};
     $scope.data.push(newEntry);
+    data.push(newEntry);
 
     chart.load({
-      json: $scope.data,
+      json: data,
       keys: {
         x: 'ts',
         value: ['a', 'b']
@@ -53,6 +60,6 @@ surveyControl.controller('testCtrl', ['$scope', '$http', function ($scope, $http
     _.delay($scope.addValue, 2000);
   };
 
-  _.delay($scope.addValue, 1000);
+  //_.delay($scope.addValue, 1000);
 
 }]);
