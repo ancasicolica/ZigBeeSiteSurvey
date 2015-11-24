@@ -22,6 +22,8 @@ settings.levels = {
   max: 0 // highest level, do not change unless it is really needed
 };
 
+settings.historyLength = 10;
+
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;
 

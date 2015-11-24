@@ -56,6 +56,12 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     socket.on('networks', $scope.updateNetworkData);
   });
 
+  function convertTimeStampInNetwork(network) {
+    for (var t = 0; t < network.history.length; t++) {
+      network.history[t].ts = new Date(network.history[t].ts);
+    }
+  }
+
   /**
    * Receiving the network data
    * @param networks
@@ -66,29 +72,24 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       if (!network) {
         network = networks[i];
         console.log('INIT CHART ', '#chart-' + network.id);
-        network.measurements = [{rssi: networks[i].rssi, lqi: networks[i].lqi, ts: new Date(networks[i].ts)}];
+        convertTimeStampInNetwork(network);
         // We can't generate the chart right here, as the chart area does currently not exist.
         // Set flag that chart has to be generated before loading data
         network.chartGenerated = false;
         $scope.networks.push(network);
       }
       else {
-        if (networks[i].found) {
-          network.measurements.push({
-            rssi: networks[i].rssi,
-            lqi: networks[i].lqi,
-            found: true,
-            ts: new Date(networks[i].ts)
-          });
-        }
-        else {
-          network.measurements.push({rssi: $scope.noRssiValue, lqi: 0, found: false, ts: new Date(networks[i].ts)});
-        }
-        console.log(network.chart);
+        network.rssi = networks[i].rssi;
+        network.lqi = networks[i].lqi;
+        network.found = true;
+        network.ts = new Date(networks[i].ts);
+        network.history = networks[i].history;
+        convertTimeStampInNetwork(network);
+        console.log(network);
         if (network.chartGenerated) {
           // Chart was generated before, just load the data
           network.chart.load({
-            json: network.measurements,
+            json: network.history,
             keys: {
               x: 'ts',
               value: ['rssi', 'lqi']
@@ -97,11 +98,12 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         }
         else {
           // Generate chart first
+          convertTimeStampInNetwork(network);
           network.chart = c3.generate({
             bindto: '#chart-' + network.id,
 
             data: {
-              json: network.measurements,
+              json: network.history,
               keys: {
                 x: 'ts',
                 value: ['rssi', 'lqi']
@@ -110,6 +112,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
                 lqi: 'y2'
               },
               type: 'line'
+            },
+            transition: {
+              duration: 0
             },
             axis: {
               x: {
