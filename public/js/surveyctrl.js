@@ -92,7 +92,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             json: network.history,
             keys: {
               x: 'ts',
-              value: ['rssi', 'lqi']
+              value: ['rssi']
             }
           });
         }
@@ -106,10 +106,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
               json: network.history,
               keys: {
                 x: 'ts',
-                value: ['rssi', 'lqi']
-              },
-              axes: {
-                lqi: 'y2'
+                value: ['rssi']
               },
               type: 'line'
             },
@@ -132,12 +129,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
                   }
                 },
                 padding: {top: 0, bottom: 0}
-              },
-              y2: {
-                show: true,
-                max: 255,
-                min: 0,
-                padding: {top: 10, bottom: 0}
               }
             },
             regions: [

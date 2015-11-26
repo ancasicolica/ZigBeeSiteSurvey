@@ -42,11 +42,14 @@ div(ng-show='networks.length')
           .small-chart-area.wait-for-data(ng-hide='n.chartGenerated')
             i.fa.fa-spinner.fa-spin
           .small-chart-area(id='chart-{{n.id}}' ng-show='n.chartGenerated')
-          p {{n.rssi}}
-          p {{n.lqi}}
-          p {{n.isDevelcoDevice}}
-          p {{n.found}}
-          p {{n.measurements.length}}
-          p {{_.last(n.measurements).rssi}}
+          .row
+           .col-xs-6.col-sm-5.col-md-3 RSSI
+           .col-xs-6.col-sm-7.col-md-9 {{n.rssi}}
+          .row
+            .col-xs-6.col-sm-5.col-md-3 LQI
+            .col-xs-6.col-sm-7.col-md-9 {{n.lqi}}
+          .row
+            .col-md-12 Joining {{n.permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
+
 
 // button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks
