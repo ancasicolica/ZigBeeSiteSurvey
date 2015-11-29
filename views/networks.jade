@@ -3,7 +3,7 @@
 
 div(ng-hide='networks.length')
   .alert.alert-warning
-    | No ZigBee networks found yet, still searching... &nbsp;&nbsp;
+    |  Retrieving ZigBee networks, this takes only a few seconds... &nbsp;&nbsp;
     i.fa.fa-spinner.fa-spin
 div(ng-show='networks.length')
   //
@@ -48,6 +48,12 @@ div(ng-show='networks.length')
           .row
             .col-xs-6.col-sm-5.col-md-3 LQI
             .col-xs-6.col-sm-7.col-md-9 {{n.lqi}}
+          .row
+            .col-xs-6.col-sm-5.col-md-3 Channel
+            .col-xs-6.col-sm-7.col-md-9 {{n.channel}}
+          .row
+            .col-xs-6.col-sm-5.col-md-3 PAN-ID
+            .col-xs-6.col-sm-7.col-md-9 {{n.panId}}
           .row
             .col-md-12 Joining {{n.permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
 
