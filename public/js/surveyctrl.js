@@ -108,6 +108,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
                 x: 'ts',
                 value: ['rssi']
               },
+              names: {
+                rssi: 'RSSI'
+              },
               type: 'line'
             },
             transition: {

@@ -28,6 +28,7 @@ var app = express();
 var indexRoute = require('./routes/index');
 var scanRoute = require('./routes/scan');
 var settingsRoute = require('./routes/settings');
+var scannerRoute = require('./routes/scanner');
 var determineDongleType = require('./lib/tasks/determineDongleType');
 var socket = require('./lib/socket');
 require('./lib/networkPool');
@@ -44,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRoute);
 app.use('/scan', scanRoute);
 app.use('/settings', settingsRoute);
+app.use('/scanner', scannerRoute);
 
 
 socket.init(app.listen(settings.port));

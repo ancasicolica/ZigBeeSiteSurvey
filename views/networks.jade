@@ -37,7 +37,10 @@ div(ng-show='networks.length')
     .col-xs-12.col-sm-6.col-md-4.col-lg-4(data-ng-repeat='n in networks')
       .panel.panel-default
         .panel-heading
-          h3.panel-title {{n.extendedPanId}}
+          h3.panel-title
+            a(href='#' ng-click='survey(n)')
+              | {{n.extendedPanId}}
+              span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
         .panel-body
           .small-chart-area.wait-for-data(ng-hide='n.chartGenerated')
             i.fa.fa-spinner.fa-spin
