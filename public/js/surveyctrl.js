@@ -11,20 +11,11 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       max: 0
     }
   };
-  $scope.noRssiValue = -128;
 
   $scope.panel = 'networks';
   $scope.networks = [];
-  $scope.networkScanActive = false;
-  $scope.continousScanningActive = false;
   $scope.measurements = [];
-  $scope.columns = {
-    x: ['x'],
-    rssi: ['RSSI'],
-    lqi: ['LQI']
-  };
   $scope.chart = {};
-  $scope.networkFailureCounter = 0;
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
@@ -57,6 +48,10 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     socket.on('network', $scope.updateSurveyData);
   });
 
+  /**
+   * Converts the timestamps of one specific networks (from string to date)
+   * @param network
+   */
   function convertTimeStampInNetwork(network) {
     for (var t = 0; t < network.history.length; t++) {
       network.history[t].ts = new Date(network.history[t].ts);
@@ -180,7 +175,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       });
   };
 
-
   /**
    * Update the data of the survey for one specific network
    * @param data
@@ -191,28 +185,25 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       $scope.survey(network);
       return;
     }
-    $scope.updateChart(network);
-  };
 
-  /**
-   * Sets the order of the log table
-   * @param predicate
-   * @param reverse
-   */
-  $scope.sortLog = function (predicate, reverse) {
-    $scope.predicate = predicate;
-    $scope.reverse = reverse;
+    // Add entry first to our measurement list, convert timestamp to date
+    network.ts = new Date(network.ts);
+
+    $scope.measurements.push(network);
+    $scope.chart.load({
+      json: $scope.measurements,
+      keys: {
+        x: 'ts',
+        value: ['rssi']
+      }
+    });
   };
 
   /**
    * Toggles measurement: on / off
    */
   $scope.toggleMeasurement = function () {
-    $scope.continousScanningActive = !$scope.continousScanningActive;
-
-    if ($scope.continousScanningActive) {
-
-    }
+    console.warn('toggleMeasurement not implemented yet');
   };
 
   /**
@@ -220,7 +211,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @returns {*}
    */
   $scope.getActionText = function () {
-    if ($scope.continousScanningActive) {
+    if (true) {
       return 'Pause measurement';
     }
     return 'Continue measurement';
@@ -236,7 +227,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         $scope.settings = data.settings;
         $scope.connectedSerialPort = data.serialport;
         $scope.usbDongle = data.usbDongle;
-        $scope.calculateProgressBarLimits();
         if (data.serialport) {
           $scope.usbConnected = true;
           $scope.surveyReady = true;
@@ -250,6 +240,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       console.log(status);
     });
   };
+
   /**
    * Returns the currently connected serial port
    */
@@ -272,8 +263,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         $scope.currentNetwork = network;
         $scope.panel = 'survey';
         $scope.measurements = networkInfo.history || [];
-        $scope.continousScanningActive = true;
-        $scope.networkFailureCounter = 0;
         $scope.log = [];
 
         // Convert timestamp
@@ -310,12 +299,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
                 }
               },
               padding: {top: 0, bottom: 0}
-            },
-            y2: {
-              show: true,
-              max: 255,
-              min: 0,
-              padding: {top: 10, bottom: 0}
             }
           },
           regions: [
@@ -350,13 +333,11 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   };
 
   /**
-   * Close survey mode
+   * Close survey mode, go back to all networks
    */
   $scope.closeSurvey = function () {
-
     $http.post('/scanner/scanNetworks', {})
       .success(function (networkInfo) {
-        $scope.continousScanningActive = false;
         $scope.panel = 'networks';
       });
   };
@@ -377,6 +358,17 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
       $scope.log.push(entry);
     }
   };
+
+  /**
+   * Sets the order of the log table
+   * @param predicate
+   * @param reverse
+   */
+  $scope.sortLog = function (predicate, reverse) {
+    $scope.predicate = predicate;
+    $scope.reverse = reverse;
+  };
+
   /**
    * Returns the last entry of the measurement
    * @returns {*}
@@ -388,98 +380,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     return _.last($scope.measurements);
   };
 
-  /**
-   * Return the class for the progressbar associated with the given rssi value
-   * @param rssi
-   */
-  $scope.getRssiClass = function (rssi) {
-    if (!$scope.settings || !$scope.settings.levels) {
-      return;
-    }
-    if (rssi < $scope.settings.levels.acceptable) {
-      return 'progress-bar-danger';
-    }
-    if (rssi > $scope.settings.levels.good) {
-      return 'progress-bar-success'
-    }
-    return 'progress-bar-warning';
-  };
-
-  /**
-   * Calculates the limits of the progress bar
-   */
-  $scope.calculateProgressBarLimits = function () {
-    if (!$scope.settings) {
-      console.warn('Settings not available, can not calculate limits');
-      return;
-    }
-    var rssiRange = Math.abs($scope.settings.levels.max - $scope.settings.levels.min);
-    $scope.progressBarDangerWidth = Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) / rssiRange * 100;
-    $scope.progressBarWarningWidth = Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) / rssiRange * 100;
-    $scope.progressBarSuccessWidth = Math.abs($scope.settings.levels.max - $scope.settings.levels.good) / rssiRange * 100;
-  };
-  /**
-   * Shortcut for the progressbars
-   * @returns {{progressBarDangerWidth, progressBarWarningWidth, progressBarSuccessWidth}}
-   */
-  $scope.getLatestRssiProgressbarData = function () {
-    return $scope.getProgressBarWidth($scope.getLatestMeasurementEntry().rssi);
-  };
-
-  /**
-   * Gets the widths of the different progressbars
-   * @param rssi
-   * @returns {*}
-   */
-  $scope.getProgressBarWidth = function (rssi) {
-    if (!$scope.settings || !$scope.settings.levels) {
-      return {
-        progressBarDangerWidth: 0,
-        progressBarWarningWidth: 0,
-        progressBarSuccessWidth: 0
-      };
-    }
-    if (rssi < $scope.settings.levels.acceptable) {
-      console.log('RSSI to low');
-      console.log(Math.abs(rssi - $scope.settings.levels.min) / Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) * $scope.progressBarDangerWidth);
-      console.log(Math.abs(rssi - $scope.settings.levels.min));
-      console.log(Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min));
-      console.log($scope.progressBarDangerWidth);
-      return {
-        progressBarDangerWidth: Math.abs(rssi - $scope.settings.levels.min) / Math.abs($scope.settings.levels.acceptable - $scope.settings.levels.min) * $scope.progressBarDangerWidth,
-        progressBarWarningWidth: 0,
-        progressBarSuccessWidth: 0
-      };
-    }
-    if (rssi > $scope.settings.levels.good) {
-      return {
-        progressBarDangerWidth: $scope.progressBarDangerWidth,
-        progressBarWarningWidth: $scope.progressBarWarningWidth,
-        progressBarSuccessWidth: Math.abs(rssi - $scope.settings.levels.good) / Math.abs($scope.settings.levels.max - $scope.settings.levels.good) * $scope.progressBarSuccessWidth
-      };
-    }
-    return {
-      progressBarDangerWidth: $scope.progressBarDangerWidth,
-      progressBarWarningWidth: Math.abs(rssi - $scope.settings.levels.acceptable) / Math.abs($scope.settings.levels.good - $scope.settings.levels.acceptable) * $scope.progressBarWarningWidth,
-      progressBarSuccessWidth: 0
-    };
-  };
-
-
-  /**
-   * Calculates a percent values for RSSI (progress bar)
-   * @param rssi
-   * @returns {number}
-   */
-  $scope.calculateRssiPercent = function (rssi) {
-    return 100 - Math.abs(rssi / ($scope.settings.levels.max - $scope.settings.levels.min)) * 100;
-  };
-  /**
-   * Cancels the scanning for one single network
-   */
-  $scope.cancelContinousScanning = function () {
-    $scope.continousScanningActive = false;
-  };
   /**
    * Returns the filename for a complete file (all measurements)
    * @returns {string}
@@ -511,24 +411,6 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.getCsvColumnsForLog = function () {
     return (['ts', 'rssi', 'lqi', 'found', 'info']);
   };
-  /**
-   * Updates the chart with a new entry
-   * @param newEntry
-   */
-  $scope.updateChart = function (newEntry) {
-    // Add entry first to our measurement list, convert timestamp to date
-    newEntry.ts = new Date(newEntry.ts);
-
-    $scope.measurements.push(newEntry);
-    $scope.chart.load({
-      json: $scope.measurements,
-      keys: {
-        x: 'ts',
-        value: ['rssi']
-      }
-    });
-  };
-
 
 }]);
 

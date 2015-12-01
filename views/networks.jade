@@ -5,32 +5,6 @@ div(ng-hide='networks.length')
   .alert.alert-warning
     |  Retrieving ZigBee networks, this takes only a few seconds... &nbsp;&nbsp;
     i.fa.fa-spinner.fa-spin
-div(ng-show='networks.length')
-  //
-    p.found-networks Found {{networks.length}} ZigBee {{networks.length > 1 ? 'networks':'network'}}:
-    table.table.table-striped
-      thead
-        th Extended PAN-ID
-        th LQI
-        th RSSI
-        th PAN-ID
-        th Channel
-        th Joining permitted
-
-      tbody
-        tr(data-ng-repeat='n in networks')
-          td
-            a(href='#' ng-click='survey(n)')
-              | {{n.extendedPanId}}
-              span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-          td {{n.lqi}}
-          td
-            .progress.progress-rssi
-              .progress-bar(class='{{getRssiClass(n.rssi)}}' role='progressbar' aria-valuenow="{{n.rssi}}" aria-valuemin="-80" aria-valuemax="0" style="width: {{calculateRssiPercent(n.rssi)}}%;")
-                span#sr-only {{n.rssi}} dB
-          td {{n.panId}}
-          td {{n.channel}}
-          td {{n.permitJoin}}
 
 div(ng-show='networks.length')
   .row
