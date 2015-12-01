@@ -39,13 +39,31 @@
                     class="octicon octicon-link"></span></a>ZigBee Site Survey tool</h1>
 
         <p>A node.js tool for ZigBee range measurements using a RapidConnect USB stick from <a
-                href="http://mmbnetworks.com/">MMB Networks</a>. This tool ist
-            just a
-            proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just
-            fork the project
-            and create your logic.</p>
+                href="http://mmbnetworks.com/">MMB Networks</a>. This tool was just a proof-of-concept and there were
+            no intentions to maintain it for a long time. But whenever you create something others consider as useful, you can't hide...</p>
 
-        <p><strong>Important note: this tool was tested with node.js 0.12, the downloadable ZIP files won't work with version 4.0, a new compiled version of this tool is coming soon.</strong></p>
+        <p>Using this tool you can scan the RSSI/LQI values for all ZigBee networks in your area (you don't have to join
+            them, just being in range is enough) and log the RSSI/LQI values for a specific network. This is very
+        helpful if you experience connectivity problems with your ZigBee network.</p>
+
+        <h2>Screenshots</h2>
+
+
+        <figure><img src='images/screenshot0.png'>
+            <figcaption>The main screen, displaying all networks found</figcaption>
+        </figure>
+
+        <figure><img src='images/screenshot1.png'>
+            <figcaption>Scanning one specific network over the time</figcaption>
+        </figure>
+
+        <figure><img src='images/screenshot_mobile.png' width="50%">
+            <figcaption>Viewing the data served by the Raspberry Pi 2 using a tablet (Nexus 7 with Chrome browser)</figcaption>
+        </figure>
+
+        <h2>Releases-Notes and Downloads</h2>
+        <p>Visit the <a href="https://github.com/ancasicolica/ZigBeeSiteSurvey/releases"> download page</a> for the release notes and downloading a release.</p>
+
         <h2>
             <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span
                     class="octicon octicon-link"></span></a>Installation</h2>
@@ -54,7 +72,7 @@
             <a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span
                     class="octicon octicon-link"></span></a>Prerequisites</h3>
 
-        <p>This tool requires a current node.js release and a ready to operate RapidConnect USB dongle. There are two
+        <p>This tool requires a current node.js release (node 4 and higher, the LTS version 4 is recommended and the only tested version) and a ready to operate RapidConnect USB dongle. There are two
             different dongles available:</p>
         <ul>
             <li><strong>Z357PA22-USB-P-TC-N-C</strong>: this is the ZigBee SE (SmartEnergy) version.
@@ -137,23 +155,6 @@
 
         <p>See settings.js for the options available. </p>
 
-        <h2>Screenshots</h2>
-
-
-        <figure><img src='images/screenshot0.png'>
-            <figcaption>The main screen, displaying all networks found</figcaption>
-        </figure>
-
-        <figure><img src='images/screenshot1.png'>
-            <figcaption>Scanning one specific network over the time</figcaption>
-        </figure>
-
-        <figure><img src='images/screenshot_mobile.png' width="50%">
-            <figcaption>Viewing the data served by the Raspberry Pi 2 using a tablet (Nexus 7 with Chrome browser)</figcaption>
-        </figure>
-
-        <h2>Releases-Notes and Downloads</h2>
-        <p>Visit the <a href="https://github.com/ancasicolica/ZigBeeSiteSurvey/releases"> download page</a> for the release notes and downloading a release.</p>
 
         <h2>
             <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License
