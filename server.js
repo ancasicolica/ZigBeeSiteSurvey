@@ -26,11 +26,13 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var indexRoute = require('./routes/index');
-var scanRoute = require('./routes/scan');
 var settingsRoute = require('./routes/settings');
 var scannerRoute = require('./routes/scanner');
+var networksRoute = require('./routes/networks');
 var determineDongleType = require('./lib/tasks/determineDongleType');
 var socket = require('./lib/socket');
+var bodyParser = require('body-parser');
+var compression = require('compression')
 require('./lib/networkPool');
 
 rapidConnector.on('open', function() {
@@ -41,11 +43,13 @@ rapidConnector.connectToRapid();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.use(bodyParser.json());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRoute);
-app.use('/scan', scanRoute);
 app.use('/settings', settingsRoute);
 app.use('/scanner', scannerRoute);
+app.use('/networks', networksRoute);
 
 
 socket.init(app.listen(settings.port));

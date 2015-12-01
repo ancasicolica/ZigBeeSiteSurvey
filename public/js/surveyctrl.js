@@ -54,6 +54,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     });
 
     socket.on('networks', $scope.updateNetworkData);
+    socket.on('network', $scope.updateSurveyData);
   });
 
   function convertTimeStampInNetwork(network) {
@@ -66,105 +67,131 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Receiving the network data
    * @param networks
    */
-  $scope.updateNetworkData = function (networks) {
-    for (var i = 0; i < networks.length; i++) {
-      var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
-      if (!network) {
-        network = networks[i];
-        console.log('INIT CHART ', '#chart-' + network.id);
-        convertTimeStampInNetwork(network);
-        // We can't generate the chart right here, as the chart area does currently not exist.
-        // Set flag that chart has to be generated before loading data
-        network.chartGenerated = false;
-        $scope.networks.push(network);
-      }
-      else {
-        network.rssi = networks[i].rssi;
-        network.lqi = networks[i].lqi;
-        network.found = true;
-        network.ts = new Date(networks[i].ts);
-        network.history = networks[i].history;
-        convertTimeStampInNetwork(network);
-        console.log(network);
-        if (network.chartGenerated) {
-          // Chart was generated before, just load the data
-          network.chart.load({
-            json: network.history,
-            keys: {
-              x: 'ts',
-              value: ['rssi']
-            }
-          });
-        }
-        else {
-          // Generate chart first
-          convertTimeStampInNetwork(network);
-          network.chart = c3.generate({
-            bindto: '#chart-' + network.id,
-
-            data: {
-              json: network.history,
-              keys: {
-                x: 'ts',
-                value: ['rssi']
-              },
-              names: {
-                rssi: 'RSSI'
-              },
-              type: 'line'
-            },
-            transition: {
-              duration: 0
-            },
-            axis: {
-              x: {
-                type: 'timeseries',
-                tick: {
-                  format: '%H:%M:%S'
-                }
-              },
-              y: {
-                max: $scope.settings.levels.max,
-                min: $scope.settings.levels.min,
-                tick: {
-                  format: function (d) {
-                    return d + ' dB';
-                  }
-                },
-                padding: {top: 0, bottom: 0}
-              }
-            },
-            regions: [
-              {
-                axis: 'y',
-                start: $scope.settings.levels.min - 10,
-                end: $scope.settings.levels.acceptable,
-                class: 'region-bad'
-              },
-              {
-                axis: 'y',
-                start: $scope.settings.levels.acceptable,
-                end: $scope.settings.levels.good,
-                class: 'region-acceptable'
-              },
-              {
-                axis: 'y',
-                start: $scope.settings.levels.good,
-                end: $scope.settings.levels.max,
-                class: 'region-good'
-              }
-            ],
-            zoom: { // do not zoom in overview
-              enabled: false
-            }
-          });
-          network.chartGenerated = true;
-        }
-      }
+  $scope.updateNetworkData = function (info) {
+    console.log('Networks updated: ', info);
+    if ($scope.panel !== 'networks') {
+      // don't care about it
+      console.warn('Networks not updated, wrong panel');
+      return;
     }
 
-    $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
-    $scope.$apply();
+    $http.get('/networks')
+      .success(function (networks) {
+        for (var i = 0; i < networks.length; i++) {
+          var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
+          if (!network) {
+            network = networks[i];
+            console.log('INIT CHART ', '#chart-' + network.id);
+            convertTimeStampInNetwork(network);
+            // We can't generate the chart right here, as the chart area does currently not exist.
+            // Set flag that chart has to be generated before loading data
+            network.chartGenerated = false;
+            $scope.networks.push(network);
+          }
+          else {
+            network.rssi = networks[i].rssi;
+            network.lqi = networks[i].lqi;
+            network.found = true;
+            network.ts = new Date(networks[i].ts);
+            network.history = networks[i].history;
+            convertTimeStampInNetwork(network);
+            console.log(network);
+            if (network.chartGenerated) {
+              // Chart was generated before, just load the data
+              network.chart.load({
+                json: network.history,
+                keys: {
+                  x: 'ts',
+                  value: ['rssi']
+                }
+              });
+            }
+            else {
+              // Generate chart first
+              convertTimeStampInNetwork(network);
+              network.chart = c3.generate({
+                bindto: '#chart-' + network.id,
+
+                data: {
+                  json: network.history,
+                  keys: {
+                    x: 'ts',
+                    value: ['rssi']
+                  },
+                  names: {
+                    rssi: 'RSSI'
+                  },
+                  type: 'line'
+                },
+                transition: {
+                  duration: 0
+                },
+                axis: {
+                  x: {
+                    type: 'timeseries',
+                    tick: {
+                      format: '%H:%M:%S'
+                    }
+                  },
+                  y: {
+                    max: $scope.settings.levels.max,
+                    min: $scope.settings.levels.min,
+                    tick: {
+                      format: function (d) {
+                        return d + ' dB';
+                      }
+                    },
+                    padding: {top: 0, bottom: 0}
+                  }
+                },
+                regions: [
+                  {
+                    axis: 'y',
+                    start: $scope.settings.levels.min - 10,
+                    end: $scope.settings.levels.acceptable,
+                    class: 'region-bad'
+                  },
+                  {
+                    axis: 'y',
+                    start: $scope.settings.levels.acceptable,
+                    end: $scope.settings.levels.good,
+                    class: 'region-acceptable'
+                  },
+                  {
+                    axis: 'y',
+                    start: $scope.settings.levels.good,
+                    end: $scope.settings.levels.max,
+                    class: 'region-good'
+                  }
+                ],
+                zoom: { // do not zoom in overview
+                  enabled: false
+                }
+              });
+              network.chartGenerated = true;
+            }
+          }
+        }
+
+        $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
+      })
+      .error(function (resp) {
+        console.warn(resp);
+      });
+  };
+
+
+  /**
+   * Update the data of the survey for one specific network
+   * @param data
+   */
+  $scope.updateSurveyData = function (network) {
+    if ($scope.panel !== 'survey') {
+      // This is after loading a page with active survey: get all data and display survey
+      $scope.survey(network);
+      return;
+    }
+    $scope.updateChart(network);
   };
 
   /**
@@ -178,80 +205,13 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   };
 
   /**
-   * Returns the chart options
-   * @returns
-   * */
-  $scope.getChartOptions = function (options) {
-    return {
-      bindto: options.bindTo || '#chart',
-      size: {
-        height: 400
-      },
-      data: {
-        x: 'x',
-        columns: [],
-        axes: {
-          LQI: 'y2'
-        },
-        type: 'line'
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: {
-            format: '%H:%M:%S'
-          }
-        },
-        y: {
-          max: $scope.settings.levels.max,
-          min: $scope.settings.levels.min,
-          tick: {
-            format: function (d) {
-              return d + ' dB';
-            }
-          },
-          padding: {top: 0, bottom: 0}
-        },
-        y2: {
-          show: true,
-          max: 255,
-          min: 0,
-          padding: {top: 10, bottom: 0}
-        }
-      },
-      regions: [
-        {
-          axis: 'y',
-          start: $scope.settings.levels.min - 10,
-          end: $scope.settings.levels.acceptable,
-          class: 'region-bad'
-        },
-        {
-          axis: 'y',
-          start: $scope.settings.levels.acceptable,
-          end: $scope.settings.levels.good,
-          class: 'region-acceptable'
-        },
-        {
-          axis: 'y',
-          start: $scope.settings.levels.good,
-          end: $scope.settings.levels.max,
-          class: 'region-good'
-        }
-      ],
-      zoom: { // Zoom is marked as experimental, still use it
-        enabled: true
-      }
-    }
-  };
-  /**
    * Toggles measurement: on / off
    */
   $scope.toggleMeasurement = function () {
     $scope.continousScanningActive = !$scope.continousScanningActive;
 
     if ($scope.continousScanningActive) {
-      $scope.updateCurrentNetworkData();
+
     }
   };
 
@@ -307,27 +267,98 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @param network
    */
   $scope.survey = function (network) {
-    $scope.currentNetwork = network;
-    $scope.panel = 'survey';
-    $scope.measurements = [];
-    $scope.continousScanningActive = true;
-    $scope.networkFailureCounter = 0;
-    $scope.log = [];
-    $scope.columns = {
-      x: ['x'],
-      rssi: ['RSSI'],
-      lqi: ['LQI']
-    };
-    $scope.updateCurrentNetworkData();
-    $scope.chart = c3.generate($scope.getChartOptions());
+    $http.post('/scanner/scanSpecificNetwork', {channel: network.channel, panId: network.panId})
+      .success(function (networkInfo) {
+        $scope.currentNetwork = network;
+        $scope.panel = 'survey';
+        $scope.measurements = networkInfo.history || [];
+        $scope.continousScanningActive = true;
+        $scope.networkFailureCounter = 0;
+        $scope.log = [];
+
+        // Convert timestamp
+        for (var i = 0; i < $scope.measurements.length; i++) {
+          $scope.measurements[i].ts = new Date($scope.measurements[i].ts);
+        }
+
+        $scope.chart = c3.generate({
+          bindto: '#chart',
+          size: {
+            height: 400
+          },
+          data: {
+            json: $scope.measurements,
+            keys: {
+              x: 'ts',
+              value: ['rssi']
+            },
+            type: 'line'
+          },
+          axis: {
+            x: {
+              type: 'timeseries',
+              tick: {
+                format: '%H:%M:%S'
+              }
+            },
+            y: {
+              max: $scope.settings.levels.max,
+              min: $scope.settings.levels.min,
+              tick: {
+                format: function (d) {
+                  return d + ' dB';
+                }
+              },
+              padding: {top: 0, bottom: 0}
+            },
+            y2: {
+              show: true,
+              max: 255,
+              min: 0,
+              padding: {top: 10, bottom: 0}
+            }
+          },
+          regions: [
+            {
+              axis: 'y',
+              start: $scope.settings.levels.min - 10,
+              end: $scope.settings.levels.acceptable,
+              class: 'region-bad'
+            },
+            {
+              axis: 'y',
+              start: $scope.settings.levels.acceptable,
+              end: $scope.settings.levels.good,
+              class: 'region-acceptable'
+            },
+            {
+              axis: 'y',
+              start: $scope.settings.levels.good,
+              end: $scope.settings.levels.max,
+              class: 'region-good'
+            }
+          ],
+          zoom: { // Zoom is marked as experimental, still use it
+            enabled: true
+          }
+        });
+
+      })
+      .error(function (info) {
+        console.error('Call to /scanner/scanSpecificNetwork failed', info);
+      });
   };
 
   /**
    * Close survey mode
    */
   $scope.closeSurvey = function () {
-    $scope.continousScanningActive = false;
-    $scope.panel = 'networks';
+
+    $http.post('/scanner/scanNetworks', {})
+      .success(function (networkInfo) {
+        $scope.continousScanningActive = false;
+        $scope.panel = 'networks';
+      });
   };
 
   /**
@@ -485,71 +516,19 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @param newEntry
    */
   $scope.updateChart = function (newEntry) {
-    // Add entry first to our measurement list
+    // Add entry first to our measurement list, convert timestamp to date
+    newEntry.ts = new Date(newEntry.ts);
+
     $scope.measurements.push(newEntry);
-    $scope.columns.x.push(newEntry.ts);
-    $scope.columns.rssi.push(newEntry.rssi);
-    $scope.columns.lqi.push(newEntry.lqi);
     $scope.chart.load({
-      columns: [
-        $scope.columns.x,
-        $scope.columns.rssi,
-        $scope.columns.lqi
-      ]
-    });
-  };
-  /**
-   * Get information about all networks
-   */
-  $scope.updateCurrentNetworkData = function () {
-    function continueAfterScan() {
-      if ($scope.continousScanningActive) {
-        _.delay($scope.updateCurrentNetworkData, 500);
+      json: $scope.measurements,
+      keys: {
+        x: 'ts',
+        value: ['rssi']
       }
-    }
-
-    $scope.networkScanActive = true;
-    $http.get('/scan/' + $scope.currentNetwork.channel + '/' + $scope.currentNetwork.panId).
-    success(function (data) {
-      if (data.status === 'ok') {
-        if (data.networks.length > 0) {
-          var m = data.networks[0];
-          m.rssiPercent = $scope.calculateRssiPercent(m.rssi);
-          m.lqiPercent = m.lqi / 255 * 100;
-          m.ts = new Date();
-          if (m.found) {
-            $scope.updateChart(m);
-            $scope.networkFailureCounter = 0;
-          }
-          else {
-            // Network not found
-            $scope.networkFailureCounter++;
-            if ($scope.networkFailureCounter > 2) {
-              $scope.updateChart(m);
-            }
-            $scope.networkFailureCounter++;
-            console.log('networkFailureCounter: ' + $scope.networkFailureCounter);
-          }
-        }
-      }
-      $scope.networkScanActive = false;
-      continueAfterScan();
-    }).
-    error(function (data, status) {
-      console.log('error:');
-      console.log(data);
-      console.log(status);
-      $scope.networkScanActive = false;
-      continueAfterScan();
     });
   };
 
-  // Warning before unloading
-  window.onbeforeunload = function () {
-    if ($scope.continousScanningActive) {
-      return 'Measurement is in active.\n\nDo you want to cancel the measurements and leave the page?';
-    }
-  };
 
 }]);
 

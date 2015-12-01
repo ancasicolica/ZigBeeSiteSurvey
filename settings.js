@@ -23,6 +23,8 @@ settings.levels = {
 };
 
 settings.historyLength = 10;
+settings.surveyHistoryLength = 1000;
+settings.logger = {level: 'info', colorize: true};
 
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;

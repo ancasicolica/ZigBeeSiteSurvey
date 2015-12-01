@@ -7,23 +7,27 @@
 
 var express = require('express');
 var router = express.Router();
-var _ = require('lodash');
 var scanner = require('../lib/scanner');
+var networkPool = require('../lib/networkPool');
+var logger = require('../lib/logger').getLogger('routes:scanner');
+
 /**
- * Get options
+ * Scans all networks
  */
-router.get('/options', function (req, res) {
-  res.send({status: 'ok', options: scanner.getOptions()});
+router.post('/scanNetworks', function (req, res) {
+  logger.info('/scanNetworks: scan all networks');
+  scanner.scanNetworks(req.body);
+  res.send({status: 'ok'});
 });
 
-/**
- * set options
- */
-router.post('/options', function (req, res) {
-  console.log(req);
-  // Todo: extract information for scanner
-  res.send({status: 'ok'});
 
+/**
+ * Scan a specific network
+ */
+router.post('/scanSpecificNetwork', function (req, res) {
+  logger.info('/scanSpecificNetwork: only PAN ID ' + req.body.panId);
+  scanner.scanSpecificNetwork(req.body);
+  res.send(networkPool.getNetworkSurvey(req.body.panId));
 });
 
 
