@@ -1,15 +1,15 @@
 #ZigBee Site Survey tool
 
-A node.js tool for ZigBee range measurements using a RapidConnect USB stick from MMB Networks. This tool is just a 
-proof-of-concept an won't be maintained for a long time. If you want to build your own survey tool, just fork the project
-and create your logic.
+A node.js tool for ZigBee range measurements using a RapidConnect USB stick from MMB Networks. This tool was just a 
+proof-of-concept and there were no intentions to maintain it for a long time. But whenever you create something others consider as 
+useful, you can't hide... 
 
 Please refer to the Github Page for more detailed information: http://ancasicolica.github.io/ZigBeeSiteSurvey/
 
 ## Licence
 The MIT License (MIT)
 
-Copyright (c) 2015 Christian Kuster
+Copyright (c) 2015 Christian Kuster, CH-8342 Wernetshausen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
