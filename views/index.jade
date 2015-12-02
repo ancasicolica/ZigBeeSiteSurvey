@@ -14,14 +14,20 @@ block content
             p &nbsp;
             p
       .row(ng-show='surveyReady')
+        .col-md-12.main-col
+          .main-bar
+            h1.main-title ZigBee Site Survey Tool
+            img.logo
+      .row(ng-show='surveyReady')
         .col-md-12
-          h1.main-title ZigBee Site Survey Tool
-            a.icon-close.no-print(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
-              i.glyphicon.glyphicon-info-sign
-          div(ng-hide='usbConnected')
-            .alert.alert-danger
-              | No RapidConnect USB dongle found, scanning is disabled!
-          div(ng-show='panel==="networks"')
-            include networks
-          div(ng-show='panel==="survey"')
-            include survey
+        p
+          a.icon-close.no-print(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
+            i.glyphicon.glyphicon-info-sign
+
+        div(ng-hide='usbConnected')
+          .alert.alert-danger
+            | No RapidConnect USB dongle found, scanning is disabled!
+        div(ng-show='panel==="networks"')
+          include networks
+        div(ng-show='panel==="survey"')
+          include survey
