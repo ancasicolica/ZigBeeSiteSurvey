@@ -20,6 +20,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.log = [];
   $scope.usbConnected = false;
   $scope.startingUp = true;
+  $scope.pause = false;
   $scope.surveyReady = false; // True when connected and dongle first time seen
   $scope.predicate = 'ts';
   $scope.reverse = false;
@@ -190,6 +191,11 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     network.ts = new Date(network.ts);
 
     $scope.measurements.push(network);
+    if($scope.pause) {
+      // when pausing, finish here
+      console.warn('pausing');
+      return;
+    }
     $scope.chart.load({
       json: $scope.measurements,
       keys: {
@@ -203,7 +209,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Toggles measurement: on / off
    */
   $scope.toggleMeasurement = function () {
-    console.warn('toggleMeasurement not implemented yet');
+    $scope.pause = !$scope.pause;
   };
 
   /**
@@ -211,10 +217,10 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * @returns {*}
    */
   $scope.getActionText = function () {
-    if (true) {
-      return 'Pause measurement';
+    if ($scope.pause) {
+      return 'Continue measurement';
     }
-    return 'Continue measurement';
+    return 'Pause measurement';
   };
 
   /**

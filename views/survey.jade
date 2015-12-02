@@ -10,10 +10,10 @@
         .row.no-print
           .col-md-4
             h2 RSSI: {{getLatestMeasurementEntry().rssi}} dB
-              span.rssi-color-tag &nbsp;&#11044;
+              span.rssi-color-tag &nbsp;&#9679;
           .col-md-4
             h2 LQI: {{getLatestMeasurementEntry().lqi}}
-              span.lqi-color-tag &nbsp;&#11044;
+              span.lqi-color-tag &nbsp;&#9679;
           .col-md-4
             h2 Joining {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
         .row
