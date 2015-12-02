@@ -19,11 +19,6 @@ block content
             h1.main-title ZigBee Site Survey Tool
             img.logo
       .row(ng-show='surveyReady')
-        .col-md-12
-        p
-          a.icon-close.no-print(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
-            i.glyphicon.glyphicon-info-sign
-
         div(ng-hide='usbConnected')
           .alert.alert-danger
             | No RapidConnect USB dongle found, scanning is disabled!
@@ -31,3 +26,13 @@ block content
           include networks
         div(ng-show='panel==="survey"')
           include survey
+
+
+      .row.no-print(ng-show='surveyReady')
+        .col-md-12.info-bar
+           | Version {{settings.version}},&nbsp
+           a.info-bar(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
+             i.glyphicon.glyphicon-info-sign
+             | &nbsp;Help and info
+
+
