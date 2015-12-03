@@ -36,6 +36,11 @@ svg {
     position : relative;
 }
 
+.network-title-controls {
+    position : absolute;
+    right    : 0;
+}
+
 h1.main-title {
     position      : relative;
     margin-top    : 0;
@@ -121,9 +126,9 @@ span.lqi-info {
 }
 
 .survey-network-info {
-    font-size: large;
-    margin-left: 50px;
-    margin-right: 50px;
+    font-size    : large;
+    margin-left  : 50px;
+    margin-right : 50px;
 }
 
 .c3-region.region-acceptable {

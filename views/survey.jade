@@ -9,6 +9,9 @@
           a(href='#networks' ng-click='closeSurvey()') ZigBee Networks &nbsp;
           span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
           | &nbsp;PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
+          span.network-title-controls(ng-click='toggleMeasurement()')
+            i.fa.fa-pause(ng-show='!pause')
+            i.fa.fa-play(ng-show='pause')
       .panel-body
         .row.no-print
           .col-xs-12.col-sm-12.col-md-12
