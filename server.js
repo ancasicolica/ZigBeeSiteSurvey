@@ -29,10 +29,11 @@ var indexRoute = require('./routes/index');
 var settingsRoute = require('./routes/settings');
 var scannerRoute = require('./routes/scanner');
 var networksRoute = require('./routes/networks');
+var resetRoute = require('./routes/reset');
 var determineDongleType = require('./lib/tasks/determineDongleType');
 var socket = require('./lib/socket');
 var bodyParser = require('body-parser');
-var compression = require('compression')
+var compression = require('compression');
 require('./lib/networkPool');
 
 rapidConnector.on('open', function() {
@@ -50,6 +51,7 @@ app.use('/', indexRoute);
 app.use('/settings', settingsRoute);
 app.use('/scanner', scannerRoute);
 app.use('/networks', networksRoute);
+app.use('/reset', resetRoute);
 
 
 socket.init(app.listen(settings.port));

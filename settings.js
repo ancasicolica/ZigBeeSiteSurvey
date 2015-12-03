@@ -44,7 +44,7 @@ settings.levels = {
 
 settings.historyLength = 10;
 settings.surveyHistoryLength = 1000;
-settings.logger = {level: 'info', colorize: true};
+settings.logger = {level: process.env.LOG_LEVEL || 'info', colorize: true};
 
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;
