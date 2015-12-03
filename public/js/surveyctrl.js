@@ -15,7 +15,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
   $scope.panel = 'networks';
   $scope.networks = [];
   $scope.measurements = [];
-  $scope.chart = {};
+  $scope.chartSurvey = {};
   $scope.currentLocation = '';
   $scope.log = [];
   $scope.usbConnected = false;
@@ -191,16 +191,16 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     network.ts = new Date(network.ts);
 
     $scope.measurements.push(network);
-    if($scope.pause) {
+    if ($scope.pause) {
       // when pausing, finish here
       console.warn('pausing');
       return;
     }
-    $scope.chart.load({
+    $scope.chartSurvey.load({
       json: $scope.measurements,
       keys: {
         x: 'ts',
-        value: ['rssi']
+        value: ['rssi', 'lqi']
       }
     });
   };
@@ -276,8 +276,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           $scope.measurements[i].ts = new Date($scope.measurements[i].ts);
         }
 
-        $scope.chart = c3.generate({
-          bindto: '#chart',
+        /* RSSI CHART */
+        $scope.chartSurvey = c3.generate({
+          bindto: '#chart-survey',
           size: {
             height: 400
           },
@@ -285,9 +286,24 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             json: $scope.measurements,
             keys: {
               x: 'ts',
-              value: ['rssi']
+              value: ['lqi', 'rssi']
             },
-            type: 'line'
+            type: 'line',
+            types: {
+              'lqi': 'step'
+            },
+            axes: {
+              'lqi': 'y2',
+              'rssi': 'y'
+            },
+            names: {
+              rssi: 'RSSI',
+              lqi: 'LQI'
+            },
+            colors: {
+              rssi: 'blue',
+              lqi: 'plum'
+            }
           },
           axis: {
             x: {
@@ -299,12 +315,19 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
             y: {
               max: $scope.settings.levels.max,
               min: $scope.settings.levels.min,
+              label: 'RSSI',
               tick: {
                 format: function (d) {
                   return d + ' dB';
                 }
               },
               padding: {top: 0, bottom: 0}
+            },
+            y2: {
+              max: 255,
+              min: 0,
+              label: 'LQI',
+              show: true
             }
           },
           regions: [
@@ -329,6 +352,9 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
           ],
           zoom: { // Zoom is marked as experimental, still use it
             enabled: true
+          },
+          point: {
+            show: false
           }
         });
 

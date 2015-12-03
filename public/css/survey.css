@@ -21,8 +21,8 @@
 }
 
 /* Avoiding the flickering of the chart when loading */
-svg{
-    width: 100%;
+svg {
+    width : 100%;
 }
 
 .wait-for-data {
@@ -61,11 +61,11 @@ h1.main-title {
     border-radius    : 5px;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#28343b+0,828c95+64,b5bdc8+100 */
-    background: #28343b; /* Old browsers */
-    background: -moz-linear-gradient(top,  #28343b 0%, #828c95 64%, #b5bdc8 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #28343b 0%,#828c95 64%,#b5bdc8 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #28343b 0%,#828c95 64%,#b5bdc8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#28343b', endColorstr='#b5bdc8',GradientType=0 ); /* IE6-9 */
+    background       : #28343b; /* Old browsers */
+    background       : -moz-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* FF3.6-15 */
+    background       : -webkit-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* Chrome10-25,Safari5.1-6 */
+    background       : linear-gradient(to bottom, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter           : progid:DXImageTransform.Microsoft.gradient(startColorstr='#28343b', endColorstr='#b5bdc8', GradientType=0); /* IE6-9 */
 }
 
 .logo {
@@ -88,11 +88,11 @@ h1.main-title {
     padding-top      : 5px;
     padding-bottom   : 5px;
     border-radius    : 5px;
-    color:white;
+    color            : white;
 }
 
-a.info-bar{
-    color: #99c0ff;
+a.info-bar {
+    color : #99c0ff;
 }
 
 .icon-close {
@@ -101,14 +101,29 @@ a.info-bar{
 }
 
 .wait-for-measurements {
-    height: 400px;
+    height : 400px;
 }
+
 .found-networks {
     font-weight : bold;
 }
 
-.progress-rssi {
-    margin-bottom : 0;
+span.rssi-info {
+    font-size   : x-large;
+    position    : relative;
+    margin-left : 50px;
+}
+
+span.lqi-info {
+    font-size : x-large;
+    position  : absolute;
+    right     : 50px;
+}
+
+.survey-network-info {
+    font-size: large;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .c3-region.region-acceptable {
@@ -123,11 +138,11 @@ a.info-bar{
     fill : green;
 }
 
-path.c3-line-RSSI {
-    stroke-width : 2px;
+path.c3-line-rssi {
+    stroke-width : 1px;
 }
 
-path.c3-line-LQI {
+path.c3-line-lqi {
     stroke-width : 1px;
 }
 
@@ -136,7 +151,7 @@ path.c3-line-LQI {
 }
 
 .lqi-color-tag {
-    color : orange;
+    color : plum;
 }
 
 .licence {
@@ -144,10 +159,10 @@ path.c3-line-LQI {
 }
 
 .modal-dialog {
-    width: 80%;
+    width : 80%;
 }
 
 .table-info {
-    width: 80%;
+    width : 80%;
 
 }

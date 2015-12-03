@@ -13,6 +13,8 @@ div(ng-show='networks.length')
         .panel-heading
           h3.panel-title
             a(href='#' ng-click='survey(n)')
+              span(ng-visible='n.device')
+                | {{n.device}}&nbsp;
               | {{n.extendedPanId}}
               span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
         .panel-body
