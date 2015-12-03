@@ -32,6 +32,9 @@ node_modules
 # Custom settings
 public/custom
 
+# Distribution directory
+dist
+
 public/custom/custom.css
 # Webstorm
 .idea
