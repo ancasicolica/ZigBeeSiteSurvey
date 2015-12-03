@@ -9,10 +9,10 @@
           span(aria-hidden="true") &times;
         h2(id='aboutLabel') About this tool
       .modal-body
-        if custom.info
+        if custom.useOwnAboutDialog
           // Custom Info Dialog: add this jade file and activate it using custom.json
              See the readme-file for infos
-          include ../custom/custom-info
+          include ../public/custom/about
         else
           div
             // Nav tabs

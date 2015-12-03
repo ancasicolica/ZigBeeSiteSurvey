@@ -30,10 +30,9 @@ build/Release
 node_modules
 
 # Custom settings
-custom.json
-custom
+public/custom
 
-public/css/custom.css
+public/custom/custom.css
 # Webstorm
 .idea
 node.exe

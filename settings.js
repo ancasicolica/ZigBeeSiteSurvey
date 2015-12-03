@@ -18,10 +18,11 @@ var settings = {
 var info = {};
 
 try {
-  var customFileName = process.env.CUSTOM_FILE_NAME || 'custom.json';
+  var customFileName = process.env.CUSTOM_FILE_NAME || 'settings.json';
+  var customFile = path.join(__dirname, 'public', 'custom', customFileName);
   // If the file is not here, the next line crashes (throws an exception)
-  info = fs.statSync(path.join(__dirname, customFileName));
-  settings.custom = require(path.join(__dirname, customFileName));
+  info = fs.statSync(customFile);
+  settings.custom = require(customFile);
   if (settings.custom.enabled === false) {
     // Custom settings are available, but they are not enabled (they are enabled by default)
     settings.custom = {};
