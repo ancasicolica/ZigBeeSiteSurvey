@@ -9,32 +9,83 @@
           span(aria-hidden="true") &times;
         h2(id='aboutLabel') About this tool
       .modal-body
-        p ZigBee Site Survey Tool © 2015 Christian Kuster, CH-8342 Wernetshausen
-        p This tool is FREEWARE, please understand that I can only provide very limited support for it. Use it at your own risk.
-        p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my&nbsp;
-          a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') GitHub page
-          | &nbsp;for further details.
-        div
-          | Favicon based on a design of&nbsp;
-          a(href='http://behance.net/pedronieto93', title='Pedro Nieto Villamandos' target='_blank') Pedro Nieto Villamandos
-          |  from
-          a(href='http://www.flaticon.com', title='Flaticon' target='_blank') www.flaticon.com
-          | &nbsp; is licensed under&nbsp;
-          a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0' target='_blank') CC BY 3.0
+        if custom.info
+          // Custom Info Dialog: add this jade file and activate it using custom.json
+             See the readme-file for infos
+          include ../custom/custom-info
+        else
+          div
+            // Nav tabs
+            ul.nav.nav-tabs(role='tablist')
+              li.active(role='presentation')
+                a(href='#info', aria-controls='home', role='tab', data-toggle='tab') Info
+              li(role='presentation')
+                a(href='#licence', aria-controls='profile', role='tab', data-toggle='tab') Licence
+            // Tab panes
+            .tab-content
+              #info.tab-pane.active(role='tabpanel')
+                p This tool is FREEWARE, please understand that I can only provide very limited support for it. Use it at your own risk.
+                p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit the &nbsp;
+                  a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') ZigBee Site Survey GitHub page
+                  | &nbsp;for further details.
+                div
+                  | The ZigBee Site Survey Icon uses elements from a design of&nbsp;
+                  a(href='http://behance.net/pedronieto93', title='Pedro Nieto Villamandos' target='_blank') Pedro Nieto Villamandos
+                  |  from&nbsp;
+                  a(href='http://www.flaticon.com', title='Flaticon' target='_blank') www.flaticon.com
+                  | &nbsp; is licensed under&nbsp;
+                  a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0' target='_blank') CC BY 3.0
 
-        p
-        p Tool Version: {{settings.version}}
-        p
-        p COM-Port: {{getConnectedSerialPort()}}
-        p USB Dongle: {{usbDongle.applicationType}}
-        p Hardware: {{usbDongle.hardware}}
-        p Firmware: {{usbDongle.version}}
-        p
-        p Level for good quality: {{settings.levels.good}}
-        p Level for poor quality: {{settings.levels.acceptable}}
-        p
-        h4 GitHub Repository:
-        p
-          a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') http://ancasicolica.github.io/ZigBeeSiteSurvey/
+                h4 Tool Info
+                table.table.table-condensed.table-info
+                  tr
+                    td Version
+                    td {{settings.version}}
+                  tr
+                    td COM-Port
+                    td {{getConnectedSerialPort()}}
+                  tr
+                    td USB Dongle
+                    td {{usbDongle.applicationType}}
+                  tr
+                    td Hardware
+                    td {{usbDongle.hardware}}
+                  tr
+                    td Firmware
+                    td {{usbDongle.version}}
+                  tr
+                    td Level for good quality
+                    td {{settings.levels.good}}
+                  tr
+                    td Level for poor quality
+                    td {{settings.levels.acceptable}}
+                h4 GitHub Repository:
+                  p
+                    a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') http://ancasicolica.github.io/ZigBeeSiteSurvey/
+              #licence.tab-pane(role='tabpanel')
+                pre.licence
+                  | The MIT License (MIT)
+                  p
+                  | Copyright (c) 2015 Christian Kuster, CH-8342 Wernetshausen
+                  p
+                  | Permission is hereby granted, free of charge, to any person obtaining a copy
+                  | of this software and associated documentation files (the "Software"), to deal
+                  | in the Software without restriction, including without limitation the rights
+                  | to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                  | copies of the Software, and to permit persons to whom the Software is
+                  | furnished to do so, subject to the following conditions:
+                  p
+                  | The above copyright notice and this permission notice shall be included in all
+                  | copies or substantial portions of the Software.
+                  p
+                  | THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                  | IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                  | FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                  | AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                  | LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                  | OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                  | SOFTWARE.
+
+
       .modal-footer
         button(type="button" class="btn btn-default" data-dismiss="modal") close

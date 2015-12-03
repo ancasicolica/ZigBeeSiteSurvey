@@ -66,7 +66,6 @@ h1.main-title {
     background: -webkit-linear-gradient(top,  #28343b 0%,#828c95 64%,#b5bdc8 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  #28343b 0%,#828c95 64%,#b5bdc8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#28343b', endColorstr='#b5bdc8',GradientType=0 ); /* IE6-9 */
-
 }
 
 .logo {
@@ -91,9 +90,11 @@ h1.main-title {
     border-radius    : 5px;
     color:white;
 }
+
 a.info-bar{
     color: #99c0ff;
 }
+
 .icon-close {
     position : absolute;
     right    : 0;
@@ -138,3 +139,15 @@ path.c3-line-LQI {
     color : orange;
 }
 
+.licence {
+
+}
+
+.modal-dialog {
+    width: 80%;
+}
+
+.table-info {
+    width: 80%;
+
+}

@@ -1,0 +1,55 @@
+// This is the modal dialog used for KABA
+div
+  // Nav tabs
+  ul.nav.nav-tabs(role='tablist')
+    li.active(role='presentation')
+      a(href='#info', aria-controls='home', role='tab', data-toggle='tab') Info
+    li(role='presentation')
+      a(href='#support', aria-controls='profile', role='tab', data-toggle='tab') Support
+    li(role='presentation')
+      a(href='#licence', aria-controls='messages', role='tab', data-toggle='tab') Licence
+  // Tab panes
+  .tab-content
+    #info.tab-pane.active(role='tabpanel')
+      h4 Info
+      p So far we refer to the TI website, an own text has to follow!
+      p https://e2e.ti.com/support/wireless_connectivity/w/design_notes/calculation-and-usage-of-lqi-and-rssi
+      p There are four to five "extreme cases" that can be used to illustrate how RSSI and LQI work:
+      ol
+        li A weak signal in the presence of noise may give low RSSI and high LQI.
+        li A weak signal in "total" absence of noise may give low RSSI and low LQI.
+        li Strong noise (usually coming from an interferer) may give high RSSI and high LQI.
+        li A strong signal without much noise may give high RSSI and low LQI.
+        li A very strong signal that causes the receiver to saturate may give high RSSI and high LQI.
+    #support.tab-pane(role='tabpanel')
+      h4 Support
+      p Add here:
+      ul
+        li Email-Address for the Kaba Support
+        li Phone number?
+        li URL for FAQ and newest version? Who would host it?
+
+    #licence.tab-pane(role='tabpanel')
+      h4 Licence
+      pre.licence
+        | The MIT License (MIT)
+        p
+        | Copyright (c) 2015 Christian Kuster, CH-8342 Wernetshausen
+        p
+        | Permission is hereby granted, free of charge, to any person obtaining a copy
+        | of this software and associated documentation files (the "Software"), to deal
+        | in the Software without restriction, including without limitation the rights
+        | to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        | copies of the Software, and to permit persons to whom the Software is
+        | furnished to do so, subject to the following conditions:
+        p
+        | The above copyright notice and this permission notice shall be included in all
+        | copies or substantial portions of the Software.
+        p
+        | THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        | IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        | FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        | AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        | LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        | OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        | SOFTWARE.
