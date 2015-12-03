@@ -74,7 +74,6 @@ h1.main-title {
 }
 
 .logo {
-    content        : url("/favicon/favicon-96x96.png");
     position       : absolute;
     right          : 0;
     height         : 59px;

@@ -11,6 +11,7 @@ var settings = require('../settings');
 settings.custom = settings.custom || {};
 settings.custom.faviconPath = settings.custom.faviconPath || '/favicon';
 settings.custom.title = settings.custom.title || 'ZigBee Site Survey';
+settings.custom.logo = settings.custom.logo || '/favicon/favicon-96x96.png';
 
 /* GET home page. */
 router.get('/', function (req, res) {
