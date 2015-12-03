@@ -9,14 +9,14 @@ block content
         div(ng-hide='usbConnected')
           p
           .jumbotron
-            h1 ZigBee Site Survey Tool
+            h1=title
             p Please connect a RapidConnect ZigBee USB Stick to your computer to continue...
             p &nbsp;
             p
       .row(ng-show='surveyReady')
         .col-md-12.main-col
           .main-bar
-            h1.main-title ZigBee Site Survey Tool
+            h1.main-title=title
             img.logo
       .row(ng-show='surveyReady')
         div(ng-hide='usbConnected')
