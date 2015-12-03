@@ -32,9 +32,9 @@
           form.form
             .col-md-10
               .form-group
-                input.form-control#infoText(type='text' autocomplete='true' placeholder='Add your log info here' ng-model='currentLocation')
+                input.form-control#infoText(type='text' autocomplete='true' placeholder='Add your log info here' ng-model='currentLocation' ng-disabled='pause')
             .col-md-2
-              button.btn.btn-default(type='submit' ng-click='addLog()') Add log entry
+              button.btn.btn-default(type='submit' ng-click='addLog()' ng-disabled='pause') Add log entry
         .row
           .col-md-12
             div(ng-show='log.length')

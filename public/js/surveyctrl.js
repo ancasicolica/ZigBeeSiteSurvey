@@ -378,6 +378,10 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
    * Add a log entry
    */
   $scope.addLog = function () {
+    if ($scope.pause) {
+      console.log('Not adding log, measurement paused');
+      return;
+    }
     if ($scope.currentLocation.length > 0) {
       var entry = $scope.getLatestMeasurementEntry();
       entry.info = $scope.currentLocation;
