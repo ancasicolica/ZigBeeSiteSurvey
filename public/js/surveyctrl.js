@@ -61,7 +61,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
 
   /**
    * Receiving the network data
-   * @param networks
+   * @param info
    */
   $scope.updateNetworkData = function (info) {
     console.log('Networks updated: ', info);
@@ -203,6 +203,7 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
         value: ['rssi', 'lqi']
       }
     });
+    $scope.$apply();
   };
 
   /**
