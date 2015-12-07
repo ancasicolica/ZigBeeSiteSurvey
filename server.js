@@ -12,6 +12,7 @@ console.log('');
 //do something when app is closing
 process.on('exit', function(code) {
   console.log('Process is about to exit with code: ', code);
+  process.exit(-1);
 });
 
 //catches uncaught exceptions
