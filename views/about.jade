@@ -7,7 +7,8 @@
       .modal-header
         button(type="button" class="close" data-dismiss="modal" aria-label="Close")
           span(aria-hidden="true") &times;
-        h2(id='aboutLabel') About this tool
+        h2(id='aboutLabel') About&nbsp;
+          span=title
       .modal-body
         if custom.aboutHtml
           // Custom Info Dialog
