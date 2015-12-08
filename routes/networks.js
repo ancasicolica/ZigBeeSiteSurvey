@@ -7,7 +7,10 @@
 var express = require('express');
 var router = express.Router();
 var networkPool = require('../lib/networkPool');
+var scanner = require('../lib/scanner');
+var networkScanRequest = require('../lib/tasks/networkScanRequest');
 
+var logger = require('../lib/logger').getLogger('routes:networks');
 /**
  * Get ALL networks with its data known
  */
@@ -26,5 +29,23 @@ router.get('/flush', function (req, res) {
   res.send(networks);
 });
 
+
+
+/**
+ * 2nd variant for factory: scan once, get networks (if scanner is active, it's just getting the pool data)
+ */
+router.get('/scan', function (req, res) {
+  if (scanner.isEnabled()) {
+    return res.send(networkPool.getNetworks());
+  }
+
+  networkScanRequest.start({}, function(err, networks) {
+    if (err) {
+      logger.error('scan request failed', err);
+      return res.sendStatus(500);
+    }
+    return res.send(networks);
+  });
+});
 
 module.exports = router;
