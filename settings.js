@@ -42,6 +42,7 @@ settings.levels = {
   max: 0 // highest level, do not change unless it is really needed
 };
 
+settings.networkMissAllowedNb = 2; // How many times can't we se a network and we assume it is still here?
 settings.historyLength = 10;
 settings.surveyHistoryLength = 1000;
 settings.logger = {level: process.env.LOG_LEVEL || 'info', colorize: true};
