@@ -6,44 +6,44 @@
       // Large screen buttons
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
-            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') {{'DOWNLOAD_ALL_CSV' | translate}}
          .btn-group
-            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') {{'DOWNLOAD_LOG_CSV' | translate}}
          .btn-group
-            button.btn.btn-default(onclick='javascript:window.print()') Print page
+            button.btn.btn-default(onclick='javascript:window.print()') {{'PRINT_PAGE' | translate}}
          .btn-group
             button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
          .btn-group
-            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list
+            button.btn.btn-primary(ng-click='closeSurvey()') {{'RETURN_TO_NETWORK_LIST' | translate}}
    // Medium screen buttons
    .col-xs-12.col-sm-12.hidden-xs.hidden-md.hidden-lg
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
-            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') {{'DOWNLOAD_ALL_CSV' | translate}}
          .btn-group
-            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') {{'DOWNLOAD_LOG_CSV' | translate}}
          .btn-group
-            button.btn.btn-default(onclick='javascript:window.print()') Print page
+            button.btn.btn-default(onclick='javascript:window.print()') {{'PRINT_PAGE' | translate}}
    .col-xs-12.col-sm-12.hidden-xs.hidden-md.hidden-lg
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
             button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
          .btn-group
-            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list
+            button.btn.btn-primary(ng-click='closeSurvey()') {{'RETURN_TO_NETWORK_LIST' | translate}}
    // Small screen buttons
    .col-xs-12.visible-xs
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
-            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') Download all data as CSV
+            button.btn.btn-default(ng-csv='measurements' csv-header='getCsvHeaderForAll()' csv-column-order='getCsvColumnsForAll()'  field-separator=';' lazy-load='true' filename='{{getFileNameForAllData()}}' ng-disabled='measurements.length < 3') {{'DOWNLOAD_ALL_CSV' | translate}}
          .btn-group
-            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') Download log as CSV
+            button.btn.btn-default(ng-csv='log' csv-header='getCsvHeaderForLog()' csv-column-order='getCsvColumnsForLog()' field-separator=';' lazy-load='true' filename='{{getFileNameForLog()}}' ng-disabled='log.length === 0') {{'DOWNLOAD_LOG_CSV' | translate}}
    .col-xs-12.visible-xs
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
-            button.btn.btn-default(onclick='javascript:window.print()') Print page
+            button.btn.btn-default(onclick='javascript:window.print()') {{'PRINT_PAGE' | translate}}
    .col-xs-12.visible-xs
       .btn-group.btn-group-justified.no-print(role='group')
          .btn-group
             button.btn.btn-default(ng-click='toggleMeasurement()') {{getActionText()}}
          .btn-group
-            button.btn.btn-primary(ng-click='closeSurvey()') Return to network list
+            button.btn.btn-primary(ng-click='closeSurvey()') {{'RETURN_TO_NETWORK_LIST' | translate}}

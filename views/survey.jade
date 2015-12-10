@@ -6,9 +6,9 @@
     .panel.panel-default
       .panel-heading
         h3.panel-title.network-title
-          a(href='#networks' ng-click='closeSurvey()') ZigBee Networks &nbsp;
+          a(href='#networks' ng-click='closeSurvey()') {{'ZIGBEE_NETWORKS'|translate}} &nbsp;
           span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-          | &nbsp;PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}
+          | &nbsp;PAN {{currentNetwork.panId}} {{'ON_CHANNEL' | translate}} {{currentNetwork.channel}}
           span.network-title-controls(ng-click='toggleMeasurement()')
             i.fa.fa-pause(ng-show='!pause')
             i.fa.fa-play(ng-show='pause')
@@ -17,39 +17,42 @@
           .col-xs-12.col-sm-12.col-md-12
             span.rssi-info
               span.rssi-color-tag &nbsp;&#9679;
-              | RSSI: {{getLatestMeasurementEntry().rssi}} dB
+              | {{'RSSI' | translate}}: {{getLatestMeasurementEntry().rssi}} dB
             span.lqi-info
               span.lqi-color-tag &nbsp;&#9679;
-              | LQI: {{getLatestMeasurementEntry().lqi}}
+              | {{'LQI' | translate}}: {{getLatestMeasurementEntry().lqi}}
 
         .row
           .col-md-12.chart-area
             #chart-survey
         .row.no-print
           .col-md-12.survey-network-info
-            p Network ID: {{currentNetwork.extendedPanId}}, Joining is {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
-        .row.no-print
+            p {{'NETWORK_ID' | translate}}: {{currentNetwork.extendedPanId}},&nbsp;
+              span(ng-show="n.permitJoin === 'yes'") {{'JOINING_PERMITTED' | translate}}
+              span(ng-hide="n.permitJoin === 'yes'") {{'JOINING_NOT_ALLOWED' | translate}}
+
+              .row.no-print
           form.form
             .col-md-10
               .form-group
-                input.form-control#infoText(type='text' autocomplete='true' placeholder='Add your log info here' ng-model='currentLocation' ng-disabled='pause')
+                input.form-control#infoText(type='text' autocomplete='true' placeholder="{{'ADD_YOUR_LOG_INFO_HERE' | translate}}" ng-model='currentLocation' ng-disabled='pause')
             .col-md-2
-              button.btn.btn-default(type='submit' ng-click='addLog()' ng-disabled='pause') Add log entry
+              button.btn.btn-default(type='submit' ng-click='addLog()' ng-disabled='pause') {{'ADD_LOG_ENTRY' | translate}}
         .row
           .col-md-12
             div(ng-show='log.length')
               table.table.table-striped
                 thead
                   th
-                    span(ng-click="sortLog('ts', !reverse)") ts
+                    span(ng-click="sortLog('ts', !reverse)") {{'TIMESTAMP' | translate}}
                     //span.glyphicon.glyphicon-chevron-up(ng-click="sortLog('ts', false)")
                     //span.glyphicon.glyphicon-chevron-down(ng-click="sortLog('ts', true)")
                   th
-                    span(ng-click="sortLog('info', !reverse)") Info
+                    span(ng-click="sortLog('info', !reverse)") {{'INFO' | translate}}
                   th
-                    span(ng-click="sortLog('lqi', !reverse)") LQI
+                    span(ng-click="sortLog('lqi', !reverse)") {{'LQI' | translate}}
                   th
-                    span(ng-click="sortLog('rssi', !reverse)") RSSI
+                    span(ng-click="sortLog('rssi', !reverse)") {{'RSSI' | translate}}
                 tbody
                   tr(data-ng-repeat='n in log | orderBy:predicate:reverse')
                     td {{n.ts | date:'dd.MM.yyyy HH:mm:ss'}}

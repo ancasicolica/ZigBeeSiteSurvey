@@ -7,7 +7,7 @@
       .modal-header
         button(type="button" class="close" data-dismiss="modal" aria-label="Close")
           span(aria-hidden="true") &times;
-        h2(id='aboutLabel') About&nbsp;
+        h2(id='aboutLabel') {{'ABOUT' | translate}}&nbsp;
           span=title
       .modal-body
         if custom.aboutHtml
@@ -18,50 +18,50 @@
             // Nav tabs
             ul.nav.nav-tabs(role='tablist')
               li.active(role='presentation')
-                a(href='#info', aria-controls='home', role='tab', data-toggle='tab') Info
+                a(href='#info', aria-controls='home', role='tab', data-toggle='tab') {{'ABOUT.INFO' | translate}}
               li(role='presentation')
-                a(href='#licence', aria-controls='profile', role='tab', data-toggle='tab') Licence
+                a(href='#licence', aria-controls='profile', role='tab', data-toggle='tab') {{'ABOUT.LICENCE' | translate}}
             // Tab panes
             .tab-content
               #info.tab-pane.active(role='tabpanel')
-                p This tool is FREEWARE, please understand that I can only provide very limited support for it. Use it at your own risk.
-                p A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit the &nbsp;
-                  a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') ZigBee Site Survey GitHub page
-                  | &nbsp;for further details.
+                p {{'ABOUT.FREEWARE' | translate}}
+                p {{'ABOUT.RAPID_IS_NEEDED' | translate }} {{'ABOUT.PLEASE_VISIT_BEFORE_URL' | translate}} &nbsp;
+                  a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') {{'ABOUT.PLEASE_VISIT_URL' | translate}}
+                  | &nbsp;{{'ABOUT.PLEASE_VISIT_AFTER_URL' | translate}}
                 div
-                  | The ZigBee Site Survey Icon uses elements from a design of&nbsp;
+                  | {{'ABOUT.THIRD_PARTY_NOTICE' | translate}}&nbsp;
                   a(href='http://behance.net/pedronieto93', title='Pedro Nieto Villamandos' target='_blank') Pedro Nieto Villamandos
-                  |  from&nbsp;
+                  |  {{'ABOUT.FROM' | translate}}&nbsp;
                   a(href='http://www.flaticon.com', title='Flaticon' target='_blank') www.flaticon.com
-                  | &nbsp; is licensed under&nbsp;
-                  a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0' target='_blank') CC BY 3.0
+                  | &nbsp; {{'ABOUT.IS_LICENSED' | translate}}&nbsp;
+                  a(href='http://creativecommons.org/licenses/by/3.0/', title='Creative Commons BY 3.0' target='_blank') CC 3.0
 
-                h4 Tool Info
+                h4 {{'ABOUT.TOOL_INFO' | translate}}
                 table.table.table-condensed.table-info
                   tr
-                    td Version
+                    td {{'VERSION' | translate}}
                     td {{settings.version}}
                   tr
-                    td COM-Port
+                    td {{'ABOUT.COM_PORT' | translate}}
                     td {{getConnectedSerialPort()}}
                   tr
-                    td USB Dongle
+                    td {{'ABOUT.USB_DONGLE' | translate}}
                     td {{usbDongle.applicationType}}
                   tr
-                    td Hardware
+                    td {{'ABOUT.HARDWARE' | translate}}
                     td {{usbDongle.hardware}}
                   tr
-                    td Firmware
+                    td {{'ABOUT.FIRMWARE' | translate}}
                     td {{usbDongle.version}}
                   tr
-                    td Level for good quality
+                    td {{'ABOUT.LEVEL_GOOD' | translate}}
                     td {{settings.levels.good}}
                   tr
-                    td Level for poor quality
+                    td {{'ABOUT.LEVEL_POOR' | translate}}
                     td {{settings.levels.acceptable}}
                 h4 GitHub Repository:
-                  p
-                    a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') http://ancasicolica.github.io/ZigBeeSiteSurvey/
+                p
+                  a(href='http://ancasicolica.github.io/ZigBeeSiteSurvey/' target='_blank') http://ancasicolica.github.io/ZigBeeSiteSurvey/
               #licence.tab-pane(role='tabpanel')
                 pre.licence
                   p The MIT License (MIT)

@@ -3,7 +3,7 @@
 
 .wait-for-measurements(ng-hide='networks.length')
   .alert.alert-warning
-    |  Retrieving ZigBee networks, this takes only a few seconds... &nbsp;&nbsp;
+    |  {{'RETRIEVING_NETWORKS' | translate}}&nbsp;&nbsp;
     i.fa.fa-spinner.fa-spin
 
 div(ng-show='networks.length')
@@ -24,19 +24,20 @@ div(ng-show='networks.length')
             i.fa.fa-spinner.fa-spin
           .small-chart-area(id='chart-{{n.id}}' ng-show='n.chartGenerated')
           .row
-           .col-xs-6.col-sm-5.col-md-4 RSSI
+           .col-xs-6.col-sm-5.col-md-4 {{'RSSI' | translate}}
            .col-xs-6.col-sm-7.col-md-8 {{n.rssi}}
           .row
-            .col-xs-6.col-sm-5.col-md-4 LQI
+            .col-xs-6.col-sm-5.col-md-4 {{'LQI' | translate}}
             .col-xs-6.col-sm-7.col-md-8 {{n.lqi}}
           .row
-            .col-xs-6.col-sm-5.col-md-4 Channel
+            .col-xs-6.col-sm-5.col-md-4 {{'CHANNEL' | translate}}
             .col-xs-6.col-sm-7.col-md-8 {{n.channel}}
           .row
-            .col-xs-6.col-sm-5.col-md-4 PAN-ID
+            .col-xs-6.col-sm-5.col-md-4 {{'PAN_ID' | translate}}
             .col-xs-6.col-sm-7.col-md-8 {{n.panId}}
           .row
-            .col-md-12 Joining {{n.permitJoin === 'yes' ? 'permitted' : 'not allowed'}}
+            .col-md-12(ng-show="n.permitJoin === 'yes'") {{'JOINING_PERMITTED' | translate}}
+            .col-md-12(ng-hide="n.permitJoin === 'yes'") {{'JOINING_NOT_ALLOWED' | translate}}
 
 
 // button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks

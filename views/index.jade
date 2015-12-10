@@ -10,7 +10,7 @@ block content
           p
           .jumbotron
             h1=title
-            p Please connect a RapidConnect ZigBee USB Stick to your computer to continue...
+            p {{'PLEASE_INSERT_DONGLE' | translate}}
             p &nbsp;
             p
       .row(ng-show='surveyReady')
@@ -21,7 +21,7 @@ block content
       .row(ng-show='surveyReady')
         div(ng-hide='usbConnected')
           .alert.alert-danger
-            | No RapidConnect USB dongle found, scanning is disabled!
+            | {{'SCANNING_IS_DISABLED' | translate}}
         div(ng-show='panel==="networks"')
           include networks
         div(ng-show='panel==="survey"')
@@ -30,9 +30,9 @@ block content
 
       .row.no-print(ng-show='surveyReady')
         .col-md-12.info-bar
-           | Version {{settings.version}},&nbsp
+           | {{'VERSION' | translate}} {{settings.version}},&nbsp
            a.info-bar(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
              i.glyphicon.glyphicon-info-sign
-             | &nbsp;Help and Information
+             | &nbsp;{{'HELP_AND_INFO' | translate}}
 
 
