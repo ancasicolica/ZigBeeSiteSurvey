@@ -18,6 +18,9 @@ default value is _true_.
 ###title
 Override the app name displayed in the title and the web browser tab.
 
+###texts
+Use your own translation for the tool. Just use the same JSON structure as you find in texts.js. If the path (relative to public) is not defined, the built-in languages will be used.
+
 ###css
 Define the path to your CSS stylesheet. This is the path as used from the web browser.
 
@@ -39,19 +42,21 @@ device with a matching MAC address was found. Group the address into four charac
 ##Sample settings.js
     {
       "enabled": true,
-      "css": "/custom/mystyle.css",
+      "css": "/custom/kaba.css",
       "useOwnAboutDialog": true,
       "faviconPath": "/custom/favicon",
-      "logo": "/custom/logo.png",
+      "logo": "/custom/Kaba_Tagline_Bottom_RGB.png",
       "devices": [
         {
-          "macAddress": "0044 BC",
-          "label": "My Device"
+          "macAddress": "0015 BC",
+          "label": "Kaba Gateway"
         },
         {
-          "macAddress": "2F9E",
+          "macAddress": "2F9Ex",
           "label": "Philips Hue"
         }
       ],
-      "title": "ZigBee Site Survey"
+      "title": "ZigBee Site Survey",
+      "texts": "/custom/texts.json"
     }
+

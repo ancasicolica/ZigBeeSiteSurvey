@@ -37,6 +37,7 @@ var settingsRoute = require('./routes/settings');
 var scannerRoute = require('./routes/scanner');
 var networksRoute = require('./routes/networks');
 var resetRoute = require('./routes/reset');
+var textRoute = require('./routes/texts');
 var determineDongleType = require('./lib/tasks/determineDongleType');
 var socket = require('./lib/socket');
 var bodyParser = require('body-parser');
@@ -66,6 +67,7 @@ app.use('/settings', settingsRoute);
 app.use('/scanner', scannerRoute);
 app.use('/networks', networksRoute);
 app.use('/reset', resetRoute);
+app.use('/texts', textRoute);
 
 
 socket.init(app.listen(settings.port));

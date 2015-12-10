@@ -3,109 +3,23 @@
  * Created by kc on 25.06.15.
  */
 'use strict';
-var texts = {
-  VERSION: 'Version',
-  PLEASE_INSERT_DONGLE: 'Please connect a RapidConnect ZigBee USB Stick to your computer to continue...',
-  SCANNING_IS_DISABLED: 'No RapidConnect USB dongle found, scanning is disabled!',
-  RETRIEVING_NETWORKS: 'Retrieving ZigBee networks, this takes only a few seconds...',
-  HELP_AND_INFO: 'Help and Information',
-  RSSI: 'RSSI',
-  LQI: 'LQI',
-  CHANNEL: 'Channel',
-  PAN_ID: 'PAN-ID',
-  JOINING_PERMITTED: 'Joining is permitted',
-  JOINING_NOT_ALLOWED: 'Joining is not allowed',
-  ZIGBEE_NETWORKS: 'ZigBee Networks',
-  ON_CHANNEL: 'on channel',
-  NETWORK_ID: 'Network ID',
-  ADD_YOUR_LOG_INFO_HERE: 'Add your log info here',
-  ADD_LOG_ENTRY: 'Add log entry',
-  INFO: 'Info',
-  TIMESTAMP: 'Time',
-  DOWNLOAD_ALL_CSV: 'Download all data as CSV',
-  DOWNLOAD_LOG_CSV: 'Download log as CSV',
-  PRINT_PAGE: 'Print page',
-  RETURN_TO_NETWORK_LIST: 'Return to network list',
-  CONTINUE: 'Continue measurement',
-  PAUSE: 'Pause measurement',
-  ABOUT: {
-    ABOUT:'About',
-    FREEWARE: 'This tool is FREEWARE, please understand that I can only provide very limited support for it. Use it at your own risk.',
-    RAPID_IS_NEEDED: 'A RapidConnect ZigBee USB stick from MMB Networks must be connected in order to run this tool',
-    PLEASE_VISIT_BEFORE_URL:'Please visit the',
-    PLEASE_VISIT_URL: 'ZigBee Site Survey GitHub page',
-    PLEASE_VISIT_AFTER_URL: 'for further details.',
-    THIRD_PARTY_NOTICE: 'The ZigBee Site Survey Icon uses elements from a design of',
-    FROM: 'from',
-    IS_LICENSED: 'is licensed under',
-    TOOL_INFO: 'Tool Info',
-    COM_PORT: 'COM-Port',
-    USB_DONGLE: 'USB Dongle',
-    HARDWARE: 'Hardware',
-    FIRMWARE: 'Firmware',
-    LEVEL_GOOD: 'Level for good quality',
-    LEVEL_POOR: 'Level for poor quality',
-    INFO: 'Info',
-    LICENCE: 'License'
-
-  }
-};
-
-var german = {
-  VERSION: 'Version',
-  RETRIEVING_NETWORKS: 'Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...',
-  HELP_AND_INFO: 'Hilfe und Information',
-  RSSI: 'RSSI',
-  PLEASE_INSERT_DONGLE: 'Bitte den RapidConnect ZigBee USB Stick anschliessen...',
-  SCANNING_IS_DISABLED: 'Kein Rapid Connect USB Adapter gefunden, Netzwerksuche ist unterbrochen!',
-  LQI: 'LQI',
-  CHANNEL: 'Kanal',
-  PAN_ID: 'PAN-ID',
-  JOINING_PERMITTED: 'Joining ist deaktiviert',
-  JOINING_NOT_ALLOWED: 'Joining ist aktiv',
-  ZIGBEE_NETWORKS: 'ZigBee Netzwerke',
-  ON_CHANNEL: 'auf Kanal',
-  NETWORK_ID: 'Netzwerk-ID',
-  ADD_YOUR_LOG_INFO_HERE: 'Log-Text hier eingeben',
-  ADD_LOG_ENTRY: 'Eintrag hinzufügen',
-  INFO: 'Info',
-  TIMESTAMP: 'Zeit',
-  DOWNLOAD_ALL_CSV: 'Daten als CSV laden',
-  DOWNLOAD_LOG_CSV: 'Log als CSV laden',
-  PRINT_PAGE: 'Seite drucken',
-  RETURN_TO_NETWORK_LIST: 'Zurück zur Netzwerkliste',
-  CONTINUE: 'Messung aufnehmen',
-  PAUSE: 'Messung pausieren',
-  ABOUT: {
-    ABOUT:'Über',
-    FREEWARE: 'Dieses Tool ist FREEWARE, bitte respektieren Sie, dass ich für Support nur sehr beschränkt Zeit aufwenden kann. Die Benutzung erfolgt auf eigene Gefahr.',
-    RAPID_IS_NEEDED: 'Ein RapidConnect ZigBee USB stick der Firma MMB Networks ist für den Betrieb des Tools notwendig.',
-    PLEASE_VISIT_BEFORE_URL:'Bitte besuchen Sie die',
-    PLEASE_VISIT_URL: 'ZigBee Site Survey GitHub page',
-    PLEASE_VISIT_AFTER_URL: ' (Englischer Inhalt) für weitere Informationen.',
-    THIRD_PARTY_NOTICE: 'Das ZigBee Site Survey Icon benutzt Elemente eines Designs von',
-    FROM: 'von',
-    IS_LICENSED: 'ist lizenziert unter',
-    TOOL_INFO: 'Tool Info',
-    COM_PORT: 'COM-Port',
-    USB_DONGLE: 'USB Dongle',
-    HARDWARE: 'Hardware',
-    FIRMWARE: 'Firmware',
-    LEVEL_GOOD: 'Schwelle gute Qualität',
-    LEVEL_POOR: 'Schwelle mässige Qualität',
-    INFO: 'Info',
-    LICENCE: 'Lizenz'
-  }
-};
 
 var app = angular.module('surveyApp', ['ngSanitize', 'ngCsv', 'pascalprecht.translate']);
 
 app.config(['$translateProvider', function ($translateProvider) {
   // add translation table
-  $translateProvider
-    .translations('en', texts)
-    .translations('de', german)
-    .preferredLanguage('en');
+  console.log('Loading Languages Version ' + txt.version);
+  for (var i = 0; i < txt.sets.length; i++) {
+    for (var t= 0; t < txt.sets[i].languageCodes.length; t++) {
+      console.log('Adding ' + txt.sets[i].languageCodes[t]);
+      $translateProvider.translations(txt.sets[i].languageCodes[t], txt.sets[i].text);
+    }
+  }
+  //$translateProvider.preferredLanguage(txt.default);
+  $translateProvider.fallbackLanguage(txt.default);
+  $translateProvider.determinePreferredLanguage();
+
+
   $translateProvider.useSanitizeValueStrategy(null);
 }]);
 
@@ -116,6 +30,8 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
       max: 0
     }
   };
+
+  console.log('Translation used:' + $translate.use());
   $translate('PAUSE').then(function (text) {
     $scope.TXT_PAUSE = text;
   });
