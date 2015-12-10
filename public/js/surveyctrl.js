@@ -59,6 +59,16 @@ surveyControl.controller('surveyCtrl', ['$scope', '$http', function ($scope, $ht
     }
   }
 
+
+  /**
+   * Closes (removes) a network from the overview. Note that a network is displayed again when it was found.
+   * @param network
+   */
+  $scope.closeNetwork = function(network) {
+    _.pull($scope.networks, network);
+  };
+
+
   /**
    * Receiving the network data
    * @param info

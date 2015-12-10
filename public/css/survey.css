@@ -39,6 +39,7 @@ svg {
 .network-title-controls {
     position : absolute;
     right    : 0;
+    display: inline-block;
 }
 
 h1.main-title {
@@ -170,3 +171,4 @@ path.c3-line-lqi {
     width : 80%;
 
 }
+
