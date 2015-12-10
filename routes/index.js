@@ -10,8 +10,9 @@ var settings = require('../settings');
 var fs = require('fs');
 var path = require('path');
 var jade = require('jade');
-var customAbout = false;
+var logger = require('../lib/logger').getLogger('routes:index');
 
+var customAbout = false;
 settings.custom = settings.custom || {};
 settings.custom.faviconPath = settings.custom.faviconPath || '/favicon';
 settings.custom.title = settings.custom.title || 'ZigBee Site Survey';
@@ -36,13 +37,22 @@ if (settings.custom && settings.custom.enabled) {
 /* GET home page. */
 router.get('/', function (req, res) {
 
+  // we've got some performance problems, until they are solved, let this debug infos here
+  logger.debug('******************** getting / start');
   // Render just in time (allow changes while tool is running
   if (customAbout) {
     settings.custom.aboutHtml = jade.renderFile(aboutFile, {});
   }
-
-  res.render('index', {title: settings.custom.title, custom: settings.custom});
+  logger.debug('******************** rendering /', settings);
+  var html = jade.renderFile(path.join(__dirname, '..', 'views', 'index.jade'), {
+    title: settings.custom.title,
+    custom: settings.custom
+  });
+  logger.debug('******************** send /');
+  res.send(html);
+  logger.debug('******************** scanning /');
   scanner.enable();
+  logger.debug('******************** getting / end');
 });
 
 module.exports = router;
