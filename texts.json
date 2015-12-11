@@ -1,9 +1,9 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "default": "en",
   "sets": [
     {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "languageCodes": [
         "de", "de_CH", "de_AT", "de_DE"
       ],
@@ -17,8 +17,8 @@
         "LQI": "LQI",
         "CHANNEL": "Kanal",
         "PAN_ID": "PAN-ID",
-        "JOINING_PERMITTED": "Joining ist deaktiviert",
-        "JOINING_NOT_ALLOWED": "Joining ist aktiv",
+        "JOINING_PERMITTED": "Joining ist möglich",
+        "JOINING_NOT_ALLOWED": "Joining ist nicht erlaubt",
         "ZIGBEE_NETWORKS": "ZigBee Netzwerke",
         "ON_CHANNEL": "auf Kanal",
         "NETWORK_ID": "Netzwerk-ID",
