@@ -39,7 +39,7 @@ svg {
 .network-title-controls {
     position : absolute;
     right    : 0;
-    display: inline-block;
+    display  : inline-block;
 }
 
 h1.main-title {

@@ -10,7 +10,7 @@ app.config(['$translateProvider', function ($translateProvider) {
   // add translation table
   console.log('Loading Languages Version ' + txt.version);
   for (var i = 0; i < txt.sets.length; i++) {
-    for (var t= 0; t < txt.sets[i].languageCodes.length; t++) {
+    for (var t = 0; t < txt.sets[i].languageCodes.length; t++) {
       console.log('Adding ' + txt.sets[i].languageCodes[t]);
       $translateProvider.translations(txt.sets[i].languageCodes[t], txt.sets[i].text);
     }
@@ -91,7 +91,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * Closes (removes) a network from the overview. Note that a network is displayed again when it was found.
    * @param network
    */
-  $scope.closeNetwork = function(network) {
+  $scope.closeNetwork = function (network) {
     _.pull($scope.networks, network);
   };
 
