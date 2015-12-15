@@ -92,7 +92,10 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * @param network
    */
   $scope.closeNetwork = function (network) {
-    _.pull($scope.networks, network);
+    $http.post('/networks/remove/' + network.extendedPanId).success(function() {
+      // we don't care about return values and errors here
+      _.pull($scope.networks, network);
+    });
   };
 
 

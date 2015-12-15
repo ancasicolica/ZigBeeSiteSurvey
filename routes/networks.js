@@ -48,4 +48,12 @@ router.get('/scan', function (req, res) {
   });
 });
 
+/**
+ * Removes a network from the pool
+ */
+router.post('/remove/:extendedPanId', function(req, res) {
+  networkPool.remove(req.params.extendedPanId);
+  res.send({numberOfNetworks: networkPool.getNetworks().length});
+});
+
 module.exports = router;
