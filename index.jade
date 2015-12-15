@@ -1,0 +1,225 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    meta(name='description', content='Zigbeesitesurvey: A node.js based tool for ZigBee measurements')
+    link(rel='stylesheet', type='text/css', media='screen', href='stylesheets/stylesheet.css')
+    title ZigBee Site Survey Tool
+  body
+    // HEADER
+    #header_wrap.outer
+      header.inner
+        a#forkme_banner(href='https://github.com/ancasicolica/ZigBeeSiteSurvey') View on GitHub
+        h1#project_title ZigBee Site Survey Tool
+        h2#project_tagline A node.js based tool for ZigBee measurements
+        section#downloads
+          a.zip_download_link(href='https://github.com/ancasicolica/ZigBeeSiteSurvey/releases/latest')
+            | Download
+            | this project as a .zip file
+          a.tar_download_link(href='https://github.com/ancasicolica/ZigBeeSiteSurvey/releases/latest')
+            | Download
+            | this project as a tar.gz file
+    // MAIN CONTENT
+    #main_content_wrap.outer
+      section#main_content.inner
+        h1
+          a#zigbee-site-survey-tool.anchor(href='#zigbee-site-survey-tool', aria-hidden='true')
+            span.octicon.octicon-link
+          | ZigBee Site Survey tool
+        p
+          | A node.js tool for ZigBee range measurements using a RapidConnect USB stick from&nbsp;
+          a(href='http://mmbnetworks.com/') MMB Networks
+          | . This tool was just a proof-of-concept and there were
+          |             no intentions to maintain it for a long time. But whenever you create something others consider as useful, you can't hide...
+        p
+          | Using this tool you can scan the RSSI/LQI values for all ZigBee networks in your area (you don't have to join
+          | them, just being in range is enough) and log the RSSI/LQI values for a specific network. This is very
+          | helpful if you experience connectivity problems with your ZigBee network.
+        h2 Screenshots
+        figure
+          img(src='images/zigbee_site_survey_networks.png' width='90%')
+          figcaption The main screen, displaying all networks found
+        figure
+          img(src='images/zigbee_site_survey_detail.png' width='90%')
+          figcaption Scanning one specific network over the time
+        h2 Releases-Notes and Downloads
+        p
+          | Visit the
+          a(href='https://github.com/ancasicolica/ZigBeeSiteSurvey/releases')  download page
+          |  for the release notes and downloading a release.
+        h2
+          a#installation.anchor(href='#installation', aria-hidden='true')
+            span.octicon.octicon-link
+          | Installation
+        h3
+          a#prerequisites.anchor(href='#prerequisites', aria-hidden='true')
+            span.octicon.octicon-link
+          | Prerequisites
+        p
+          | This tool requires a current node.js release (node 4 and higher, the LTS version 4 is recommended and the only tested version) and a ready to operate RapidConnect USB dongle. There are two
+          | different dongles available:
+        ul
+          li
+            strong Z357PA30-USB-P-NC-N-X
+            | : this is the ZigBee HA (HomeAutomation) version. Recommended as future extensions are probably only supported by this type.
+          li
+            strong Z357PA22-USB-P-TC-N-C
+            | : this is the ZigBee SE (SmartEnergy) version.
+
+        p The dongles are available from a distributor like Avnet.
+        h4 Operating Systems
+        |         The tool was tested with the following operating systems:
+        ul
+          li Mac OS X 10.10/10.11
+          li Windows 7 (64 Bit)
+          li Windows 8.1
+          li Windows 10
+          li Ubuntu 14.04
+          li Raspberry Pi 2 with Raspbian
+        p
+          | It runs best using the Google Chrome browser but other modern browsers like Firefox or Opera should work as well. Some people also state that the tool works with the Internet Explorer, but using this browser is not recommended anyway.
+        h3
+          a#step-by-step-installation-mac.anchor(href='#step-by-step-installation-mac', aria-hidden='true')
+            span.octicon.octicon-link
+          | Installation for Mac OS X and Windows 7/8/10 64 Bit
+        ul
+          li
+            | Download the latest release of the ZigBee Survey Tool (the binaries, not the sources) build, extract it to a location of your choice. Windows users should use a short root path (e.g. "C:\zigbee") as there are issues with Windows Explorer: the length of the folder structure exceeds 255 characters.
+          li
+            | Install the drivers obtained from&nbsp;
+            a(href='http://mmbnetworks.com/downloads/') MMB Networks
+            |  webpage for the USB
+            |               dongle and attach it.
+        h3
+          a#homemade.anchor(href='#homemade', aria-hidden='true')
+            span.octicon.octicon-link
+          | Homemade build (Mac, Linux and Windows)
+        |         If you want to build the tool on your own, you need some additional development tools on your machine in order to compile the native sources. Check&nbsp;
+        a(href='https://github.com/TooTallNate/node-gyp/', target='_blank') TooTallNates node-gyp page
+        |  for the tools needed for your operating system before
+        |         running
+        code npm install
+        | .
+        h4 Raspberry Pi Notes
+        |         Install libudev-dev before running npm install:
+        code sudo apt-get install libudev-dev
+        | . The USB dongle
+        |         does not need a driver for the Raspberry Pi. Connect the Raspberry Pi with the network and connect to the
+        |         webserver using a tablet or smartphone.
+        h2
+          a#run-the-tool.anchor(href='#run-the-tool', aria-hidden='true')
+            span.octicon.octicon-link
+          | Run the tool
+        p Just start the tool using the command line
+        pre node server.js
+        p
+          | If the environment variable SIMULATOR is set to true, simple simulated data is used. This mode enables
+          | debugging the UI without
+          | a ZigBee network or hardware.
+        p
+          | Open the URL supplied in the console in your web browser (defaults: simulator: http://localhost:2999, real:
+          a(href='http://localhost:2998', target='_blank') http://localhost:2998
+          | )
+        h2
+          a#usage.anchor(href='#usage', aria-hidden='true')
+            span.octicon.octicon-link
+          | Usage
+        p
+          | The first page shows all networks in range, updating the list continuously.  If you select a network
+          | by clicking on its extended
+          | PAN-ID, the second page opens with detailed data about the selected network.
+        p
+          | Use the log field to enter some data (e.g. 'Room 201') and press the button right of the input. This logs the
+          | measurement and adds
+          | it to the list.
+        p
+          | After finishing your survey, print the page (generate a PDF) and return to the main page. The other networks
+          | are not scanned while analyzing a specific one.
+        h2
+          a#techs.anchor(href='#techs', aria-hidden='true')
+            span.octicon.octicon-link
+          | Technical information
+        p The tool sends periodically a 'Beacon Request', which is a broadcast targeting all active devices on the channel. This includes ZigBee coordinators and routers.
+          | When such a device receives the beacon request, it responses with a 'Beacon' (or as some say, with a 'Beacon Response'). This response contains the following information:
+        ul
+          li PAN ID ('Personal Area Network' ID), a 16 bit long identifier which is unique for each ZigBee channel.
+          li Extended PAN ID, the 'MAC-Address' of the ZigBee device. The first few bytes identify the manufacturer of the device.
+          li Permit association: flag whether new devices can join a network or not.
+          li ZigBee Protocol and stack information
+          li Routing and Coordinator capabilities
+          li ... and many things more, see the screenshot below
+        p The software on the USB dongle gets the signal strength of the received beacon response which is displayed then in the tool.
+        h3 Captured frames of a Beacon Request and Beacon
+        figure
+          img(src='images/BeaconRequest.PNG')
+          figcaption A Beacon Request
+        figure
+          img(src='images/BeaconResponseCoordinator.PNG')
+          figcaption A Beacon response from a coordinator
+        h2
+          a#custom-options.anchor(href='#custom-options', aria-hidden='true')
+            span.octicon.octicon-link
+          | Customize this tool
+        p The ZigBee Site Survey tool can be customized with own CSS rules and about dialog. Just follow the instructions
+          | in the&nbsp;
+          a(href='https://github.com/ancasicolica/ZigBeeSiteSurvey/blob/master/Customizing.md' target='_blank') Customizing ReadMe file.
+        p Feel free to add your logo and styles. But if you supply this tool to your customers, please also supply a
+          | support hotline for them as I won't be able to spend time for this. Thanks.
+        h2
+          a#configuration-options.anchor(href='#configuration-options', aria-hidden='true')
+            span.octicon.octicon-link
+          | Configuration options
+        p See settings.js for the options available.
+        h2
+          a#license.anchor(href='#license', aria-hidden='true')
+            span.octicon.octicon-link
+          | License
+        p
+        h3 The MIT License (MIT)
+        |         Copyright © 2015 Christian Kuster, CH-8342 Wernetshausen
+        br
+        br
+        |         Permission is hereby granted, free of charge, to any person obtaining a copy
+        |         of this software and associated documentation files (the "Software"), to deal
+        |         in the Software without restriction, including without limitation the rights
+        |         to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        |         copies of the Software, and to permit persons to whom the Software is
+        |         furnished to do so, subject to the following conditions:
+        br
+        br
+        |         The above copyright notice and this permission notice shall be included in all
+        |         copies or substantial portions of the Software.
+        br
+        br
+        |         THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        |         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        |         FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        |         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        |         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        |         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        |         SOFTWARE.
+        p
+    // FOOTER
+    #footer_wrap.outer
+      footer.inner
+        p.copyright
+          | ZigBeeSiteSurvey is maintained by
+          a(href='https://github.com/ancasicolica') Christian Kuster
+        p
+          | Published with
+          a(href='https://pages.github.com') GitHub Pages
+    script.
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                  (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-58163984-3', 'auto');
+      ga('send', 'pageview');
