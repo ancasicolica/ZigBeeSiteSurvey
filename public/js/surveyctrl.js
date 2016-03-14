@@ -18,11 +18,13 @@ app.config(['$translateProvider', function ($translateProvider) {
   //$translateProvider.preferredLanguage(txt.default);
   $translateProvider.fallbackLanguage(txt.default);
   $translateProvider.determinePreferredLanguage();
-
-
   $translateProvider.useSanitizeValueStrategy(null);
 }]);
 
+
+/**
+ * The angular survey controller
+ */
 app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope, $http, $translate) {
   $scope.settings = {
     levels: {
@@ -74,30 +76,21 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
 
     socket.on('networks', $scope.updateNetworkData);
     socket.on('network', $scope.updateSurveyData);
+
+    // Just for tests now, go directly to the network page
+    //$scope.scanWifi();
   });
-
-  /**
-   * Converts the timestamps of one specific networks (from string to date)
-   * @param network
-   */
-  function convertTimeStampInNetwork(network) {
-    for (var t = 0; t < network.history.length; t++) {
-      network.history[t].ts = new Date(network.history[t].ts);
-    }
-  }
-
 
   /**
    * Closes (removes) a network from the overview. Note that a network is displayed again when it was found.
    * @param network
    */
   $scope.closeNetwork = function (network) {
-    $http.post('/networks/remove/' + network.extendedPanId).success(function() {
+    $http.post('/networks/remove/' + network.extendedPanId).success(function () {
       // we don't care about return values and errors here
       _.pull($scope.networks, network);
     });
   };
-
 
   /**
    * Receiving the network data
@@ -113,102 +106,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
 
     $http.get('/networks')
       .success(function (networks) {
-        for (var i = 0; i < networks.length; i++) {
-          var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
-          if (!network) {
-            network = networks[i];
-            console.log('INIT CHART ', '#chart-' + network.id);
-            convertTimeStampInNetwork(network);
-            // We can't generate the chart right here, as the chart area does currently not exist.
-            // Set flag that chart has to be generated before loading data
-            network.chartGenerated = false;
-            $scope.networks.push(network);
-          }
-          else {
-            network.rssi = networks[i].rssi;
-            network.lqi = networks[i].lqi;
-            network.found = true;
-            network.ts = new Date(networks[i].ts);
-            network.history = networks[i].history;
-            convertTimeStampInNetwork(network);
-            console.log(network);
-            if (network.chartGenerated) {
-              // Chart was generated before, just load the data
-              network.chart.load({
-                json: network.history,
-                keys: {
-                  x: 'ts',
-                  value: ['rssi']
-                }
-              });
-            }
-            else {
-              // Generate chart first
-              convertTimeStampInNetwork(network);
-              network.chart = c3.generate({
-                bindto: '#chart-' + network.id,
-
-                data: {
-                  json: network.history,
-                  keys: {
-                    x: 'ts',
-                    value: ['rssi']
-                  },
-                  names: {
-                    rssi: 'RSSI'
-                  },
-                  type: 'line'
-                },
-                transition: {
-                  duration: 0
-                },
-                axis: {
-                  x: {
-                    type: 'timeseries',
-                    tick: {
-                      format: '%H:%M:%S'
-                    }
-                  },
-                  y: {
-                    max: $scope.settings.levels.max,
-                    min: $scope.settings.levels.min,
-                    tick: {
-                      format: function (d) {
-                        return d + ' dB';
-                      }
-                    },
-                    padding: {top: 0, bottom: 0}
-                  }
-                },
-                regions: [
-                  {
-                    axis: 'y',
-                    start: $scope.settings.levels.min - 10,
-                    end: $scope.settings.levels.acceptable,
-                    class: 'region-bad'
-                  },
-                  {
-                    axis: 'y',
-                    start: $scope.settings.levels.acceptable,
-                    end: $scope.settings.levels.good,
-                    class: 'region-acceptable'
-                  },
-                  {
-                    axis: 'y',
-                    start: $scope.settings.levels.good,
-                    end: $scope.settings.levels.max,
-                    class: 'region-good'
-                  }
-                ],
-                zoom: { // do not zoom in overview
-                  enabled: false
-                }
-              });
-              network.chartGenerated = true;
-            }
-          }
-        }
-
+        createNetworkCharts(networks, $scope);
         $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
       })
       .error(function (resp) {
@@ -279,8 +177,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
           $scope.surveyReady = true;
         }
       }
-    }).
-    error(function (data, status) {
+    }).error(function (data, status) {
       $scope.startingUp = false;
       console.log('error:');
       console.log(data);
@@ -311,93 +208,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.panel = 'survey';
         $scope.measurements = networkInfo.history || [];
         $scope.log = [];
-
-        // Convert timestamp
-        for (var i = 0; i < $scope.measurements.length; i++) {
-          $scope.measurements[i].ts = new Date($scope.measurements[i].ts);
-        }
-
-        /* RSSI CHART */
-        $scope.chartSurvey = c3.generate({
-          bindto: '#chart-survey',
-          size: {
-            height: 400
-          },
-          data: {
-            json: $scope.measurements,
-            keys: {
-              x: 'ts',
-              value: ['lqi', 'rssi']
-            },
-            type: 'line',
-            types: {
-              'lqi': 'step'
-            },
-            axes: {
-              'lqi': 'y2',
-              'rssi': 'y'
-            },
-            names: {
-              rssi: 'RSSI',
-              lqi: 'LQI'
-            },
-            colors: {
-              rssi: 'blue',
-              lqi: 'plum'
-            }
-          },
-          axis: {
-            x: {
-              type: 'timeseries',
-              tick: {
-                format: '%H:%M:%S'
-              }
-            },
-            y: {
-              max: $scope.settings.levels.max,
-              min: $scope.settings.levels.min,
-              label: 'RSSI',
-              tick: {
-                format: function (d) {
-                  return d + ' dB';
-                }
-              },
-              padding: {top: 0, bottom: 0}
-            },
-            y2: {
-              max: 255,
-              min: 0,
-              label: 'LQI',
-              show: true
-            }
-          },
-          regions: [
-            {
-              axis: 'y',
-              start: $scope.settings.levels.min - 10,
-              end: $scope.settings.levels.acceptable,
-              class: 'region-bad'
-            },
-            {
-              axis: 'y',
-              start: $scope.settings.levels.acceptable,
-              end: $scope.settings.levels.good,
-              class: 'region-acceptable'
-            },
-            {
-              axis: 'y',
-              start: $scope.settings.levels.good,
-              end: $scope.settings.levels.max,
-              class: 'region-good'
-            }
-          ],
-          zoom: { // Zoom is marked as experimental, still use it
-            enabled: true
-          },
-          point: {
-            show: false
-          }
-        });
+        createSurveyChart($scope);
 
       })
       .error(function (info) {
@@ -414,6 +225,30 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.panel = 'networks';
       });
   };
+
+  /**
+   * Scan wifis, display the coexistence of wifi and ZigBee
+   */
+  $scope.scanWifi = function () {
+    updateWifiNetworks();
+    $scope.panel = 'wifi';
+  };
+
+  /**
+   * Scan the wifi networks
+   */
+  function updateWifiNetworks() {
+    $http({method: 'GET', url: '/wifi'}).then(
+      function (resp) {
+        // Success
+        console.log('Wifi scanned', resp);
+      },
+      function (resp) {
+        // Error
+        console.error(resp);
+      }
+    );
+  }
 
   /**
    * Add a log entry
