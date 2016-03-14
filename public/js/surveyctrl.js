@@ -78,7 +78,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     socket.on('network', $scope.updateSurveyData);
 
     // Just for tests now, go directly to the network page
-    //$scope.scanWifi();
+    $scope.activateWifiPanel();
   });
 
   /**
@@ -98,20 +98,36 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    */
   $scope.updateNetworkData = function (info) {
     console.log('Networks updated: ', info);
-    if ($scope.panel !== 'networks') {
-      // don't care about it
-      console.warn('Networks not updated, wrong panel');
-      return;
-    }
 
-    $http.get('/networks')
-      .success(function (networks) {
-        createNetworkCharts(networks, $scope);
-        $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
-      })
-      .error(function (resp) {
-        console.warn(resp);
-      });
+    switch ($scope.panel) {
+      case 'networks':
+        $http({method: 'GET', url: '/networks'}).then(
+          function (resp) {
+            createNetworkCharts(resp.data, $scope);
+            $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
+          },
+          function (resp) {
+            console.error(resp);
+          }
+        );
+        break;
+
+      case 'wifi':
+        $http({method: 'GET', url: '/networks'}).then(
+          function (resp) {
+            $scope.zigBeeNetworks = resp.data;
+            createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
+          },
+          function (resp) {
+            console.error(resp);
+          }
+        );
+        break;
+
+      default:
+        console.warn('Networks not updated, wrong panel');
+        break;
+    }
   };
 
   /**
@@ -229,7 +245,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
   /**
    * Scan wifis, display the coexistence of wifi and ZigBee
    */
-  $scope.scanWifi = function () {
+  $scope.activateWifiPanel = function () {
     updateWifiNetworks();
     $scope.panel = 'wifi';
   };
@@ -241,6 +257,8 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     $http({method: 'GET', url: '/wifi'}).then(
       function (resp) {
         // Success
+        $scope.wifiNetworks = resp.data.networks;
+        createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
         console.log('Wifi scanned', resp);
       },
       function (resp) {
