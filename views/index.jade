@@ -26,6 +26,8 @@ block content
           include networks
         div(ng-show='panel==="survey"')
           include survey
+        div(ng-show='panel==="wifi"')
+          include wifi
 
 
       .row.no-print(ng-show='surveyReady')
