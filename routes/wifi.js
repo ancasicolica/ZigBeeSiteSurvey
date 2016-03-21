@@ -54,33 +54,41 @@ router.get('/spectrum', (req, res) => {
       return res.status(500).send({message: err.message});
     }
 
-    // Don't care about networks outside the 2.4GHz range
-    networks = _.filter(networks, n => {
-      return wifiFrequencies[n.channel]
-    });
+    // Result: array with 2.4GHz networks
+    var net24 = [];
 
     var i = 0;
     networks.forEach(n => {
-      i++;
-      console.log('Wifi network', n);
-      // Convert integers to integers (as they should be already...)
-      console.log(n);
-      n.channel = parseInt(n.channel, 10);
-      n.signal_level = parseInt(n.signal_level, 10);
-      console.log('-------------------');
 
-      var chartData = spectrumChart({
-        frequency: wifiFrequencies[n.channel],
-        bandwith: wifiBandwith,
-        amplitude: n.signal_level + 100,
-        freqColName: 'xWifi' + i,
-        amplColName: 'dataWifi' + i
-      });
-      n.x = chartData.x;
-      n.data = chartData.data;
-      n.index = i;
+      // If there is a mixed value (like 9,-1), fix it
+      if (n.channel.indexOf(',') > 0) {
+        n.channel = n.channel.split(',')[0];
+      }
+
+      // We concern only about 2.4 GHz networks
+      if (wifiFrequencies[n.channel]) {
+        i++;
+        console.log('Wifi network', n);
+        // Convert integers to integers (as they should be already...)
+        console.log(n);
+        n.channel = parseInt(n.channel, 10);
+        n.signal_level = parseInt(n.signal_level, 10);
+        console.log('-------------------');
+
+        var chartData = spectrumChart({
+          frequency: wifiFrequencies[n.channel],
+          bandwith: wifiBandwith,
+          amplitude: n.signal_level + 100,
+          freqColName: 'xWifi' + i,
+          amplColName: 'dataWifi' + i
+        });
+        n.x = chartData.x;
+        n.data = chartData.data;
+        n.index = i;
+        net24.push(n);
+      }
     });
-    res.send({status: 'ok', networks: networks});
+    res.send({status: 'ok', networks: net24});
   });
 });
 
