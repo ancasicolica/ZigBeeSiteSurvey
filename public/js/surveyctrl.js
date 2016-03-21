@@ -42,6 +42,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
   });
 
   $scope.panel = 'networks';
+
   $scope.networks = [];
   $scope.measurements = [];
   $scope.chartSurvey = {};
@@ -77,7 +78,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     socket.on('networks', $scope.updateNetworkData);
     socket.on('network', $scope.updateSurveyData);
 
-    // Just for tests now, go directly to the network page
+    // Just for demo / tests now, go directly to the network page
     $scope.activateWifiPanel();
   });
 
@@ -224,6 +225,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.panel = 'survey';
         $scope.measurements = networkInfo.history || [];
         $scope.log = [];
+        console.log(networkInfo);
         createSurveyChart($scope);
 
       })
@@ -254,12 +256,16 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * Scan the wifi networks
    */
   function updateWifiNetworks() {
-    $http({method: 'GET', url: '/wifi'}).then(
+    $http({method: 'GET', url: '/wifi/spectrum'}).then(
       function (resp) {
         // Success
         $scope.wifiNetworks = resp.data.networks;
         createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
         console.log('Wifi scanned', resp);
+        if ( $scope.panel === 'wifi') {
+          _.delay(updateWifiNetworks, 100);
+        }
+
       },
       function (resp) {
         // Error
