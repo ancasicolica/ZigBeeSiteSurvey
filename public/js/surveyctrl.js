@@ -114,10 +114,10 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         break;
 
       case 'wifi':
-        $http({method: 'GET', url: '/networks'}).then(
+        $http({method: 'GET', url: '/networks/spectrum'}).then(
           function (resp) {
             $scope.zigBeeNetworks = resp.data;
-            createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
+            createWifiChart($scope.zigBeeNetworks.networks, $scope.wifiNetworks, $scope);
           },
           function (resp) {
             console.error(resp);
