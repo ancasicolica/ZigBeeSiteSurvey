@@ -2,7 +2,16 @@
    Created by kc on 14.03.16.
 .row
   .col-md-12
-    .chart-area
-      #chart-spectrum
+    p
+      .alert.alert-warning(ng-show='startingUpWifi')
+        |  {{'RETRIEVING_NETWORKS' | translate}}&nbsp;&nbsp;
+        i.fa.fa-spinner.fa-spin
+      .jumbotron(ng-show='wifiError')
+        h1 {{'NO_WIFI_TITLE' | translate}}
+        p {{'NO_WIFI_INFO' | translate}}
+        p {{wifiError}}
+        p
+      .chart-area(ng-hide='wifiError')
+        #chart-spectrum
 .row
   .col-md-12

@@ -1,15 +1,16 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "default": "en",
   "sets": [
     {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "languageCodes": [
         "de", "de_CH", "de_AT", "de_DE"
       ],
       "text": {
         "VERSION": "Version",
-        "RETRIEVING_NETWORKS": "Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...",
+        "RETRIEVING_ZIGBEE_NETWORKS": "Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...",
+        "RETRIEVING_NETWORKS": "Suche ZigBee & WiFi Netzwerke, dies kann ein paar Sekunden dauern...",
         "HELP_AND_INFO": "Hilfe und Information",
         "RSSI": "RSSI",
         "PLEASE_INSERT_DONGLE": "Bitte den RapidConnect ZigBee USB Stick anschliessen...",
@@ -51,11 +52,13 @@
           "LEVEL_POOR": "Schwelle mässige Qualität",
           "INFO": "Info",
           "LICENCE": "Lizenz"
-        }
+        },
+        "NO_WIFI_TITLE": "WiFi nicht verfügbar",
+        "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:"
       }
     },
     {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "languageCodes": [
         "en", "en_US", "en_GB"
       ],
@@ -63,7 +66,8 @@
         "VERSION": "Version",
         "PLEASE_INSERT_DONGLE": "Please connect a RapidConnect ZigBee USB Stick to your computer to continue...",
         "SCANNING_IS_DISABLED": "No RapidConnect USB dongle found, scanning is disabled!",
-        "RETRIEVING_NETWORKS": "Retrieving ZigBee networks, this takes only a few seconds...",
+        "RETRIEVING_ZIGBEE_NETWORKS": "Retrieving ZigBee networks, this takes only a few seconds...",
+        "RETRIEVING_NETWORKS": "Retrieving ZigBee & WiFi networks, this takes only a few seconds...",
         "HELP_AND_INFO": "Help and Information",
         "RSSI": "RSSI",
         "LQI": "LQI",
@@ -103,7 +107,9 @@
           "LEVEL_POOR": "Level for poor quality",
           "INFO": "Info",
           "LICENCE": "License"
-        }
+        },
+        "NO_WIFI_TITLE": "WiFi not available",
+        "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:"
       }
     }
   ]

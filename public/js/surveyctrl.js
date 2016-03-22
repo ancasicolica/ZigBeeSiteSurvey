@@ -248,6 +248,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * Scan wifis, display the coexistence of wifi and ZigBee
    */
   $scope.activateWifiPanel = function () {
+    $scope.startingUpWifi  = true;
     updateWifiNetworks();
     $scope.panel = 'wifi';
   };
@@ -260,15 +261,18 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
       function (resp) {
         // Success
         $scope.wifiNetworks = resp.data.networks;
+        $scope.startingUpWifi = false;
         createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
         console.log('Wifi scanned', resp);
         if ( $scope.panel === 'wifi') {
           _.delay(updateWifiNetworks, 100);
         }
-
       },
       function (resp) {
         // Error
+        $scope.wifiError = resp.data.message;
+        $scope.startingUpWifi = false;
+        console.log($scope.wifiError);
         console.error(resp);
       }
     );
