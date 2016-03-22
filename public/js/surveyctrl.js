@@ -79,7 +79,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     socket.on('network', $scope.updateSurveyData);
 
     // Just for demo / tests now, go directly to the network page
-    $scope.activateWifiPanel();
+    //$scope.activateWifiPanel();
   });
 
   /**
@@ -248,9 +248,19 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * Scan wifis, display the coexistence of wifi and ZigBee
    */
   $scope.activateWifiPanel = function () {
-    $scope.startingUpWifi  = true;
-    updateWifiNetworks();
+    $scope.startingUpWifi = true;
     $scope.panel = 'wifi';
+    updateWifiNetworks();
+  };
+
+  $scope.toggleNetworksAndWifi = function() {
+    if ($scope.panel === 'wifi') {
+      $scope.startingUpWifi = false;
+      $scope.closeSurvey(); // should have a better name now!
+    }
+    else if ($scope.panel === 'networks') {
+      $scope.activateWifiPanel();
+    }
   };
 
   /**
@@ -264,7 +274,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.startingUpWifi = false;
         createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
         console.log('Wifi scanned', resp);
-        if ( $scope.panel === 'wifi') {
+        if ($scope.panel === 'wifi') {
           _.delay(updateWifiNetworks, 100);
         }
       },
@@ -274,6 +284,9 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.startingUpWifi = false;
         console.log($scope.wifiError);
         console.error(resp);
+        if ($scope.panel === 'wifi') {
+          _.delay(updateWifiNetworks, 5000);
+        }
       }
     );
   }
