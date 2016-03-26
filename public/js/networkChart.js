@@ -22,7 +22,7 @@ function convertTimeStampInNetwork(network) {
  */
 function createNetworkCharts(networks, $scope) {
   for (var i = 0; i < networks.length; i++) {
-    var network = _.find($scope.networks, {extendedPanId: networks[i].extendedPanId});
+    var network = _.find($scope.zigBeeNetworks, {extendedPanId: networks[i].extendedPanId});
     if (!network) {
       network = networks[i];
       console.log('INIT CHART ', '#chart-' + network.id);
@@ -30,7 +30,7 @@ function createNetworkCharts(networks, $scope) {
       // We can't generate the chart right here, as the chart area does currently not exist.
       // Set flag that chart has to be generated before loading data
       network.chartGenerated = false;
-      $scope.networks.push(network);
+      $scope.zigBeeNetworks.push(network);
     }
     else {
       network.rssi = networks[i].rssi;

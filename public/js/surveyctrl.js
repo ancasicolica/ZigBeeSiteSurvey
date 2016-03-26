@@ -43,7 +43,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
 
   $scope.panel = 'networks';
 
-  $scope.networks = [];
+  $scope.zigBeeNetworks = [];
   $scope.measurements = [];
   $scope.chartSurvey = {};
   $scope.currentLocation = '';
@@ -89,7 +89,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
   $scope.closeNetwork = function (network) {
     $http.post('/networks/remove/' + network.extendedPanId).success(function () {
       // we don't care about return values and errors here
-      _.pull($scope.networks, network);
+      _.pull($scope.zigBeeNetworks, network);
     });
   };
 
@@ -105,7 +105,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $http({method: 'GET', url: '/networks'}).then(
           function (resp) {
             createNetworkCharts(resp.data, $scope);
-            $scope.networks = _.sortBy($scope.networks, 'extendedPanId');
+            $scope.zigBeeNetworks = _.sortBy($scope.zigBeeNetworks, 'extendedPanId');
           },
           function (resp) {
             console.error(resp);

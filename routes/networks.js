@@ -66,7 +66,7 @@ router.get('/spectrum', (req, res) => {
     n.x = chartData.x;
     n.data = chartData.data;
     n.index = i;
-    n.history = []; // we don't care about the history in this case
+    //n.history = []; // we don't care about the history in this case
   });
   res.send({status: 'ok', networks: networks});
 });
