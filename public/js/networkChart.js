@@ -74,6 +74,7 @@ function createNetworkCharts(networks, $scope) {
             x: {
               type: 'timeseries',
               tick: {
+                count: 4,
                 format: '%H:%M:%S'
               }
             },

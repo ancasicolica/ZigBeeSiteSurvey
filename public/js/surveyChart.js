@@ -48,6 +48,7 @@ function createSurveyChart($scope) {
       x: {
         type: 'timeseries',
         tick: {
+          count: 10,
           format: '%H:%M:%S'
         }
       },
