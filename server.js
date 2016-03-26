@@ -3,7 +3,6 @@
  *
  * Created by kc on 23.06.15.
  */
-'use strict';
 
 console.log('ZigBee Site Survey Tool ©2015 Christian Kuster, CH-8342 Wernetshausen');
 console.log('See http://ancasicolica.github.io/ZigBeeSiteSurvey/ for more information.');

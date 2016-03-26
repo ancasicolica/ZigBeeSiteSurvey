@@ -3,12 +3,10 @@
  * Created by kc on 03.12.15.
  */
 
-'use strict';
-
-var express = require('express');
-var router = express.Router();
-var resetModule = require('../lib/tasks/resetModule');
-var determineDongleType = require('../lib/tasks/determineDongleType');
+const express = require('express');
+const router = express.Router();
+const resetModule = require('../lib/tasks/resetModule');
+const determineDongleType = require('../lib/tasks/determineDongleType');
 
 /**
  * Scans all networks

@@ -2,14 +2,13 @@
  * Settings API
  * Created by kc on 29.06.15.
  */
-'use strict';
 
-var express = require('express');
-var router = express.Router();
-var _ = require('lodash');
-var settings = require('../settings');
-var rapidConnector = require('../lib/rapidConnector');
-var dongleType = require('../lib/tasks/determineDongleType');
+const express = require('express');
+const router = express.Router();
+const _ = require('lodash');
+const settings = require('../settings');
+const rapidConnector = require('../lib/rapidConnector');
+const dongleType = require('../lib/tasks/determineDongleType');
 
 /**
  * Get all networks

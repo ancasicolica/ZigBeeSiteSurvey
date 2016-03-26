@@ -1,8 +1,6 @@
 /**
- * Gets the complete data of the networks available
+ * Gets the complete data of the ZigBee networks available
  */
-
-'use strict';
 
 const express = require('express');
 const router = express.Router();

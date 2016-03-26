@@ -2,7 +2,6 @@
  * Settings of the zigbee site survey tool
  * Created by kc on 23.06.15.
  */
-'use strict';
 
 var fs = require('fs');
 var path = require('path');

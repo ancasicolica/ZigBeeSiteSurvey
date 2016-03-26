@@ -3,13 +3,11 @@
  * Created by kc on 29.11.15.
  */
 
-'use strict';
-
-var express = require('express');
-var router = express.Router();
-var scanner = require('../lib/scanner');
-var networkPool = require('../lib/networkPool');
-var logger = require('../lib/logger').getLogger('routes:scanner');
+const express = require('express');
+const router = express.Router();
+const scanner = require('../lib/scanner');
+const networkPool = require('../lib/networkPool');
+const logger = require('../lib/logger').getLogger('routes:scanner');
 
 /**
  * Scans all networks

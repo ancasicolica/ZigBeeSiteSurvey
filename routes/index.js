@@ -1,17 +1,17 @@
 /**
- *
+ * The '/' route
  * Created by kc on 25.06.15.
  */
-'use strict';
-var express = require('express');
-var router = express.Router();
-var scanner = require('../lib/scanner');
-var settings = require('../settings');
-var fs = require('fs');
-var path = require('path');
-var jade = require('jade');
-var logger = require('../lib/logger').getLogger('routes:index');
 
+const express = require('express');
+const router = express.Router();
+const scanner = require('../lib/scanner');
+const fs = require('fs');
+const path = require('path');
+const jade = require('jade');
+const logger = require('../lib/logger').getLogger('routes:index');
+
+var settings = require('../settings');
 var customAbout = false;
 settings.custom = settings.custom || {};
 settings.custom.faviconPath = settings.custom.faviconPath || '/favicon';
