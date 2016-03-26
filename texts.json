@@ -1,9 +1,9 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "default": "en",
   "sets": [
     {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "languageCodes": [
         "de", "de_CH", "de_AT", "de_DE"
       ],
@@ -54,11 +54,13 @@
           "LICENCE": "Lizenz"
         },
         "NO_WIFI_TITLE": "WiFi nicht verfügbar",
-        "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:"
+        "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:",
+        "ZIGBEE_NETWORKS_TAB": "ZigBee Netzwerke",
+        "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke"
       }
     },
     {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "languageCodes": [
         "en", "en_US", "en_GB"
       ],
@@ -109,7 +111,9 @@
           "LICENCE": "License"
         },
         "NO_WIFI_TITLE": "WiFi not available",
-        "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:"
+        "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:",
+        "ZIGBEE_NETWORKS_TAB": "ZigBee Networks",
+        "WIFI_COEXISTENCE_TAB": "WiFi Coexistence"
       }
     }
   ]

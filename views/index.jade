@@ -22,13 +22,26 @@ block content
         div(ng-hide='usbConnected')
           .alert.alert-danger
             | {{'SCANNING_IS_DISABLED' | translate}}
-        div(ng-show='panel==="networks"')
-          include networks
+        // Survey and network overview share one page
+        div(ng-show='panel !== "survey"')
+          ul.nav.nav-tabs(role='tablist')
+            li.active(role='presentation')
+              a(href='#networks', aria-controls='networks', role='tab', data-toggle='tab') {{'ZIGBEE_NETWORKS_TAB' | translate}}
+            li(role='presentation')
+              a(href='#wifi', aria-controls='profile', role='tab', data-toggle='tab') {{'WIFI_COEXISTENCE_TAB' | translate}}
+          // Tab panes
+          .tab-content
+            // ZigBee networks
+            #networks.tab-pane.fade.active(role='tabpanel')
+              p
+                include networks
+            // WiFi coexistence
+            #wifi.tab-pane.fade(role='tabpanel')
+              p
+                include wifi
+        // Survey has complete page
         div(ng-show='panel==="survey"')
           include survey
-        div(ng-show='panel==="wifi"')
-          include wifi
-
 
       .row.no-print(ng-show='surveyReady')
         .col-md-12.info-bar
