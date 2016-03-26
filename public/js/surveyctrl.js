@@ -80,8 +80,6 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
 
     // Get the Wifi networks initially (so the chart is not empty on tab change)
     updateWifiNetworks();
-    // Just for demo / tests now, go directly to the network page
-    //$scope.activateWifiPanel();
   });
 
   /**
@@ -243,25 +241,6 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     console.log('Wifi scan enabled', enabled);
     $scope.wifiScanEnabled = enabled;
     updateWifiNetworks();
-  };
-
-  /**
-   * Scan wifis, display the coexistence of wifi and ZigBee
-   */
-  $scope.activateWifiPanel = function () {
-    $scope.startingUpWifi = true;
-    $scope.panel = 'wifi';
-    updateWifiNetworks();
-  };
-
-  $scope.toggleNetworksAndWifi = function () {
-    if ($scope.panel === 'wifi') {
-      $scope.startingUpWifi = false;
-      $scope.closeSurvey(); // should have a better name now!
-    }
-    else if ($scope.panel === 'networks') {
-      $scope.activateWifiPanel();
-    }
   };
 
   /**
