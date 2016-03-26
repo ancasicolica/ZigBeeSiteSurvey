@@ -26,17 +26,17 @@ block content
         div(ng-show='panel !== "survey"')
           ul.nav.nav-tabs(role='tablist')
             li.active(role='presentation')
-              a(href='#networks', aria-controls='networks', role='tab', data-toggle='tab') {{'ZIGBEE_NETWORKS_TAB' | translate}}
+              a(href='#networks', aria-controls='networks', role='tab', data-toggle='tab' ng-click='enableWifiScan(false)') {{'ZIGBEE_NETWORKS_TAB' | translate}}
             li(role='presentation')
-              a(href='#wifi', aria-controls='profile', role='tab', data-toggle='tab') {{'WIFI_COEXISTENCE_TAB' | translate}}
+              a(href='#wifi', aria-controls='wifi', role='tab', data-toggle='tab' ng-click='enableWifiScan(true)') {{'WIFI_COEXISTENCE_TAB' | translate}}
           // Tab panes
           .tab-content
             // ZigBee networks
-            #networks.tab-pane.fade.active(role='tabpanel')
+            #networks.tab-pane.active(role='tabpanel')
               p
                 include networks
             // WiFi coexistence
-            #wifi.tab-pane.fade(role='tabpanel')
+            #wifi.tab-pane(role='tabpanel')
               p
                 include wifi
         // Survey has complete page

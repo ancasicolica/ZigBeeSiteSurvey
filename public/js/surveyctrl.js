@@ -78,6 +78,8 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     socket.on('networks', $scope.updateNetworkData);
     socket.on('network', $scope.updateSurveyData);
 
+    // Get the Wifi networks initially (so the chart is not empty on tab change)
+    updateWifiNetworks();
     // Just for demo / tests now, go directly to the network page
     //$scope.activateWifiPanel();
   });
@@ -98,26 +100,15 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * @param info
    */
   $scope.updateNetworkData = function (info) {
-    console.log('Networks updated: ', info);
+    console.log('ZigBee Networks updated: ', info, $scope.panel);
 
     switch ($scope.panel) {
       case 'networks':
-        $http({method: 'GET', url: '/networks'}).then(
-          function (resp) {
-            createNetworkCharts(resp.data, $scope);
-            $scope.zigBeeNetworks = _.sortBy($scope.zigBeeNetworks, 'extendedPanId');
-          },
-          function (resp) {
-            console.error(resp);
-          }
-        );
-        break;
-
-      case 'wifi':
         $http({method: 'GET', url: '/networks/spectrum'}).then(
           function (resp) {
-            $scope.zigBeeNetworks = resp.data;
-            createWifiChart($scope.zigBeeNetworks.networks, $scope.wifiNetworks, $scope);
+            createNetworkCharts(resp.data.networks, $scope);
+            $scope.zigBeeNetworks = _.sortBy($scope.zigBeeNetworks, 'extendedPanId');
+            createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
           },
           function (resp) {
             console.error(resp);
@@ -245,6 +236,16 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
   };
 
   /**
+   * Enables / Disables the wifi scanner
+   * @param enabled
+   */
+  $scope.enableWifiScan = function (enabled) {
+    console.log('Wifi scan enabled', enabled);
+    $scope.wifiScanEnabled = enabled;
+    updateWifiNetworks();
+  };
+
+  /**
    * Scan wifis, display the coexistence of wifi and ZigBee
    */
   $scope.activateWifiPanel = function () {
@@ -253,7 +254,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     updateWifiNetworks();
   };
 
-  $scope.toggleNetworksAndWifi = function() {
+  $scope.toggleNetworksAndWifi = function () {
     if ($scope.panel === 'wifi') {
       $scope.startingUpWifi = false;
       $scope.closeSurvey(); // should have a better name now!
@@ -274,7 +275,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.startingUpWifi = false;
         createWifiChart($scope.zigBeeNetworks, $scope.wifiNetworks, $scope);
         console.log('Wifi scanned', resp);
-        if ($scope.panel === 'wifi') {
+        if ($scope.wifiScanEnabled) {
           _.delay(updateWifiNetworks, 100);
         }
       },
@@ -284,7 +285,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
         $scope.startingUpWifi = false;
         console.log($scope.wifiError);
         console.error(resp);
-        if ($scope.panel === 'wifi') {
+        if ($scope.wifiScanEnabled) {
           _.delay(updateWifiNetworks, 5000);
         }
       }

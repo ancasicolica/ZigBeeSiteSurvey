@@ -27,10 +27,12 @@ function createWifiChart(zigBeeNetworks, wifiNetworks, $scope) {
 
   nets = _.orderBy(zigBeeNetworks, ['channel', 'signal_level'], ['asc', 'desc']);
   for (var i = 0; i < nets.length; i++) {
-    xs[nets[i].data[0]] = nets[i].x[0];
-    names[nets[i].data[0]] = nets[i].panId + ' [Z' + nets[i].channel + ']';
-    columns.push(nets[i].data);
-    columns.push(nets[i].x);
+    if (nets[i].x) {
+      xs[nets[i].data[0]] = nets[i].x[0];
+      names[nets[i].data[0]] = nets[i].panId + ' [Z' + nets[i].channel + ']';
+      columns.push(nets[i].data);
+      columns.push(nets[i].x);
+    }
   }
 
   wifiChart = c3.generate({
