@@ -49,47 +49,53 @@ router.get('/', (req, res) => {
  * order to avoid browser interoperability problems.
  */
 router.get('/spectrum', (req, res) => {
-  wifiScanner.scan((err, networks) => {
-    if (err) {
-      return res.status(500).send({message: err.message});
-    }
-
-    // Result: array with 2.4GHz networks
-    var net24 = [];
-
-    var i = 0;
-    networks.forEach(n => {
-
-      // If there is a mixed value (like 9,-1), fix it
-      if (n.channel.indexOf(',') > 0) {
-        n.channel = n.channel.split(',')[0];
+  try {
+    wifiScanner.scan((err, networks) => {
+      if (err) {
+        return res.status(500).send({message: err.message});
       }
 
-      // We concern only about 2.4 GHz networks
-      if (wifiFrequencies[n.channel]) {
-        i++;
-        console.log('Wifi network', n);
-        // Convert integers to integers (as they should be already...)
-        console.log(n);
-        n.channel = parseInt(n.channel, 10);
-        n.signal_level = parseInt(n.signal_level, 10);
-        console.log('-------------------');
+      // Result: array with 2.4GHz networks
+      var net24 = [];
 
-        var chartData = spectrumChart({
-          frequency: wifiFrequencies[n.channel],
-          bandwith: wifiBandwith,
-          amplitude: n.signal_level + 100,
-          freqColName: 'xWifi' + i,
-          amplColName: 'dataWifi' + i
-        });
-        n.x = chartData.x;
-        n.data = chartData.data;
-        n.index = i;
-        net24.push(n);
-      }
+      var i = 0;
+      networks.forEach(n => {
+
+        // If there is a mixed value (like 9,-1), fix it
+        if (n.channel.indexOf(',') > 0) {
+          n.channel = n.channel.split(',')[0];
+        }
+
+        // We concern only about 2.4 GHz networks
+        if (wifiFrequencies[n.channel]) {
+          i++;
+          console.log('Wifi network', n);
+          // Convert integers to integers (as they should be already...)
+          console.log(n);
+          n.channel = parseInt(n.channel, 10);
+          n.signal_level = parseInt(n.signal_level, 10);
+          console.log('-------------------');
+
+          var chartData = spectrumChart({
+            frequency: wifiFrequencies[n.channel],
+            bandwith: wifiBandwith,
+            amplitude: n.signal_level + 100,
+            freqColName: 'xWifi' + i,
+            amplColName: 'dataWifi' + i
+          });
+          n.x = chartData.x;
+          n.data = chartData.data;
+          n.index = i;
+          net24.push(n);
+        }
+      });
+      res.send({status: 'ok', networks: net24});
     });
-    res.send({status: 'ok', networks: net24});
-  });
+  }
+  catch (ex) {
+    logger.error(ex);
+    return res.status(500).send({message: ex.message});
+  }
 });
 
 module.exports = router;
