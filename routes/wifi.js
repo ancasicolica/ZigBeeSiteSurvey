@@ -62,14 +62,14 @@ router.get('/spectrum', (req, res) => {
       networks.forEach(n => {
 
         // If there is a mixed value (like 9,-1), fix it
-        if (n.channel.indexOf(',') > 0) {
+        if (n.channel && n.channel.indexOf(',') > 0) {
           n.channel = n.channel.split(',')[0];
         }
 
         // We concern only about 2.4 GHz networks
-        if (wifiFrequencies[n.channel]) {
+        if (n.channel && wifiFrequencies[n.channel]) {
           i++;
-          console.log('Wifi network', n);
+          console.log('Wifi 2.4 network found: ', n);
           // Convert integers to integers (as they should be already...)
           console.log(n);
           n.channel = parseInt(n.channel, 10);
@@ -87,6 +87,9 @@ router.get('/spectrum', (req, res) => {
           n.data = chartData.data;
           n.index = i;
           net24.push(n);
+        }
+        else {
+          logger.info('ignoring network:', n);
         }
       });
       res.send({status: 'ok', networks: net24});
