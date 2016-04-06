@@ -61,11 +61,6 @@ router.get('/spectrum', (req, res) => {
       var i = 0;
       networks.forEach(n => {
 
-        // If there is a mixed value (like 9,-1), fix it
-        if (n.channel && n.channel.indexOf(',') > 0) {
-          n.channel = n.channel.split(',')[0];
-        }
-
         // We concern only about 2.4 GHz networks
         if (n.channel && wifiFrequencies[n.channel]) {
           i++;
