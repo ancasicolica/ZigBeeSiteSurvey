@@ -62,19 +62,19 @@ router.get('/spectrum', (req, res) => {
       networks.forEach(n => {
 
         // We concern only about 2.4 GHz networks
-        if (n.channel && wifiFrequencies[n.channel]) {
+        if (n.channel && wifiFrequencies[n.channel.toString()]) {
           i++;
           console.log('Wifi 2.4 network found: ', n);
           // Convert integers to integers (as they should be already...)
           console.log(n);
           n.channel = parseInt(n.channel, 10);
-          n.signal_level = parseInt(n.signal_level, 10);
+          n.signal_level = parseInt(n.rssi, 10);
           console.log('-------------------');
 
           var chartData = spectrumChart({
             frequency: wifiFrequencies[n.channel],
             bandwith: wifiBandwith,
-            amplitude: n.signal_level + 100,
+            amplitude: n.rssi + 100,
             freqColName: 'xWifi' + i,
             amplColName: 'dataWifi' + i
           });
