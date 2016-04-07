@@ -29,18 +29,43 @@ module.exports = function (grunt) {
         commitFiles: ['-a'],
         tagName: 'v%VERSION%',
         tagMessage: 'Version %VERSION%',
-        push: false,
+        push: true,
+        pushTo: 'git@github.com:ancasicolica/ZigBeeSiteSurvey.git',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
         globalReplace: false,
         prereleaseName: false,
         regExp: false
+      }
+    },
+
+    zip: {
+      'make': {
+        src: ['./**/**'],
+        dest: '../ZigBeeSiteSurvey_x.y.z_OS_.zip',
+        compression: 'DEFLATE'
+      }
+    },
+
+    compress: {
+      main: {
+        options: {
+          archive: 'dist/ZigBeeSiteSurvey-' + grunt.file.readJSON('package.json').version + '-Win-x64.zip'
+        },
+        files: [{
+          src: ['*.js', 'LICENSE', '*.json', 'node.exe', '*.md', 'lib/**', 'node_modules/**', 'public/**', 'routes/**', 'views/**'],
+          dest: 'ZigBeeSiteSurvey-' + grunt.file.readJSON('package.json').version + '-Win-x64'
+        }]
       }
     }
   });
 
 
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-zip');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.registerTask('minify', ['concat', 'uglify:js']);
   grunt.registerTask('v:patch', ['bump:patch']);
   grunt.registerTask('v:minor', ['bump:minor']);
   grunt.registerTask('v:major', ['bump:major']);
+  grunt.registerTask('make', ['zip:make']);
 };
