@@ -35,8 +35,8 @@ catch (e) {
 process.env.DEPLOY_TYPE = process.env.DEPLOY_TYPE || 'local';
 
 settings.levels = {
-  good: -82, // Everything above this level is considered as good
-  acceptable: -87, // Everything above this level and below 'good' is considered as acceptable, everything below as inacceptable.
+  good: -71, // Everything above this level is considered as good
+  acceptable: -82, // Everything above this level and below 'good' is considered as acceptable, everything below as inacceptable.
   min: -100, // lowest possible level, do not change unless it is really needed
   max: 0 // highest level, do not change unless it is really needed
 };
