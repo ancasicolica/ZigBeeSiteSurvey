@@ -1,0 +1,54 @@
+// This is the modal dialog used for KABA
+div
+  // Nav tabs
+  ul.nav.nav-tabs(role='tablist')
+    li.active(role='presentation')
+      a(href='#info', aria-controls='home', role='tab', data-toggle='tab') {{'ABOUT.INFO' | translate}}
+    li(role='presentation')
+      a(href='#support', aria-controls='profile', role='tab', data-toggle='tab') {{'ABOUT.SUPPORT' | translate}}
+    li(role='presentation')
+      a(href='#licence', aria-controls='messages', role='tab', data-toggle='tab') {{'ABOUT.LICENSE' | translate}}
+  // Tab panes
+  .tab-content
+    #info.tab-pane.active(role='tabpanel')
+      h2.info {{'ABOUT.INFO' | translate}}
+      h3.info {{'ABOUT.RSSI_DEFINITION' | translate}}
+      p.info  {{'ABOUT.RSSI_DESCRIPTION' | translate}}
+      h3.info {{'ABOUT.LQI_DEFINITION' | translate}}
+      p.info {{'ABOUT.LQI_DESCRIPTION' | translate}}
+      h3.info {{'ABOUT.SIMPLIFICATION' | translate}}
+      p.info {{'ABOUT.TO_SIMPLIFY' | translate}}&nbsp;
+        p.info
+§          | {{'ABOUT.RSSI_SIMPLE' | translate}}
+        p.info
+          strong {{'LQI' | translate}}&nbsp;
+          | {{'ABOUT.LQI_SIMPLE' | translate}}
+      h3.info {{'ABOUT.HOW_RSSI_AND_LQI_WORK' | translate}}
+      p.info {{'ABOUT.HOW_RSSI_AND_LQI_WORK_INTRO' | translate}}
+        ol
+          li {{'ABOUT.RSSI_AND_LQI_ONE' | translate}}
+          li {{'ABOUT.RSSI_AND_LQI_TWO' | translate}}
+          li {{'ABOUT.RSSI_AND_LQI_THREE' | translate}}
+          li {{'ABOUT.RSSI_AND_LQI_FOUR' | translate}}
+          li {{'ABOUT.RSSI_AND_LQI_FIVE' | translate}}
+      h3.info {{'ABOUT.EXAMPLE_NOT_RECOMMENDED' | translate}}
+      img.sample(src='/custom/sample_not_good.png')
+      h3.info {{'ABOUT.EXAMPLE_RECOMMENDED' | translate}}
+      img.sample(src='/custom/sample_good.png')
+
+    #support.tab-pane(role='tabpanel')
+      h2.info {{'ABOUT.SUPPORT' | translate}}
+      p Add here:
+      ul
+        li Email-Address for the Kaba Support
+        li Phone number?
+        li URL for FAQ and newest version? Who would host it?
+
+    #licence.tab-pane(role='tabpanel')
+      h2.info {{'ABOUT.LICENSE' | translate}}
+      .licence
+        p The MIT License (MIT)
+        p Copyright (c) 2015 Christian Kuster, CH-8342 Wernetshausen
+        p Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        p The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        p THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -1,0 +1,37 @@
+/* Kaba specific CSS */
+
+h1.main-title {
+    color : black;
+}
+
+.main-bar {
+    background    : #bebebe;
+    margin-right  : 100px;
+    border-radius : 0;
+}
+
+.logo {
+}
+
+.info-bar {
+    background    : #bebebe;
+    border-radius : 0;
+}
+
+a.info-bar {
+    color : #2e68a9;
+}
+
+.license {
+    font-family: monospace;
+}
+
+h2.info {
+    font-size: 24px;
+}
+h3.info {
+    font-size: 18px;
+}
+img.sample {
+    width: 90%;
+}

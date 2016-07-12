@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "css": "/custom/kaba.css",
+  "useOwnAboutDialog": true,
+  "faviconPath": "/custom/favicon",
+  "logo": "/custom/Kaba_Tagline_Bottom_RGB.png",
+  "devices": [
+    {
+      "macAddress": "0015 BC",
+      "label": "Kaba Gateway"
+    },
+    {
+      "macAddress": "2F9Ex",
+      "label": "Philips Hue"
+    }
+  ],
+  "title": "ZigBee Site Survey",
+  "texts": "/custom/texts.json"
+}
