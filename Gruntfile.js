@@ -16,7 +16,11 @@
  * Created by kc on 27.06.15.
  */
 
+
 module.exports = function (grunt) {
+
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -56,6 +60,20 @@ module.exports = function (grunt) {
           dest: 'ZigBeeSiteSurvey-' + grunt.file.readJSON('package.json').version + '-Win-x64'
         }]
       }
+    },
+
+    babel: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          'public/js/dist/networkChart.js': 'public/js/src/networkChart.js',
+          'public/js/dist/surveyChart.js': 'public/js/src/surveyChart.js',
+          'public/js/dist/surveyctrl.js': 'public/js/src/surveyctrl.js',
+          'public/js/dist/wifiChart.js': 'public/js/src/wifiChart.js',
+        }
+      }
     }
   });
 
@@ -68,4 +86,5 @@ module.exports = function (grunt) {
   grunt.registerTask('v:minor', ['bump:minor']);
   grunt.registerTask('v:major', ['bump:major']);
   grunt.registerTask('make', ['zip:make']);
+  grunt.registerTask('default', ['babel']);
 };

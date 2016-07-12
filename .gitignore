@@ -33,7 +33,7 @@ node_modules
 public/custom
 
 # Distribution directory
-dist
+dist/
 
 public/custom/custom.css
 # Webstorm

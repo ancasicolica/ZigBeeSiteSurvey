@@ -7,6 +7,7 @@
 
 /**
  * Generate the survey chart
+ * 
  * @param $scope
  */
 function createSurveyChart($scope) {

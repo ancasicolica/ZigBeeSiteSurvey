@@ -238,7 +238,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    * @param enabled
    */
   $scope.enableWifiScan = function (enabled) {
-    console.log('Wifi scan enabled', enabled);
+    console.log(`Wifi scan enabled: ${enabled}`);
     $scope.wifiScanEnabled = enabled;
     updateWifiNetworks();
   };
@@ -248,7 +248,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
    */
   function updateWifiNetworks() {
     $http({method: 'GET', url: '/wifi/spectrum'}).then(
-      function (resp) {
+      resp => {
         // Success
         $scope.wifiNetworks = resp.data.networks;
         $scope.startingUpWifi = false;
@@ -258,7 +258,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
           _.delay(updateWifiNetworks, 100);
         }
       },
-      function (resp) {
+      resp => {
         // Error
         $scope.wifiError = resp.data.message;
         $scope.startingUpWifi = false;

@@ -10,7 +10,8 @@
  * @param network
  */
 function convertTimeStampInNetwork(network) {
-  for (var t = 0; t < network.history.length; t++) {
+  const x = 0;
+  for (let t = x; t < network.history.length; t++) {
     network.history[t].ts = new Date(network.history[t].ts);
   }
 }
