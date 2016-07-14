@@ -1,9 +1,6 @@
 /**
  * Grunt file for the ZigBeeSiteSurvey
  *
- * grunt update
- *    Updates the local common files with the ones from the editor project
-
  * Create a new bugfix version (x.y.++):
  *   grunt v:patch
  *
@@ -13,6 +10,9 @@
  * Create a new major version (++.0.0)
  *   grunt v:major
  *
+ * Create ZIP File with distribution (only intended for Windows releases)
+ *   grunt compress
+ *   
  * Created by kc on 27.06.15.
  */
 
