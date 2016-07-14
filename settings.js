@@ -3,9 +3,10 @@
  * Created by kc on 23.06.15.
  */
 
-var fs = require('fs');
-var path = require('path');
-var pkg = require('./package.json');
+const fs = require('fs');
+const path = require('path');
+const pkg = require('./package.json');
+const _ = require('lodash');
 
 var settings = {
   name: pkg.name,
@@ -45,6 +46,12 @@ settings.networkMissAllowedNb = 2; // How many times can't we se a network and w
 settings.historyLength = 10;
 settings.surveyHistoryLength = 1000;
 settings.logger = {level: process.env.LOG_LEVEL || 'info', colorize: true};
+
+// You can change these settings in the custom file!
+settings.update = {
+  versionUrl: _.get(settings, 'custom.update.versionUrl', 'https://raw.githubusercontent.com/ancasicolica/ZigBeeSiteSurvey/master/package.json'),
+  downloadUrl: _.get(settings, 'custom.update.downloadUrl', 'https://github.com/ancasicolica/ZigBeeSiteSurvey/releases/latest')
+};
 
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;
