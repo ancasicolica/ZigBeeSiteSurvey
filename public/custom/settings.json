@@ -15,5 +15,9 @@
     }
   ],
   "title": "ZigBee Site Survey",
-  "texts": "/custom/texts.json"
+  "texts": "/custom/texts.json",
+  "update": {
+    "versionUrl": "",
+    "downloadUrl": ""
+  }
 }

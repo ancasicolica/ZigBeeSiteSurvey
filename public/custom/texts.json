@@ -76,7 +76,9 @@
           }
         },
         "ZIGBEE_NETWORKS_TAB": "ZigBee Netzwerke",
-        "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke"
+        "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke",
+        "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
+        "UPDATE_GET_HERE": "Download"
       }
     },
     {
