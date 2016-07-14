@@ -1,162 +1,198 @@
 @media print {
     .no-print, .no-print * {
-        display : none !important;
+        display: none !important;
     }
 
     .chart-area {
-        width    : 95%;
-        position : relative;
+        width: 95%;
+        position: relative;
     }
 }
 
 @media screen {
     .chart-area {
-        width : 100%;
+        width: 100%;
     }
 }
 
 .small-chart-area {
-    width  : 100%;
-    height : 200px;
+    width: 100%;
+    height: 200px;
 }
 
 /* Avoiding the flickering of the chart when loading */
 svg {
-    width : 100%;
+    width: 100%;
 }
 
 .wait-for-data {
-    text-align     : center;
-    vertical-align : middle;
-    font-size      : 64px;
-    line-height    : 200px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 64px;
+    line-height: 200px;
 }
 
 .network-title {
-    position : relative;
+    position: relative;
 }
 
 .network-title-controls {
-    position : absolute;
-    right    : 0;
-    display  : inline-block;
+    position: absolute;
+    right: 0;
+    display: inline-block;
 }
 
 h1.main-title {
-    position      : relative;
-    margin-top    : 0;
-    margin-bottom : 0;
-    padding-right : 10px;
-    padding-left  : 10px;
-    color         : white;
-    display       : inline-block;
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+
 }
 
 .main-col {
-    padding-left  : 0;
-    padding-right : 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-.main-bar {
-    background-color : #6d6d6d;
-    margin-top       : 5px;
-    margin-bottom    : 10px;
-    margin-right     : 69px;
-    padding-top      : 10px;
-    padding-bottom   : 10px;
-    border-radius    : 5px;
+header {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Logo can be left for custom settings */
+#logo-left {
+    display: inline-block;
+    height: 59px;
+    /*
+    content: url('/favicon/favicon-96x96.png');
+    height: 59px;
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-right: 0;
+    margin-left: 10px;*/
+}
+
+#title {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    padding-right: 70px;
+}
+
+#title-bar {
+    display: inline-block;
+    width: 100%;
+    background-color: #6d6d6d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#28343b+0,828c95+64,b5bdc8+100 */
-    background       : #28343b; /* Old browsers */
-    background       : -moz-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* FF3.6-15 */
-    background       : -webkit-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* Chrome10-25,Safari5.1-6 */
-    background       : linear-gradient(to bottom, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter           : progid:DXImageTransform.Microsoft.gradient(startColorstr='#28343b', endColorstr='#b5bdc8', GradientType=0); /* IE6-9 */
+    background: #28343b; /* Old browsers */
+    background: -moz-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #28343b 0%, #828c95 64%, #b5bdc8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#28343b', endColorstr='#b5bdc8', GradientType=0); /* IE6-9 */
+}
+
+#logo-right {
+    display: inline-block;
+    content: url('/favicon/favicon-96x96.png');
+    height: 59px;
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-right: 0;
+    margin-left: 10px;
+    position: absolute;
+    right: 0;
 }
 
 .logo {
-    position       : absolute;
-    right          : 0;
-    height         : 59px;
-    display        : inline-block;
-    vertical-align : middle;
-    align          : left;
-    margin-top     : -10px;
-    margin-right   : 0;
-    margin-left    : 10px;
+    position: absolute;
+    right: 0;
+    height: 59px;
+    display: inline-block;
+    vertical-align: middle;
+    align: left;
+    margin-right: 0;
+    margin-left: 10px;
 }
 
 .info-bar {
-    background-color : #828c95;
-    margin-top       : 20px;
-    margin-bottom    : 10px;
-    padding-top      : 5px;
-    padding-bottom   : 5px;
-    border-radius    : 5px;
-    color            : white;
+    background-color: #828c95;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    color: white;
 }
 
 a.info-bar {
-    color : #99c0ff;
+    color: #99c0ff;
 }
 
 .icon-close {
-    position : absolute;
-    right    : 0;
+    position: absolute;
+    right: 0;
 }
 
 .wait-for-measurements {
-    height : 400px;
+    height: 400px;
 }
 
 .found-networks {
-    font-weight : bold;
+    font-weight: bold;
 }
 
 span.rssi-info {
-    font-size   : x-large;
-    position    : relative;
-    margin-left : 50px;
+    font-size: x-large;
+    position: relative;
+    margin-left: 50px;
 }
 
 span.lqi-info {
-    font-size : x-large;
-    position  : absolute;
-    right     : 50px;
+    font-size: x-large;
+    position: absolute;
+    right: 50px;
 }
 
 .survey-network-info {
-    font-size    : large;
-    margin-left  : 50px;
-    margin-right : 50px;
+    font-size: large;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .c3-region.region-acceptable {
-    fill : yellow;
+    fill: yellow;
 }
 
 .c3-region.region-bad {
-    fill : red;
+    fill: red;
 }
 
 .c3-region.region-good {
-    fill : green;
+    fill: green;
 }
 
 path.c3-line-rssi {
-    stroke-width : 1px;
+    stroke-width: 1px;
 }
 
 path.c3-line-lqi {
-    stroke-width : 1px;
+    stroke-width: 1px;
 }
 
 .rssi-color-tag {
-    color : blue;
+    color: blue;
 }
 
 .lqi-color-tag {
-    color : plum;
+    color: plum;
 }
 
 .licence {
@@ -164,11 +200,28 @@ path.c3-line-lqi {
 }
 
 .modal-dialog {
-    width : 80%;
+    width: 80%;
 }
 
 .table-info {
-    width : 80%;
-
+    width: 80%;
 }
 
+#help-and-info {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+#update-available {
+    color: orange;
+}
+
+#update-available-info {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+#update-get-here {
+    display: inline-block;
+    padding-left: 5px;
+}

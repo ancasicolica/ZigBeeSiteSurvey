@@ -15,9 +15,12 @@ block content
             p
       .row(ng-show='surveyReady')
         .col-md-12.main-col
-          .main-bar
-            h1.main-title=title
-            img.logo(src=custom.logo)
+          header
+            #logo-left
+            #title
+              #title-bar
+                h1.main-title=title
+            #logo-right
       .row(ng-show='surveyReady')
         div(ng-hide='usbConnected')
           .alert.alert-danger
@@ -45,9 +48,14 @@ block content
 
       .row.no-print(ng-show='surveyReady')
         .col-md-12.info-bar
-           | {{'VERSION' | translate}} {{settings.version}},&nbsp
-           a.info-bar(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
-             i.glyphicon.glyphicon-info-sign
-             | &nbsp;{{'HELP_AND_INFO' | translate}}
+          | {{'VERSION' | translate}} {{settings.version}},&nbsp
+          a.info-bar(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
+            i.glyphicon.glyphicon-info-sign
+            #help-and-info {{'HELP_AND_INFO' | translate}}
+          #update-available(ng-show='isNewVersionAvailable()')
+            i.fa.fa-exclamation-triangle
+            #update-available-info {{'UPDATE_AVAILABLE' | translate}} : {{updateInfo.currentVersion}}
+              a.info-bar(ng-href='{{updateInfo.downloadUrl}}' target='_blank')
+                #update-get-here {{'UPDATE_GET_HERE' | translate}}
 
 
