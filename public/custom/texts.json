@@ -1,16 +1,17 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.0",
   "default": "en",
   "sets": [
     {
-      "version": "1.1.1",
+      "version": "1.1.0",
       "languageCodes": [
-        "de", "de_CH", "de_AT", "de_DE"
+        "de",
+        "de_AT",
+        "de_DE"
       ],
       "text": {
         "VERSION": "Version",
-        "RETRIEVING_ZIGBEE_NETWORKS": "Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...",
-        "RETRIEVING_NETWORKS": "Suche ZigBee & WiFi Netzwerke, dies kann ein paar Sekunden dauern...",
+        "RETRIEVING_NETWORKS": "Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...",
         "HELP_AND_INFO": "Hilfe und Information",
         "RSSI": "RSSI",
         "PLEASE_INSERT_DONGLE": "Bitte den RapidConnect ZigBee USB Stick anschliessen...",
@@ -18,8 +19,8 @@
         "LQI": "LQI",
         "CHANNEL": "Kanal",
         "PAN_ID": "PAN-ID",
-        "JOINING_PERMITTED": "Joining ist möglich",
-        "JOINING_NOT_ALLOWED": "Joining ist nicht erlaubt",
+        "JOINING_PERMITTED": "Joining ist deaktiviert",
+        "JOINING_NOT_ALLOWED": "Joining ist aktiv",
         "ZIGBEE_NETWORKS": "ZigBee Netzwerke",
         "ON_CHANNEL": "auf Kanal",
         "NETWORK_ID": "Netzwerk-ID",
@@ -42,7 +43,7 @@
           "PLEASE_VISIT_AFTER_URL": " (Englischer Inhalt) für weitere Informationen.",
           "THIRD_PARTY_NOTICE": "Das ZigBee Site Survey Icon benutzt Elemente eines Designs von",
           "FROM": "von",
-          "IS_LICENSED": "und ist lizenziert unter",
+          "IS_LICENSED": "ist lizenziert unter",
           "TOOL_INFO": "Tool Info",
           "COM_PORT": "COM-Port",
           "USB_DONGLE": "USB Dongle",
@@ -51,25 +52,45 @@
           "LEVEL_GOOD": "Schwelle gute Qualität",
           "LEVEL_POOR": "Schwelle mässige Qualität",
           "INFO": "Info",
-          "LICENCE": "Lizenz"
+          "LICENCE": "Lizenz",
+          "DORMAKABA": {
+            "RSSI_DEFINITION": "rssi definition",
+            "RSSI_DESCRIPTION": "what is RSSI about",
+            "LQI_DEFINITION": "LQI definition",
+            "LQI_DESCRIPTION": "what is LQI about",
+            "SIMPLIFICATION": "make it simple",
+            "TO_SIMPLIFY": "1",
+            "RSSI": "RSSI",
+            "RSSI_SIMPLE": "2",
+            "LQI": "LQI",
+            "LQI_SIMPLE": "3",
+            "HOW_RSSI_AND_LQI_WORK": "how does it work?",
+            "HOW_RSSI_AND_LQI_WORK_INTRO": "intro",
+            "RSSI_AND_LQI_ONE": "one",
+            "RSSI_AND_LQI_TWO": "one2",
+            "RSSI_AND_LQI_THREE": "one3",
+            "RSSI_AND_LQI_FOUR": "one4",
+            "RSSI_AND_LQI_FIVE": "one5",
+            "EXAMPLE_NOT_RECOMMENDED": "dont do it like this",
+            "EXAMPLE_RECOMMENDED": "better"
+          }
         },
-        "NO_WIFI_TITLE": "WiFi nicht verfügbar",
-        "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:",
         "ZIGBEE_NETWORKS_TAB": "ZigBee Netzwerke",
         "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke"
       }
     },
     {
-      "version": "1.1.1",
+      "version": "1.1.0",
       "languageCodes": [
-        "en", "en_US", "en_GB"
+        "en",
+        "en_US",
+        "en_GB"
       ],
       "text": {
         "VERSION": "Version",
         "PLEASE_INSERT_DONGLE": "Please connect a RapidConnect ZigBee USB Stick to your computer to continue...",
         "SCANNING_IS_DISABLED": "No RapidConnect USB dongle found, scanning is disabled!",
-        "RETRIEVING_ZIGBEE_NETWORKS": "Retrieving ZigBee networks, this takes only a few seconds...",
-        "RETRIEVING_NETWORKS": "Retrieving ZigBee & WiFi networks, this takes only a few seconds...",
+        "RETRIEVING_NETWORKS": "Retrieving ZigBee networks, this takes only a few seconds...",
         "HELP_AND_INFO": "Help and Information",
         "RSSI": "RSSI",
         "LQI": "LQI",
@@ -108,7 +129,8 @@
           "LEVEL_GOOD": "Level for good quality",
           "LEVEL_POOR": "Level for poor quality",
           "INFO": "Info",
-          "LICENCE": "License"
+          "SUPPORT": "Support",
+          "LICENSE": "License"
         },
         "NO_WIFI_TITLE": "WiFi not available",
         "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:",

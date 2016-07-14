@@ -3,14 +3,14 @@
   "css": "/custom/kaba.css",
   "useOwnAboutDialog": true,
   "faviconPath": "/custom/favicon",
-  "logo": "/custom/Kaba_Tagline_Bottom_RGB.png",
+  "logo": "/custom/kaba-logo.gif",
   "devices": [
     {
       "macAddress": "0015 BC",
       "label": "Kaba Gateway"
     },
     {
-      "macAddress": "2F9Ex",
+      "macAddress": "2F9E",
       "label": "Philips Hue"
     }
   ],

@@ -1,25 +1,46 @@
 /* Kaba specific CSS */
 
 h1.main-title {
-    color : black;
+    color: #333333;
+    font-familiy: 'Morebi Rounded', sans-serif;
 }
 
-.main-bar {
-    background    : #bebebe;
-    margin-right  : 100px;
-    border-radius : 0;
+#logo-left {
+    content: url('/custom/kaba-logo.gif');
+    height: 59px;
+}
+
+header {
+    margin-top: 10px;
+}
+#title {
+    left: 242px;
+    width: 100%;
+    padding-right: 242px;
+}
+
+#title-bar {
+    background: #e5e5e5;
+    margin-right: 200px;
+    border-radius: 0;
+}
+
+#logo-right {
+    content: normal;
 }
 
 .logo {
+    width: 238px;
+    height: 60px;
 }
 
 .info-bar {
-    background    : #bebebe;
-    border-radius : 0;
+    background: #e5e5e5;
+    border-radius: 0;
 }
 
 a.info-bar {
-    color : #2e68a9;
+    color: #2e68a9;
 }
 
 .license {
@@ -29,9 +50,11 @@ a.info-bar {
 h2.info {
     font-size: 24px;
 }
+
 h3.info {
     font-size: 18px;
 }
+
 img.sample {
     width: 90%;
 }
