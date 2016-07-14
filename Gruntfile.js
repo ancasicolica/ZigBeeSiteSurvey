@@ -12,7 +12,7 @@
  *
  * Create ZIP File with distribution (only intended for Windows releases)
  *   grunt compress
- *   
+ *
  * Created by kc on 27.06.15.
  */
 

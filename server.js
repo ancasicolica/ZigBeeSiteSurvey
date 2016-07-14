@@ -8,34 +8,16 @@ console.log('ZigBee Site Survey Tool ©2015 Christian Kuster, CH-8342 Wernetshau
 console.log('See http://ancasicolica.github.io/ZigBeeSiteSurvey/ for more information.');
 console.log('');
 
-//do something when app is closing
-/*
- process.on('exit', function onExit(code) {
- console.error('ZigBee Site Survey Exit: Process is about to exit with code: ', code);
- var stack = new Error().stack;
- console.error(stack);
- process.removeListener('exit', onExit);
- process.exit(-1);
- });
- */
-
-//catches uncaught exceptions
-/*
- process.on('uncaughtException',  function(err) {
- console.log('Caught exception: ' + err);
- process.exit(-1);
- });
- */
-
-var rapidConnector = require('./lib/rapidConnector');
-var settings = require('./settings');
-var express = require('express');
-var path = require('path');
-var determineDongleType = require('./lib/tasks/determineDongleType');
-var socket = require('./lib/socket');
-var bodyParser = require('body-parser');
-var compression = require('compression');
-var logger = require('./lib/logger').getLogger('server');
+const rapidConnector = require('./lib/rapidConnector');
+const settings = require('./settings');
+const express = require('express');
+const path = require('path');
+const determineDongleType = require('./lib/tasks/determineDongleType');
+const socket = require('./lib/socket');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+const logger = require('./lib/logger').getLogger('server');
+const updateCheck = require('./lib/updateCheck');
 require('./lib/networkPool');
 
 rapidConnector.on('open', function () {
@@ -63,6 +45,10 @@ app.use('/reset', require('./routes/reset'));
 app.use('/texts', require('./routes/texts'));
 app.use('/wifi', require('./routes/wifi'));
 
+updateCheck.init(settings);
+updateCheck.check((err, info) => {
+  // Async call when starting up, result is queried when a browser connection starts
+});
 
 socket.init(app.listen(settings.port));
 logger.info('ZigBee Survey Tool ready and listening on port ' + settings.port);
