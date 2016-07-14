@@ -50,7 +50,7 @@ settings.logger = {level: process.env.LOG_LEVEL || 'info', colorize: true};
 // You can change these settings in the custom file!
 settings.update = {
   versionUrl: _.get(settings, 'custom.update.versionUrl', 'https://raw.githubusercontent.com/ancasicolica/ZigBeeSiteSurvey/master/package.json'),
-  updateUrl: _.get(settings, 'custom.update.versionUrl', 'https://github.com/ancasicolica/ZigBeeSiteSurvey/releases/latest')
+  downloadUrl: _.get(settings, 'custom.update.downloadUrl', 'https://github.com/ancasicolica/ZigBeeSiteSurvey/releases/latest')
 };
 
 settings.simulator = process.env.SIMULATOR || false;
