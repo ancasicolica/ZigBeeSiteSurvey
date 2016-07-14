@@ -77,6 +77,7 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
 
     socket.on('networks', $scope.updateNetworkData);
     socket.on('network', $scope.updateSurveyData);
+    socket.on('update-info', $scope.onUpdateInfo);
 
     // Get the Wifi networks initially (so the chart is not empty on tab change)
     updateWifiNetworks();
@@ -150,6 +151,21 @@ app.controller('surveyCtrl', ['$scope', '$http', '$translate', function ($scope,
     $scope.$apply();
   };
 
+  /**
+   * Handling the update Info
+   * @param info
+   */
+  $scope.onUpdateInfo = function(info) {
+    console.log('Update Info', info);
+    $scope.updateInfo = info;
+  };
+
+  $scope.isNewVersionAvailable = function() {
+    if (!$scope.updateInfo) {
+      return false;
+    }
+    return _.get($scope.updateInfo, 'newVersionAvailable', false);
+  };
   /**
    * Toggles measurement: on / off
    */
