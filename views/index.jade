@@ -51,6 +51,11 @@ block content
           | {{'VERSION' | translate}} {{settings.version}},&nbsp
           a.info-bar(href='#' data-toggle="modal" ng-click='refreshSettings()' data-target="#about")
             i.glyphicon.glyphicon-info-sign
-            | &nbsp;{{'HELP_AND_INFO' | translate}}
+            #help-and-info {{'HELP_AND_INFO' | translate}}
+          #update-available(ng-show='isNewVersionAvailable()')
+            i.fa.fa-exclamation-triangle
+            #update-available-info {{'UPDATE_AVAILABLE' | translate}} : {{updateInfo.currentVersion}}
+              a.info-bar(ng-href='{{updateInfo.downloadUrl}}' target='_blank')
+                #update-get-here {{'UPDATE_GET_HERE' | translate}}
 
 

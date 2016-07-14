@@ -56,7 +56,9 @@
         "NO_WIFI_TITLE": "WiFi nicht verfügbar",
         "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:",
         "ZIGBEE_NETWORKS_TAB": "ZigBee Netzwerke",
-        "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke"
+        "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke",
+        "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
+        "UPDATE_GET_HERE": "Download"
       }
     },
     {
@@ -113,7 +115,9 @@
         "NO_WIFI_TITLE": "WiFi not available",
         "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:",
         "ZIGBEE_NETWORKS_TAB": "ZigBee Networks",
-        "WIFI_COEXISTENCE_TAB": "WiFi Coexistence"
+        "WIFI_COEXISTENCE_TAB": "WiFi Coexistence",
+        "UPDATE_AVAILABLE": "A new version is available",
+        "UPDATE_GET_HERE": "click here for download"
       }
     }
   ]
