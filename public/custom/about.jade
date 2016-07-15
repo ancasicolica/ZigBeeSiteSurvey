@@ -16,14 +16,6 @@ div
       p.info  {{'ABOUT.DORMAKABA.RSSI_DESCRIPTION' | translate}}
       h3.info {{'ABOUT.DORMAKABA.LQI_DEFINITION' | translate}}
       p.info {{'ABOUT.DORMAKABA.LQI_DESCRIPTION' | translate}}
-      h3.info {{'ABOUT.DORMAKABA.SIMPLIFICATION' | translate}}
-      p.info {{'ABOUT.DORMAKABA.TO_SIMPLIFY' | translate}}&nbsp;
-        p.info
-          strong {{'ABOUT.DORMAKABA.RSSI' | translate}}&nbsp;
-          | {{'ABOUT.DORMAKABA.RSSI_SIMPLE' | translate}}
-        p.info
-          strong {{'ABOUT.DORMAKABA.LQI' | translate}}&nbsp;
-          | {{'ABOUT.DORMAKABA.LQI_SIMPLE' | translate}}
       h3.info {{'ABOUT.DORMAKABA.HOW_RSSI_AND_LQI_WORK' | translate}}
       p.info {{'ABOUT.DORMAKABA.HOW_RSSI_AND_LQI_WORK_INTRO' | translate}}
         ol
@@ -39,11 +31,36 @@ div
 
     #support.tab-pane(role='tabpanel')
       h2.info {{'ABOUT.SUPPORT' | translate}}
-      p Add here:
-      ul
-        li Email-Address for the Kaba Support
-        li Phone number?
-        li URL for FAQ and newest version? Who would host it?
+
+      p {{'ABOUT.DORMAKABA.CONTACT_SUPPORT' | translate}}
+      p {{'ABOUT.DORMAKABA.DOWNLOAD' | translate}}
+        | &nbsp;
+        a(href='https://secure.kaba.com/access-control/en/sales-support/81668/downloads.html' target='_blank')
+          i.fa.fa-external-link
+
+      h4 {{'ABOUT.TOOL_INFO' | translate}}
+      table.table.table-condensed.table-info
+        tr
+          td {{'VERSION' | translate}}
+          td {{settings.version}}
+        tr
+          td {{'ABOUT.COM_PORT' | translate}}
+          td {{getConnectedSerialPort()}}
+        tr
+          td {{'ABOUT.USB_DONGLE' | translate}}
+          td {{usbDongle.applicationType}}
+        tr
+          td {{'ABOUT.HARDWARE' | translate}}
+          td {{usbDongle.hardware}}
+        tr
+          td {{'ABOUT.FIRMWARE' | translate}}
+          td {{usbDongle.version}}
+        tr
+          td {{'ABOUT.LEVEL_GOOD' | translate}}
+          td {{settings.levels.good}}
+        tr
+          td {{'ABOUT.LEVEL_POOR' | translate}}
+          td {{settings.levels.acceptable}}
 
     #licence.tab-pane(role='tabpanel')
       h2.info {{'ABOUT.LICENSE' | translate}}
