@@ -36,23 +36,17 @@ if (settings.custom && settings.custom.enabled) {
 
 /* GET home page. */
 router.get('/', function (req, res) {
-
-  // we've got some performance problems, until they are solved, let this debug infos here
-  logger.debug('******************** getting / start');
   // Render just in time (allow changes while tool is running
   if (customAbout) {
     settings.custom.aboutHtml = jade.renderFile(aboutFile, {});
   }
-  logger.debug('******************** rendering /', settings);
   var html = jade.renderFile(path.join(__dirname, '..', 'views', 'index.jade'), {
     title: settings.custom.title,
     custom: settings.custom
   });
-  logger.debug('******************** send /');
   res.send(html);
-  logger.debug('******************** scanning /');
   scanner.enable();
-  logger.debug('******************** getting / end');
+
 });
 
 module.exports = router;

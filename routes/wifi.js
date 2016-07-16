@@ -64,12 +64,12 @@ router.get('/spectrum', (req, res) => {
         // We concern only about 2.4 GHz networks
         if (n.channel && wifiFrequencies[n.channel.toString()]) {
           i++;
-          console.log('Wifi 2.4 network found: ', n);
+          logger.debug('Wifi 2.4 network found: ', n);
           // Convert integers to integers (as they should be already...)
-          console.log(n);
+          logger.debug(n);
           n.channel = parseInt(n.channel, 10);
           n.signal_level = parseInt(n.rssi, 10);
-          console.log('-------------------');
+          logger.debug('-------------------');
 
           var chartData = spectrumChart({
             frequency: wifiFrequencies[n.channel],
@@ -84,7 +84,7 @@ router.get('/spectrum', (req, res) => {
           net24.push(n);
         }
         else {
-          logger.info('ignoring network:', n);
+          logger.debug('ignoring network:', n);
         }
       });
       res.send({status: 'ok', networks: net24});

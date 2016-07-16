@@ -55,6 +55,5 @@ settings.update = {
 
 settings.simulator = process.env.SIMULATOR || false;
 settings.port = process.env.PORT || 2998;
-console.log(settings);
 module.exports = settings;
 
