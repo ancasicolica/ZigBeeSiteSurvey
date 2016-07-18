@@ -26,15 +26,15 @@
     "npm": "3.9.2"
   },
   "dependencies": {
-    "bignumber.js": "2.3.0",
+    "bignumber.js": "2.4.0",
     "body-parser": "1.15.2",
     "compression": "1.6.2",
     "express": "4.14.0",
-    "jade": "1.11.0",
     "lodash": "4.13.1",
     "moment": "2.14.1",
     "na-gaussian-elimination": "0.0.4",
     "node-wifi-scanner": "1.0.0",
+    "pug": "2.0.0-beta4",
     "restify": "4.1.1",
     "serialport": "4.0.1",
     "socket.io": "1.4.8",

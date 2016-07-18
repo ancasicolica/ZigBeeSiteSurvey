@@ -49,10 +49,10 @@ router.get('/spectrum', (req, res) => {
   var i = 0;
   networks.forEach(n => {
     i++;
-    console.log('ZigBee network', n);
+    logger.debug('ZigBee network', n);
     // Convert integers to integers (as they should be already...)
-    console.log(n);
-    console.log('-------------------');
+    logger.debug(n);
+    logger.debug('-------------------');
 
     var chartData = spectrumChart({
       frequency: zigBeeFrequencies[n.channel],

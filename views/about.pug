@@ -1,6 +1,3 @@
-//
-   Created by kc on 01.07.15.
-
 .modal.fade(id="about" tabindex="-1" role="dialog" aria-labelledby="aboutLabel" aria-hidden="true")
   .modal-dialog
     .modal-content
@@ -12,7 +9,7 @@
       .modal-body
         if custom.aboutHtml
           // Custom Info Dialog
-          !{custom.aboutHtml}
+          !=custom.aboutHtml
         else
           div
             // Nav tabs
