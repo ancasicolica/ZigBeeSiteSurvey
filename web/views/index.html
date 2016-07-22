@@ -1,5 +1,327 @@
-<!DOCTYPE html><html lang="en"><head><title></title><meta name="keywords" content="ZigBee, SiteSurvey"><meta name="description" content="Site survey tool for ZigBee Networks"><meta charset="UTF-8"><meta name="author" content="Christian Kuster, CH-8342 Wernetshausen, www.kusti.ch"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32"><link rel="icon" type="image/png" href="/favicon/android-chrome-192x192.png" sizes="192x192"><link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96"><link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16"><link rel="manifest" href="/favicon/manifest.json"><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5"><link rel="shortcut icon" href="/favicon/favicon.ico"><meta name="apple-mobile-web-app-title" content="ZigBee Site Survey"><meta name="application-name" content="ZigBee Site Survey"><meta name="msapplication-TileColor" content="#2b5797"><meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png"><meta name="msapplication-config" content="/favicon/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"><link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"><link rel="stylesheet" href="/css/c3.min.css" type="text/css"><link rel="stylesheet" href="/css/survey.css" type="text/css"><link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css"><script src="/js/moment.min.js"></script><script src="/js/jquery-1.11.3.min.js"></script><script src="/bootstrap/js/bootstrap.min.js"></script><script src="/js/angular.min.js"></script><script src="/js/angular-sanitize.min.js"></script><script src="/js/ng-csv.min.js"></script><script src="/js/lodash.min.js"></script><script src="/js/d3.min.js"></script><script src="/js/c3.min.js"></script><script src="/js/surveyctrl.js"></script><script src="/socket.io/socket.io.js"></script></head><body><div ng-app="surveyApp" ng-controller="surveyCtrl"><!--Created by kc on 01.07.15.
---><div id="about" tabindex="-1" role="dialog" aria-labelledby="aboutLabel" aria-hidden="true" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">&times;</span></button><h2 id="aboutLabel">About this tool</h2></div><div class="modal-body"><p>ZigBee Site Survey Tool © 2015 Christian Kuster, CH-8342 Wernetshausen</p><p>This tool is FREEWARE, please understand that I can only provide very limited support for it. Use it at your own risk.</p><p>A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool. Please visit my&nbsp;<a href="http://ancasicolica.github.io/ZigBeeSiteSurvey/" target="_blank">GitHub page</a>&nbsp;for further details.</p><div>Favicon based on a design of&nbsp;<a href="http://behance.net/pedronieto93" title="Pedro Nieto Villamandos" target="_blank">Pedro Nieto Villamandos</a> from<a href="http://www.flaticon.com" title="Flaticon" target="_blank">www.flaticon.com</a>&nbsp; is licensed under&nbsp;<a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></div><p></p><p>Tool Version: {{settings.version}}</p><p></p><p>COM-Port: {{getConnectedSerialPort()}}</p><p>USB Dongle: {{usbDongle.applicationType}}</p><p>Hardware: {{usbDongle.hardware}}</p><p>Firmware: {{usbDongle.version}}</p><p></p><p>Level for good quality: {{settings.levels.good}}</p><p>Level for poor quality: {{settings.levels.acceptable}}</p><p></p><h4>GitHub Repository:</h4><p><a href="http://ancasicolica.github.io/ZigBeeSiteSurvey/" target="_blank">http://ancasicolica.github.io/ZigBeeSiteSurvey/</a></p></div><div class="modal-footer"><button type="button" data-dismiss="modal" class="btn btn-default">close</button></div></div></div></div><div ng-hide="startingUp" class="container"><div ng-hide="surveyReady" class="row"><div ng-hide="usbConnected"><p></p><div class="jumbotron"><h1>ZigBee Site Survey Tool</h1><p>Please connect a RapidConnect ZigBee USB Stick to your computer to continue...</p><p>&nbsp;</p><p></p></div></div></div><div ng-show="surveyReady" class="row"><div class="col-md-12 main-col"><div class="main-bar"><h1 class="main-title">ZigBee Site Survey Tool</h1><img class="logo"></div></div></div><div ng-show="surveyReady" class="row"><div ng-hide="usbConnected"><div class="alert alert-danger">No RapidConnect USB dongle found, scanning is disabled!</div></div><div ng-show="panel===&quot;networks&quot;"><!--Created by kc on 25.06.15.
---><div ng-hide="networks.length" class="wait-for-measurements"><div class="alert alert-warning"> Retrieving ZigBee networks, this takes only a few seconds... &nbsp;&nbsp;<i class="fa fa-spinner fa-spin"></i></div></div><div ng-show="networks.length"><div class="row"><div data-ng-repeat="n in networks" class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title"><a href="#" ng-click="survey(n)">{{n.extendedPanId}}<span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a></h3></div><div class="panel-body"><div ng-hide="n.chartGenerated" class="small-chart-area wait-for-data"><i class="fa fa-spinner fa-spin"></i></div><div id="chart-{{n.id}}" ng-show="n.chartGenerated" class="small-chart-area"></div><div class="row"><div class="col-xs-6 col-sm-5 col-md-3">RSSI</div><div class="col-xs-6 col-sm-7 col-md-9">{{n.rssi}}</div></div><div class="row"><div class="col-xs-6 col-sm-5 col-md-3">LQI</div><div class="col-xs-6 col-sm-7 col-md-9">{{n.lqi}}</div></div><div class="row"><div class="col-xs-6 col-sm-5 col-md-3">Channel</div><div class="col-xs-6 col-sm-7 col-md-9">{{n.channel}}</div></div><div class="row"><div class="col-xs-6 col-sm-5 col-md-3">PAN-ID</div><div class="col-xs-6 col-sm-7 col-md-9">{{n.panId}}</div></div><div class="row"><div class="col-md-12">Joining {{n.permitJoin === 'yes' ? 'permitted' : 'not allowed'}}</div></div></div></div></div></div></div><!-- button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks--></div><div ng-show="panel===&quot;survey&quot;"><!--Created by kc on 25.06.15.
---><div class="row"><div class="col-md-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title network-title">PAN {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}</h3></div><div class="panel-body"><div class="row no-print"><div class="col-md-4"><h2>RSSI: {{getLatestMeasurementEntry().rssi}} dB<span class="rssi-color-tag">&nbsp;&#9679;</span></h2></div><div class="col-md-4"><h2>LQI: {{getLatestMeasurementEntry().lqi}}<span class="lqi-color-tag">&nbsp;&#9679;</span></h2></div><div class="col-md-4"><h2>Joining {{getLatestMeasurementEntry().permitJoin === 'yes' ? 'permitted' : 'not allowed'}}</h2></div></div><div class="row"><div class="col-md-12 chart-area"><div id="chart"></div></div></div><div class="row no-print"><form class="form"><div class="col-md-10"><div class="form-group"><input id="infoText" type="text" autocomplete="true" placeholder="Add your log info here" ng-model="currentLocation" class="form-control"></div></div><div class="col-md-2"><button type="submit" ng-click="addLog()" class="btn btn-default">Add log entry</button></div></form></div><div class="row"><div class="col-md-12"><div ng-show="log.length"><table class="table table-striped"><thead><th><span ng-click="sortLog('ts', !reverse)">ts</span><!--span.glyphicon.glyphicon-chevron-up(ng-click="sortLog('ts', false)")--><!--span.glyphicon.glyphicon-chevron-down(ng-click="sortLog('ts', true)")--></th><th><span ng-click="sortLog('info', !reverse)">Info</span></th><th><span ng-click="sortLog('lqi', !reverse)">LQI</span></th><th><span ng-click="sortLog('rssi', !reverse)">RSSI</span></th></thead><tbody><tr data-ng-repeat="n in log | orderBy:predicate:reverse"><td>{{n.ts | date:'dd.MM.yyyy HH:mm:ss'}}</td><td>{{n.info}}</td><td>{{n.lqi}}</td><td>{{n.rssi}}</td></tr></tbody></table></div></div></div></div></div></div></div><!-- Navigation buttons for the survey pageCreated by kc on 22.10.15.
---><div class="row"><div class="col-md-12 col-lg-12 hidden-xs hidden-sm"><!-- Large screen buttons--><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button ng-csv="measurements" csv-header="getCsvHeaderForAll()" csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true" filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3" class="btn btn-default">Download all data as CSV</button></div><div class="btn-group"><button ng-csv="log" csv-header="getCsvHeaderForLog()" csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true" filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0" class="btn btn-default">Download log as CSV</button></div><div class="btn-group"><button onclick="javascript:window.print()" class="btn btn-default">Print page</button></div><div class="btn-group"><button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}</button></div><div class="btn-group"><button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button></div></div></div><!-- Medium screen buttons--><div class="col-xs-12 col-sm-12 hidden-xs hidden-md hidden-lg"><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button ng-csv="measurements" csv-header="getCsvHeaderForAll()" csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true" filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3" class="btn btn-default">Download all data as CSV</button></div><div class="btn-group"><button ng-csv="log" csv-header="getCsvHeaderForLog()" csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true" filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0" class="btn btn-default">Download log as CSV</button></div><div class="btn-group"><button onclick="javascript:window.print()" class="btn btn-default">Print page</button></div></div></div><div class="col-xs-12 col-sm-12 hidden-xs hidden-md hidden-lg"><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}</button></div><div class="btn-group"><button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button></div></div></div><!-- Small screen buttons--><div class="col-xs-12 visible-xs"><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button ng-csv="measurements" csv-header="getCsvHeaderForAll()" csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true" filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3" class="btn btn-default">Download all data as CSV</button></div><div class="btn-group"><button ng-csv="log" csv-header="getCsvHeaderForLog()" csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true" filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0" class="btn btn-default">Download log as CSV</button></div></div></div><div class="col-xs-12 visible-xs"><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button onclick="javascript:window.print()" class="btn btn-default">Print page</button></div></div></div><div class="col-xs-12 visible-xs"><div role="group" class="btn-group btn-group-justified no-print"><div class="btn-group"><button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}</button></div><div class="btn-group"><button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button></div></div></div></div></div></div><div ng-show="surveyReady" class="row no-print"><div class="col-md-12 info-bar">Version {{settings.version}},&nbsp<a href="#" data-toggle="modal" ng-click="refreshSettings()" data-target="#about" class="info-bar"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Help and info</a></div></div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head><title></title>
+    <meta name="keywords" content="ZigBee, SiteSurvey">
+    <meta name="description" content="Site survey tool for ZigBee Networks">
+    <meta charset="UTF-8">
+    <meta name="author" content="Christian Kuster, CH-8342 Wernetshausen, www.kusti.ch">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/favicon/manifest.json">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="ZigBee Site Survey">
+    <meta name="application-name" content="ZigBee Site Survey">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-TileImage" content="/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/c3.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/survey.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/angular-sanitize.min.js"></script>
+    <script src="/js/ng-csv.min.js"></script>
+    <script src="/js/lodash.min.js"></script>
+    <script src="/js/d3.min.js"></script>
+    <script src="/js/c3.min.js"></script>
+    <script src="/js/surveyctrl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div ng-app="surveyApp" ng-controller="surveyCtrl"><!--Created by kc on 01.07.15.
+-->
+    <div id="about" tabindex="-1" role="dialog" aria-labelledby="aboutLabel" aria-hidden="true" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h2 id="aboutLabel">About this tool</h2></div>
+                <div class="modal-body"><p>ZigBee Site Survey Tool © 2015 Christian Kuster, CH-8342 Wernetshausen</p>
+                    <p>This tool is FREEWARE, please understand that I can only provide very limited support for it. Use
+                        it at your own risk.</p>
+                    <p>A 'RapidConnect' ZigBee USB stick from MMB Networks must be connected in order to run this tool.
+                        Please visit my&nbsp;<a href="http://ancasicolica.github.io/ZigBeeSiteSurvey/" target="_blank">GitHub
+                            page</a>&nbsp;for further details.</p>
+                    <div>Favicon based on a design of&nbsp;<a href="http://behance.net/pedronieto93"
+                                                              title="Pedro Nieto Villamandos" target="_blank">Pedro
+                        Nieto Villamandos</a> from<a href="http://www.flaticon.com" title="Flaticon" target="_blank">www.flaticon.com</a>&nbsp;
+                        is licensed under&nbsp;<a href="http://creativecommons.org/licenses/by/3.0/"
+                                                  title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></div>
+                    <p></p>
+                    <p>Tool Version: {{settings.version}}</p>
+                    <p></p>
+                    <p>COM-Port: {{getConnectedSerialPort()}}</p>
+                    <p>USB Dongle: {{usbDongle.applicationType}}</p>
+                    <p>Hardware: {{usbDongle.hardware}}</p>
+                    <p>Firmware: {{usbDongle.version}}</p>
+                    <p></p>
+                    <p>Level for good quality: {{settings.levels.good}}</p>
+                    <p>Level for poor quality: {{settings.levels.acceptable}}</p>
+                    <p></p><h4>GitHub Repository:</h4>
+                    <p><a href="http://ancasicolica.github.io/ZigBeeSiteSurvey/" target="_blank">http://ancasicolica.github.io/ZigBeeSiteSurvey/</a>
+                    </p></div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-hide="startingUp" class="container">
+        <div ng-hide="surveyReady" class="row">
+            <div ng-hide="usbConnected"><p></p>
+                <div class="jumbotron"><h1>ZigBee Site Survey Tool</h1>
+                    <p>Please connect a RapidConnect ZigBee USB Stick to your computer to continue...</p>
+                    <p>&nbsp;</p>
+                    <p></p></div>
+            </div>
+        </div>
+        <div ng-show="surveyReady" class="row">
+            <div class="col-md-12 main-col">
+                <div class="main-bar"><h1 class="main-title">ZigBee Site Survey Tool</h1><img class="logo"></div>
+            </div>
+        </div>
+        <div ng-show="surveyReady" class="row">
+            <div ng-hide="usbConnected">
+                <div class="alert alert-danger">No RapidConnect USB dongle found, scanning is disabled!</div>
+            </div>
+            <div ng-show="panel===&quot;networks&quot;"><!--Created by kc on 25.06.15.
+-->
+                <div ng-hide="networks.length" class="wait-for-measurements">
+                    <div class="alert alert-warning"> Retrieving ZigBee networks, this takes only a few seconds...
+                        &nbsp;&nbsp;<i class="fa fa-spinner fa-spin"></i></div>
+                </div>
+                <div ng-show="networks.length">
+                    <div class="row">
+                        <div data-ng-repeat="n in networks" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><h3 class="panel-title"><a href="#" ng-click="survey(n)">{{n.extendedPanId}}<span
+                                        aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div ng-hide="n.chartGenerated" class="small-chart-area wait-for-data"><i
+                                            class="fa fa-spinner fa-spin"></i></div>
+                                    <div id="chart-{{n.id}}" ng-show="n.chartGenerated" class="small-chart-area"></div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-5 col-md-3">RSSI</div>
+                                        <div class="col-xs-6 col-sm-7 col-md-9">{{n.rssi}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-5 col-md-3">LQI</div>
+                                        <div class="col-xs-6 col-sm-7 col-md-9">{{n.lqi}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-5 col-md-3">Channel</div>
+                                        <div class="col-xs-6 col-sm-7 col-md-9">{{n.channel}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-5 col-md-3">PAN-ID</div>
+                                        <div class="col-xs-6 col-sm-7 col-md-9">{{n.panId}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">Joining {{n.permitJoin === 'yes' ? 'permitted' : 'not
+                                            allowed'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- button.btn.btn-default.no-print(ng-click='getNetworks()' ng-disabled='networkScanActive') Scan networks-->
+            </div>
+            <div ng-show="panel===&quot;survey&quot;"><!--Created by kc on 25.06.15.
+-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h3 class="panel-title network-title">PAN
+                                {{currentNetwork.panId}} on Channel {{currentNetwork.channel}}</h3></div>
+                            <div class="panel-body">
+                                <div class="row no-print">
+                                    <div class="col-md-4"><h2>RSSI: {{getLatestMeasurementEntry().rssi}} dB<span
+                                            class="rssi-color-tag">&nbsp;&#9679;</span></h2></div>
+                                    <div class="col-md-4"><h2>LQI: {{getLatestMeasurementEntry().lqi}}<span
+                                            class="lqi-color-tag">&nbsp;&#9679;</span></h2></div>
+                                    <div class="col-md-4"><h2>Joining {{getLatestMeasurementEntry().permitJoin === 'yes'
+                                        ? 'permitted' : 'not allowed'}}</h2></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 chart-area">
+                                        <div id="chart"></div>
+                                    </div>
+                                </div>
+                                <div class="row no-print">
+                                    <form class="form">
+                                        <div class="col-md-10">
+                                            <div class="form-group"><input id="infoText" type="text" autocomplete="true"
+                                                                           placeholder="Add your log info here"
+                                                                           ng-model="currentLocation"
+                                                                           class="form-control"></div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" ng-click="addLog()" class="btn btn-default">Add log
+                                                entry
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-show="log.length">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <th><span ng-click="sortLog('ts', !reverse)">ts</span>
+                                                    <!--span.glyphicon.glyphicon-chevron-up(ng-click="sortLog('ts', false)")-->
+                                                    <!--span.glyphicon.glyphicon-chevron-down(ng-click="sortLog('ts', true)")-->
+                                                </th>
+                                                <th><span ng-click="sortLog('info', !reverse)">Info</span></th>
+                                                <th><span ng-click="sortLog('lqi', !reverse)">LQI</span></th>
+                                                <th><span ng-click="sortLog('rssi', !reverse)">RSSI</span></th>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="n in log | orderBy:predicate:reverse">
+                                                    <td>{{n.ts | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+                                                    <td>{{n.info}}</td>
+                                                    <td>{{n.lqi}}</td>
+                                                    <td>{{n.rssi}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- Navigation buttons for the survey pageCreated by kc on 22.10.15.
+-->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 hidden-xs hidden-sm"><!-- Large screen buttons-->
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button ng-csv="measurements" csv-header="getCsvHeaderForAll()"
+                                        csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3"
+                                        class="btn btn-default">Download all data as CSV
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-csv="log" csv-header="getCsvHeaderForLog()"
+                                        csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0"
+                                        class="btn btn-default">Download log as CSV
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button onclick="javascript:window.print()" class="btn btn-default">Print page</button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button>
+                            </div>
+                        </div>
+                    </div><!-- Medium screen buttons-->
+                    <div class="col-xs-12 col-sm-12 hidden-xs hidden-md hidden-lg">
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button ng-csv="measurements" csv-header="getCsvHeaderForAll()"
+                                        csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3"
+                                        class="btn btn-default">Download all data as CSV
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-csv="log" csv-header="getCsvHeaderForLog()"
+                                        csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0"
+                                        class="btn btn-default">Download log as CSV
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button onclick="javascript:window.print()" class="btn btn-default">Print page</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 hidden-xs hidden-md hidden-lg">
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button>
+                            </div>
+                        </div>
+                    </div><!-- Small screen buttons-->
+                    <div class="col-xs-12 visible-xs">
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button ng-csv="measurements" csv-header="getCsvHeaderForAll()"
+                                        csv-column-order="getCsvColumnsForAll()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForAllData()}}" ng-disabled="measurements.length &lt; 3"
+                                        class="btn btn-default">Download all data as CSV
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-csv="log" csv-header="getCsvHeaderForLog()"
+                                        csv-column-order="getCsvColumnsForLog()" field-separator=";" lazy-load="true"
+                                        filename="{{getFileNameForLog()}}" ng-disabled="log.length === 0"
+                                        class="btn btn-default">Download log as CSV
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 visible-xs">
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button onclick="javascript:window.print()" class="btn btn-default">Print page</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 visible-xs">
+                        <div role="group" class="btn-group btn-group-justified no-print">
+                            <div class="btn-group">
+                                <button ng-click="toggleMeasurement()" class="btn btn-default">{{getActionText()}}
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button ng-click="closeSurvey()" class="btn btn-primary">Return to network list</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="surveyReady" class="row no-print">
+            <div class="col-md-12 info-bar">Version {{settings.version}},&nbsp<a href="#" data-toggle="modal"
+                                                                                 ng-click="refreshSettings()"
+                                                                                 data-target="#about"
+                                                                                 class="info-bar"><i
+                    class="glyphicon glyphicon-info-sign"></i>&nbsp;Help and info</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -24,7 +24,7 @@ function RapidConnector() {
 
   usbDetect.on('add:4292:34980', function (device) {
     logger.debug('RapidConnect found', device);
-    _.delay(self.connectToRapid.bind(self), 700);
+    _.delay(self.connectToRapid.bind(self), 1500);
     self.emit('usbConnected', device);
   });
 
@@ -87,15 +87,25 @@ RapidConnector.prototype.connectToRapid = function (callback) {
     var comName;
     var self = this;
 
+    function callCallback(err) {
+      if (callback) {
+        return callback(err);
+      }
+      if (err) {
+        logger.error(err);
+      }
+    }
+
     self.scanPorts(function (err, port) {
       if (err) {
         logger.info('Error while scanning ports');
         logger.error(err);
-        return;
+        console.log(err, port);
+        return callCallback(err);
       }
 
       if (!port) {
-        return;
+        return callCallback();
       }
 
       comName = port.comName;
@@ -138,17 +148,12 @@ RapidConnector.prototype.connectToRapid = function (callback) {
         logger.info('SERIALPORT (RE)OPENED');
         self.emit('open');
       });
-      if (callback) {
-        callback(err);
-      }
+      callCallback(err);
     });
   }
   catch (e) {
     logger.info('Exception in connectToRapid');
-    logger.error(e);
-    if (callback) {
-      callback(e);
-    }
+    callCallback(e);
   }
 };
 

@@ -29,7 +29,14 @@ function SurveyCore() {
     self.logger.error(err);
   });
 
-  rapidConnector.connectToRapid();
+  function connect() {
+    rapidConnector.connectToRapid(err => {
+      if (err) {
+      //  _.delay(connect, 1000);
+      }
+    });
+  }
+  _.delay(connect, 500);
 
   rapidConnector.on('usbConnected', device => {
     self.emit('usbConnected', device);
