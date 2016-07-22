@@ -11,13 +11,13 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const socket = require('./socket');
+const socket = require('./lib/socket');
 const logger = core.getLogger('server');
 const updateCheck = require('./../lib/updateCheck');
 
 // view engine setup
 var app = express();
-app.use(require('./expressLogger'));
+app.use(require('./lib/expressLogger'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'web', 'views'));
 app.set('view engine', 'jade');
