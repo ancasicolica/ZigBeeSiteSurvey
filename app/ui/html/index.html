@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        const survey = require('../../lib/survey');
+    </script>
     <meta charset="UTF-8">
     <title>ZigBee Site Survey</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/survey.css">
+    <script src="../angular/angular.js"></script>
+    <script src="../angular/angular-sanitize.min.js"></script>
+    <script src="../angular/angular-translate.js"></script>
+    <script src="../angular/ng-csv.js"></script>
+    <script src="../../lib/controller.js"></script>
 </head>
 <body>
-
-<div class="container-fluid">
+<script>
+    require('../../lib/controller');
+</script>
+<div class="container-fluid" ng-app="surveyApp" ng-controller="surveyCtrl">
     <div class="row">
-        <div id="view-no-dongle" class="view">
+        <h1>{{hello}}</h1>
+        <div id="view-no-dongle" class="view col-md-12">
             <div class="jumbotron">
                 <h1>Please connect a MMB RapidConnect USB Dongle</h1>
             </div>
         </div>
-        <div id="view-all-networks" class="view">
+        <div id="view-all-networks" class="view col-md-12">
             <h1>ALL NETWORKS</h1>
         </div>
-        <div id="view-single-network" class="view">
+        <div id="view-single-network" class="view col-md-12">
             <h1>SINGLE NETWORK</h1>
         </div>
-        <div id="view-coexistence" class="view">
+        <div id="view-coexistence" class="view col-md-12">
             <h1>COEXISTENCE</h1>
         </div>
     </div>
 </div>
 
 </body>
-<script>
-    require('../../lib/survey');
-</script>
+
 </html>

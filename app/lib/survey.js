@@ -43,3 +43,9 @@ core.on('networks', networks => {
 core.on('network', network => {
   logger.info('network', network);
 });
+
+module.exports = {
+  test: function(a) {
+    return 'test: ' + a;
+  }
+};

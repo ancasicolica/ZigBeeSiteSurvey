@@ -33,6 +33,7 @@
     "app": "ls -al"
   },
   "dependencies": {
+    "angular": "^1.5.8",
     "bignumber.js": "2.4.0",
     "body-parser": "1.15.2",
     "compression": "1.6.2",
