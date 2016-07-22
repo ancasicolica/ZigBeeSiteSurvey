@@ -3,9 +3,9 @@
  * Created by kc on 16.07.15.
  */
 
-const logger = require('./logger').getLogger('lib:socket');
+const logger = require('../../core/index')().getLogger('web:socket');
 const _ = require('lodash');
-const updateCheck = require('./updateCheck');
+const updateCheck = require('./../../lib/updateCheck');
 var io;
 var sockets = [];
 

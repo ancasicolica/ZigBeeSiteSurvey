@@ -8,8 +8,8 @@
 const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 const _ = require('lodash');
-const logger = require('./logger').getLogger('lib:scanner');
-const socket = require('./socket');
+const logger = require('./logger').getLogger('core:lib:scanner');
+
 
 /**
  * Constructor
@@ -111,10 +111,12 @@ Scanner.prototype.scanNetwork = function () {
     }
     self.scanActive = false;
 
+    /* TODO
     if (socket.getNumberOfConnectedClients() === 0) {
       self.measurementTimeout--;
       logger.info('No sockets, scans remaining before timeout: ', self.measurementTimeout)
     }
+    */
 
     self.enabled =  (self.measurementTimeout > 0);
     if (self.enabled) {

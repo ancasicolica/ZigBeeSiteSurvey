@@ -5,7 +5,7 @@
 
 const rapidConnector = require('../rapidConnector');
 const _ = require('lodash');
-const logger = require('../logger').getLogger('tasks:determineDongleType');
+const logger = require('../logger').getLogger('core:tasks:determineDongleType');
 const UITLITY_HEADER = 0x55;
 const MODULE_INFO_REQUEST = 0x02;
 const BOOTLOADER_VERSION_REQUEST = 0x04;

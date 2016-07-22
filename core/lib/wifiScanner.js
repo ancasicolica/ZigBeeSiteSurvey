@@ -4,7 +4,7 @@
  */
 
 const scanner = require('node-wifi-scanner');
-const logger = require('./logger').getLogger('wifiScanner');
+const logger = require('./logger').getLogger('core:wifiScanner');
 
 
 module.exports = {

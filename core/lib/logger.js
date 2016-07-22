@@ -7,7 +7,11 @@ const winston = require('winston');
 const moment = require('moment');
 const util = require('util');
 const _ = require('lodash');
-const settings = require('../settings');
+
+var settings = {
+  level: process.env.LOG_LEVEL || 'info',
+  colorize: true
+};
 
 var loggerSettings = {
   levels: {
@@ -58,6 +62,10 @@ var log = function (module, level, message, metadata) {
 };
 
 module.exports = {
+  setSettings: function (_settings) {
+    settings = _.assign(settings, _settings);
+  },
+
   add: function (transport, options) {
     logger.add(transport, options);
   },
@@ -81,7 +89,7 @@ module.exports = {
         log(moduleName, 'warn', message, metadata);
       },
       debug: function (message, metadata) {
-        if (settings.logger.level === 'debug') {
+        if (settings.level === 'debug') {
           log(moduleName, 'info', message, metadata); // using info as otherwise on stderr
         }
       }

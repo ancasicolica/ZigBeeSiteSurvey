@@ -5,15 +5,14 @@
 
 const express = require('express');
 const router = express.Router();
-const resetModule = require('../lib/tasks/resetModule');
-const determineDongleType = require('../lib/tasks/determineDongleType');
+const core = require('../../core')();
 
 /**
  * Scans all networks
  */
 router.post('/', function (req, res) {
-  resetModule.run(function() {
-    determineDongleType.run();
+  core.resetDongle(function() {
+    core.determineDongleType();
     res.send({status: 'ok'});
   });
 });

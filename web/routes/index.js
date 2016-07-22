@@ -3,15 +3,15 @@
  * Created by kc on 25.06.15.
  */
 
-const express = require('express');
-const router = express.Router();
-const scanner = require('../lib/scanner');
 const fs = require('fs');
 const path = require('path');
 const pug = require('pug');
-const logger = require('../lib/logger').getLogger('routes:index');
+const express = require('express');
+const router = express.Router();
+const core = require('../../core')();
+const scanner = core.getScanner();
 
-var settings = require('../settings');
+var settings = require('../../settings');
 var customAbout = false;
 settings.custom = settings.custom || {};
 settings.custom.faviconPath = settings.custom.faviconPath || '/favicon';

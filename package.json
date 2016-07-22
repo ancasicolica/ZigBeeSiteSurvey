@@ -2,6 +2,7 @@
   "name": "zigbee-survey-tool",
   "version": "1.11.1",
   "title": "Node ZigBee Survey Tool",
+  "productName": "ZigBee Site Survey",
   "description": "Check the ZigBee network data using MMBs RapidConnect",
   "keywords": [
     "ZigBee",
@@ -22,8 +23,13 @@
   },
   "license": "MIT",
   "engines": {
-    "node": "6.1.2",
+    "node": "6.1.0",
     "npm": "3.9.2"
+  },
+  "scripts": {
+    "start": "ls -al",
+    "server": "node server",
+    "app": "ls -al"
   },
   "dependencies": {
     "bignumber.js": "2.4.0",

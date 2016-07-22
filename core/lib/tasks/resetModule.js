@@ -4,7 +4,7 @@
  */
 
 const rapidConnector = require('../rapidConnector');
-const logger = require('../logger').getLogger('tasks:resetModule');
+const logger = require('../logger').getLogger('core:tasks:resetModule');
 const _ = require('lodash');
 
 const UITLITY_HEADER = 0x55;

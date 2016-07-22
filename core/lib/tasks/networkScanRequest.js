@@ -4,8 +4,7 @@
  */
 
 const rapidConnector = require('../rapidConnector');
-const settings = require('../../settings');
-const logger = require('../logger').getLogger('tasks:networkScanRequest');
+const logger = require('../logger').getLogger('core:tasks:networkScanRequest');
 const ErrorFrame = require('../messages/errorFrame').ErrorFrame;
 const _ = require('lodash');
 const util = require('util');
@@ -14,6 +13,7 @@ const NETWORK_SCAN_REQUEST = 0x00;
 
 var lastLqi = 250;
 var lastRssi = -50;
+var settings = {};
 
 /**
  * Helper: handle duplicate networks found. We use the higher value:
@@ -28,11 +28,11 @@ function handleDuplicates(networks) {
   for (var i = 0; i < networks.length; i++) {
     var n = _.find(retVal, {extendedPanId: networks[i].extendedPanId});
     if (n) {
-      logger.debug('Duplicate network found ' +  networks[i].extendedPanId);
+      logger.debug('Duplicate network found ' + networks[i].extendedPanId);
       // Already in list: use the higher values
       if (n.rssi < networks[i].rssi) {
-        n.rssi =  networks[i].rssi;
-        n.lqi =  networks[i].lqi;
+        n.rssi = networks[i].rssi;
+        n.lqi = networks[i].lqi;
       }
     }
     else {
@@ -170,7 +170,7 @@ NetworkScanRequest.prototype.rapidConnectHandling = function (callback) {
             panId: self.options.panId || '0000',
             channel: self.options.channel || 0,
             extendedPanId: '0000 0000 0000 0000',
-            rssi: settings.levels.min,
+            rssi: _.get(settings, 'levels.min', -100),
             lqi: 0,
             found: false
           });
@@ -321,8 +321,11 @@ NetworkScanRequest.prototype.simulator = function (callback) {
 
 
 module.exports = {
+  setSettings: function (_settings) {
+    settings = _.assign(settings, _settings);
+  },
   start: function (options, callback) {
-    logger.debug ('STARTING NEW SCAN');
+    logger.debug('STARTING NEW SCAN');
     var req = new NetworkScanRequest(options);
     if (settings.simulator) {
       req.simulator(callback);

@@ -7,9 +7,8 @@ const util = require('util');
 const SerialPort = require('serialport');
 const usbDetect = require('usb-detection');
 const EventEmitter = require('events').EventEmitter;
-const socket = require('./socket');
 const _ = require('lodash');
-const logger = require('./logger').getLogger('lib:rapidConnector');
+const logger = require('./logger').getLogger('core:lib:rapidConnector');
 
 const START_OF_FRAME_SE = 0xfe;
 const START_OF_FRAME_HA = 0xf1;
@@ -25,17 +24,16 @@ function RapidConnector() {
 
   usbDetect.on('add:4292:34980', function (device) {
     logger.debug('RapidConnect found', device);
-    //self.connectToRapid();
     _.delay(self.connectToRapid.bind(self), 700);
-    socket.emit('usbConnected', device);
+    self.emit('usbConnected', device);
   });
 
-  usbDetect.on('remove:4292:34980', function (device) {
+  usbDetect.on('remove:4292:34980', function () {
     logger.debug('RapidConnect removed');
     if (self.serialPort && self.serialPort.isOpen()) {
       self.serialPort.close();
     }
-    socket.emit('usbDisconnected');
+    self.emit('usbDisconnected');
   });
 }
 
@@ -59,12 +57,12 @@ RapidConnector.prototype.scanPorts = function (callback) {
     ports.forEach(function (port) {
       if (port.productId === '0x88a4' && port.vendorId === '0x10c4') {
         // This is for modern systems like Mac or Linux
-        logger.debug('MMB RapidConnect USB stick found @ ' + port.comName);
+        logger.info('MMB RapidConnect USB stick found @ ' + port.comName);
         rapidPort = port;
       }
       else if (port.pnpId && port.pnpId.toLowerCase().indexOf('vid_10c4') > 0 && port.pnpId.toLowerCase().indexOf('pid_88a4') > 0) {
         // This is Windows legacy support
-        logger.debug('MMB RapidConnect USB stick found @ ' + port.comName);
+        logger.info('MMB RapidConnect USB stick found @ ' + port.comName);
         rapidPort = port;
       }
     });
@@ -123,7 +121,7 @@ RapidConnector.prototype.connectToRapid = function (callback) {
       });
 
       self.serialPort.on('close', function () {
-        logger.debug('SERIALPORT CLOSED!');
+        logger.info('SERIALPORT CLOSED!');
         self.usedSerialPort = undefined;
         self.emit('close');
       });
@@ -137,7 +135,7 @@ RapidConnector.prototype.connectToRapid = function (callback) {
       });
 
       self.serialPort.on('open', function (erSchr) {
-        logger.debug('SERIALPORT (RE)OPENED');
+        logger.info('SERIALPORT (RE)OPENED');
         self.emit('open');
       });
       if (callback) {
@@ -236,7 +234,7 @@ RapidConnector.prototype.writeFrame = function (primaryHeader, secondaryHeader, 
  * @param mode
  */
 RapidConnector.prototype.setMode = function(mode) {
-  logger.debug('Setting RapidConnector Mode: ' + mode);
+  logger.info('Setting RapidConnector Mode: ' + mode);
   this.mode = mode;
 };
 
