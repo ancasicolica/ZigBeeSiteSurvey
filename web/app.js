@@ -6,7 +6,7 @@
 
 
 const settings = require('./../settings');
-const core = require('./../core/index')(settings);
+const core = require('././index')(settings);
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');

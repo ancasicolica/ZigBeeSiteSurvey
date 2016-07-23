@@ -2,8 +2,8 @@
  * Created by kc on 22.07.16.
  */
 
-const settings = require('../../settings');
-const core = require('../../core')(settings);
+const settings = require('../settings');
+const core = require('../core')(settings);
 const logger = core.getLogger('lib:survey');
 const $ = require('jquery');
 

@@ -1,8 +1,8 @@
 {
   "name": "zigbee-survey-tool",
   "version": "1.11.1",
-  "title": "Node ZigBee Survey Tool",
-  "productName": "ZigBee Site Survey",
+  "title": "Node ZigBee Survey App",
+  "productName": "ZigBee Site Survey App",
   "description": "Check the ZigBee network data using MMBs RapidConnect",
   "keywords": [
     "ZigBee",
@@ -26,24 +26,9 @@
     "node": "6.1.0",
     "npm": "3.9.2"
   },
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
-    "start": "electron .",
-    "server": "node server",
-    "postinstall": "install-app-deps",
-    "pack": "build --dir",
-    "dist": "build"
-  },
-  "build": {
-    "appId": "kusti.ch.zigbee.survey",
-    "app-category-type": "public.app-category.developer-tools",
-    "productName": "ZigBee Site Survey",
-    "win": {
-      "iconUrl": "https://raw.githubusercontent.com/ancasicolica/ZigBeeSiteSurvey/master/public/favicon/favicon.ico"
-    },
-    "mac": {
-      "target": "dmg"
-    }
+    "start": "electron ."
   },
   "dependencies": {
     "angular": "^1.5.8",
@@ -53,7 +38,7 @@
     "electron": "^0.4.1",
     "electron-prebuilt": "1.2.8",
     "express": "4.14.0",
-    "jquery": "^3.1.0",
+    "jquery": "3.1.0",
     "lodash": "4.13.1",
     "moment": "2.14.1",
     "na-gaussian-elimination": "0.0.4",
@@ -66,7 +51,6 @@
     "winston": "2.2.0"
   },
   "devDependencies": {
-    "electron-builder": "^5.14.2",
     "electron-rebuild": "^1.1.5",
     "grunt": "1.0.1",
     "grunt-bump": "0.8.0",
