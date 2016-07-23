@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const core = require('../../core')();
+const core = require('../../app/core')();
 const scanner = core.getScanner();
 const networkPool = core.getNetworkPool();
 const logger = core.getLogger('routes:scanner');
