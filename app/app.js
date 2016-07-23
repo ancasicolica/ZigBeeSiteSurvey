@@ -15,7 +15,7 @@ function createWindow () {
   mainWindow.loadURL(`file://${__dirname}/ui/html/index.html`);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -101,21 +101,6 @@ let template = [{
         focusedWindow.toggleDevTools()
       }
     }
-  }, {
-    type: 'separator'
-  }, {
-    label: 'App Menu Demo',
-    click: function (item, focusedWindow) {
-      if (focusedWindow) {
-        const options = {
-          type: 'info',
-          title: 'Application Menu Demo',
-          buttons: ['Ok'],
-          message: 'This demo is for the Menu section, showing how to create a clickable menu item in the application menu.'
-        }
-        electron.dialog.showMessageBox(focusedWindow, options, function () {})
-      }
-    }
   }]
 }, {
   label: 'Window',
@@ -138,6 +123,29 @@ let template = [{
     click: function () {
       app.emit('activate')
     }
+  }, {
+    type: 'separator'
+  }, {
+    label: 'Main page',
+    enabled: true,
+    key: 'reopenMenuItem',
+    click: function () {
+      mainWindow.loadURL(`file://${__dirname}/ui/html/index.html`);
+    }
+  }, {
+    label: 'Survey page',
+    enabled: true,
+    key: 'reopenMenuItem',
+    click: function () {
+      mainWindow.loadURL(`file://${__dirname}/ui/html/survey.html`);
+    }
+  }, {
+    label: 'WLAN Coexistence page',
+    enabled: true,
+    key: 'reopenMenuItem',
+    click: function () {
+      mainWindow.loadURL(`file://${__dirname}/ui/html/wlan.html`);
+    }
   }]
 }, {
   label: 'Help',
@@ -146,6 +154,21 @@ let template = [{
     label: 'Learn More',
     click: function () {
       electron.shell.openExternal('http://ancasicolica.github.io/ZigBeeSiteSurvey/')
+    }
+  }, {
+    type: 'separator'
+  }, {
+    label: 'About ZigBee Site Survey',
+    click: function (item, focusedWindow) {
+      if (focusedWindow) {
+        const options = {
+          type: 'info',
+          title: 'About',
+          buttons: ['Ok'],
+          message: 'This is a demonstrator for the ZigBee Site Survey Tool as an app. Not released yet, not finished yet!'
+        };
+        electron.dialog.showMessageBox(focusedWindow, options, function () {})
+      }
     }
   }]
 }];
@@ -176,16 +199,16 @@ function addUpdateMenuItems (items, position) {
     click: function () {
       require('electron').autoUpdater.quitAndInstall()
     }
-  }]
+  }];
 
   items.splice.apply(items, [position, 0].concat(updateItems))
 }
 
 function findReopenMenuItem () {
-  const menu = Menu.getApplicationMenu()
-  if (!menu) return
+  const menu = Menu.getApplicationMenu();
+  if (!menu) return;
 
-  let reopenMenuItem
+  let reopenMenuItem;
   menu.items.forEach(function (item) {
     if (item.submenu) {
       item.submenu.items.forEach(function (item) {

@@ -3,40 +3,34 @@
 <head>
     <script>
         const survey = require('../../lib/survey');
+        const core = require('../../../core')();
+        const settings = require('../../../settings');
     </script>
     <meta charset="UTF-8">
     <title>ZigBee Site Survey</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../web/public/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/survey.css">
-    <script src="../angular/angular.js"></script>
-    <script src="../angular/angular-sanitize.min.js"></script>
-    <script src="../angular/angular-translate.js"></script>
-    <script src="../angular/ng-csv.js"></script>
-    <script src="../../lib/controller.js"></script>
+
 </head>
 <body>
-<script>
-    require('../../lib/controller');
-</script>
+
 <div class="container-fluid" ng-app="surveyApp" ng-controller="surveyCtrl">
+    <p>&nbsp;</p>
     <div class="row">
-        <h1>{{hello}}</h1>
-        <div id="view-no-dongle" class="view col-md-12">
-            <div class="jumbotron">
-                <h1>Please connect a MMB RapidConnect USB Dongle</h1>
-            </div>
+        <div class="col-md-12">
+            <h1>ZigBee Site Survey App Demo</h1>
+            <p>This is just a demonstrator how the ZigBee Site Survey Tool is run as a standalone app for Mac, Windows and Linux.</p>
+            <ul>
+                <li><a href="survey.html">Go to the Survey page</a></li>
+                <li><a href="wlan.html">Go to the WLAN coexistence page</a></li>
+                <li><a href="about.html">Go to the Help & About page</a></li>
+            </ul>
         </div>
-        <div id="view-all-networks" class="view col-md-12">
-            <h1>ALL NETWORKS</h1>
-        </div>
-        <div id="view-single-network" class="view col-md-12">
-            <h1>SINGLE NETWORK</h1>
-        </div>
-        <div id="view-coexistence" class="view col-md-12">
-            <h1>COEXISTENCE</h1>
-        </div>
+
     </div>
 </div>
+
 
 </body>
 

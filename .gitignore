@@ -39,5 +39,5 @@ public/custom/custom.css
 # Webstorm
 .idea
 node.exe
-views/*.html
+web/views/*.html
 

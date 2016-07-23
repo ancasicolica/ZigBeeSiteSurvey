@@ -1,3 +1,171 @@
+@media print {
+    .no-print, .no-print * {
+        display: none !important;
+    }
+
+    .chart-area {
+        width: 95%;
+        position: relative;
+    }
+}
+
+@media screen {
+    .chart-area {
+        width: 100%;
+    }
+}
+
+.small-chart-area {
+    width: 100%;
+    height: 200px;
+}
+
+/* Avoiding the flickering of the chart when loading */
+svg {
+    width: 100%;
+}
+
+.wait-for-data {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 64px;
+    line-height: 200px;
+}
+
+.network-title {
+    position: relative;
+}
+
+.network-title-controls {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+}
+
+h1.main-title {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+
+}
+
+.main-col {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+header {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.info-bar {
+    background-color: #828c95;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+a.info-bar {
+    color: #99c0ff;
+}
+
+.icon-close {
+    position: absolute;
+    right: 0;
+}
+
+.wait-for-measurements {
+    height: 400px;
+}
+
+.found-networks {
+    font-weight: bold;
+}
+
+span.rssi-info {
+    font-size: x-large;
+    position: relative;
+    margin-left: 50px;
+}
+
+span.lqi-info {
+    font-size: x-large;
+    position: absolute;
+    right: 50px;
+}
+
+.survey-network-info {
+    font-size: large;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.c3-region.region-acceptable {
+    fill: yellow;
+}
+
+.c3-region.region-bad {
+    fill: red;
+}
+
+.c3-region.region-good {
+    fill: green;
+}
+
+path.c3-line-rssi {
+    stroke-width: 1px;
+}
+
+path.c3-line-lqi {
+    stroke-width: 1px;
+}
+
+.rssi-color-tag {
+    color: blue;
+}
+
+.lqi-color-tag {
+    color: plum;
+}
+
+.licence {
+
+}
+
+.modal-dialog {
+    width: 80%;
+}
+
+.table-info {
+    width: 80%;
+}
+
+#help-and-info {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+#update-available {
+    color: orange;
+}
+
+#update-available-info {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+#update-get-here {
+    display: inline-block;
+    padding-left: 5px;
+}
+
 .view {
     display: none;
 }

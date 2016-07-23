@@ -47,5 +47,7 @@ core.on('network', network => {
 module.exports = {
   test: function(a) {
     return 'test: ' + a;
-  }
+  },
+  $: $
 };
+
