@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const settings = require('../../settings');
-const core = require('../../core')();
+const core = require('zigbee-survey-core')();
 const rapidConnector = core.getRapidConnector();
 
 /**

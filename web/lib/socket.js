@@ -3,7 +3,7 @@
  * Created by kc on 16.07.15.
  */
 
-const logger = require('../../core/index')().getLogger('web:socket');
+const logger = require('zigbee-survey-core')().getLogger('web:socket');
 const _ = require('lodash');
 const updateCheck = require('./../../lib/updateCheck');
 var io;

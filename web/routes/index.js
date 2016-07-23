@@ -8,7 +8,7 @@ const path = require('path');
 const pug = require('pug');
 const express = require('express');
 const router = express.Router();
-const core = require('../../core')();
+const core = require('zigbee-survey-core')();
 const scanner = core.getScanner();
 
 var settings = require('../../settings');

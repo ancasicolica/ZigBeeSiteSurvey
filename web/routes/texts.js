@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const core = require('../../core')();
+const core = require('zigbee-survey-core')();
 const settings = require('../../settings');
 const logger = core.getLogger('routes:texts');
 
