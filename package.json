@@ -39,7 +39,8 @@
     "app-category-type": "public.app-category.developer-tools",
     "productName": "ZigBee Site Survey",
     "win": {
-      "iconUrl": "https://raw.githubusercontent.com/ancasicolica/ZigBeeSiteSurvey/master/public/favicon/favicon.ico"
+      "iconUrl": "https://raw.githubusercontent.com/ancasicolica/ZigBeeSiteSurvey/master/public/favicon/favicon.ico",
+      "target": "zip"
     },
     "mac": {
       "target": "dmg"
