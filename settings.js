@@ -19,7 +19,7 @@ var info = {};
 
 try {
   var customFileName = process.env.CUSTOM_FILE_NAME || 'settings.json';
-  var customFile = path.join(__dirname, 'public', 'custom', customFileName);
+  var customFile = path.join(__dirname, 'web', 'public', 'custom', customFileName);
   // If the file is not here, the next line crashes (throws an exception)
   info = fs.statSync(customFile);
   settings.custom = require(customFile);
