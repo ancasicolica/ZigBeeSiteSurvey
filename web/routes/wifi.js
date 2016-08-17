@@ -5,11 +5,8 @@
 
 const express = require('express');
 const router = express.Router();
-const wifiScanner = require('../lib/wifiScanner');
-const networkPool = require('../lib/networkPool');
-const logger = require('../lib/logger').getLogger('routes:wifi');
-const spectrumChart = require('../lib/spectrumChart');
-const _ = require('lodash');
+const core = require('zigbee-survey-core')();
+const logger = core.getLogger('routes:wifi');
 
 const wifiFrequencies = {
   '1': 2412,
@@ -35,7 +32,7 @@ const wifiBandwith = 22;
  */
 router.get('/', (req, res) => {
   logger.info('/: get all networks');
-  wifiScanner.scan((err, networks) => {
+  core.scanWifi((err, networks) => {
     if (err) {
       return res.status(500).send({message: err.message});
     }
@@ -50,7 +47,7 @@ router.get('/', (req, res) => {
  */
 router.get('/spectrum', (req, res) => {
   try {
-    wifiScanner.scan((err, networks) => {
+    core.scanWifi((err, networks) => {
       if (err) {
         return res.status(500).send({message: err.message});
       }
@@ -71,7 +68,7 @@ router.get('/spectrum', (req, res) => {
           n.signal_level = parseInt(n.rssi, 10);
           logger.debug('-------------------');
 
-          var chartData = spectrumChart({
+          var chartData = core.createSpectrumChart({
             frequency: wifiFrequencies[n.channel],
             bandwith: wifiBandwith,
             amplitude: n.rssi + 100,

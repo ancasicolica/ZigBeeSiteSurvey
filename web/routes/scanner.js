@@ -5,9 +5,10 @@
 
 const express = require('express');
 const router = express.Router();
-const scanner = require('../lib/scanner');
-const networkPool = require('../lib/networkPool');
-const logger = require('../lib/logger').getLogger('routes:scanner');
+const core = require('zigbee-survey-core')();
+const scanner = core.getScanner();
+const networkPool = core.getNetworkPool();
+const logger = core.getLogger('routes:scanner');
 
 /**
  * Scans all networks

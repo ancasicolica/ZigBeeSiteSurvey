@@ -5,10 +5,11 @@
 
 const express = require('express');
 const router = express.Router();
-const settings = require('../settings');
-const logger = require('../lib/logger').getLogger('routes:texts');
+const core = require('zigbee-survey-core')();
+const settings = require('../../settings');
+const logger = core.getLogger('routes:texts');
 
-var texts = require('../texts.json');
+var texts = require('../../texts.json');
 
 if (settings.custom && settings.custom.enabled && settings.custom.texts) {
   texts = require('../public/' + settings.custom.texts);

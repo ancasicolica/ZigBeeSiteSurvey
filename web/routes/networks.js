@@ -4,11 +4,10 @@
 
 const express = require('express');
 const router = express.Router();
-const networkPool = require('../lib/networkPool');
-const scanner = require('../lib/scanner');
-const networkScanRequest = require('../lib/tasks/networkScanRequest');
-const spectrumChart = require('../lib/spectrumChart');
-const logger = require('../lib/logger').getLogger('routes:networks');
+const core = require('zigbee-survey-core')();
+const networkPool = core.getNetworkPool();
+const scanner = core.getScanner();
+const logger = core.getLogger('routes:networks');
 
 const zigBeeFrequencies = {
   '11': 2405,
@@ -54,7 +53,7 @@ router.get('/spectrum', (req, res) => {
     logger.debug(n);
     logger.debug('-------------------');
 
-    var chartData = spectrumChart({
+    var chartData = core.createSpectrumChart({
       frequency: zigBeeFrequencies[n.channel],
       bandwith: zigBeeBandwith,
       amplitude: n.rssi + 100,
@@ -88,7 +87,7 @@ router.get('/scan', function (req, res) {
     return res.send(networkPool.getNetworks());
   }
 
-  networkScanRequest.start({}, function (err, networks) {
+  core.scanNetworks((err, networks) => {
     if (err) {
       logger.error('scan request failed', err);
       return res.sendStatus(500);
