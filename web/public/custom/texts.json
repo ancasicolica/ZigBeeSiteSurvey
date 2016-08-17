@@ -1,9 +1,9 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "default": "en",
   "sets": [
     {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "languageCodes": [
         "de",
         "de_AT",
@@ -14,8 +14,8 @@
         "VERSION": "Version",
         "RETRIEVING_ZIGBEE_NETWORKS": "Suche ZigBee Netzwerke, dies kann ein paar Sekunden dauern...",
         "HELP_AND_INFO": "Hilfe und Information",
-        "PLEASE_INSERT_DONGLE": "Bitte den RapidConnect ZigBee USB Stick anschliessen...",
-        "SCANNING_IS_DISABLED": "Kein Rapid Connect USB Adapter gefunden, Netzwerksuche ist unterbrochen!",
+        "PLEASE_INSERT_DONGLE": "Bitte den Wireless USB Stick anschliessen...",
+        "SCANNING_IS_DISABLED": "Kein Wireless USB Stick gefunden, Netzwerksuche ist unterbrochen!",
         "RSSI": "RSSI",
         "LQI": "LQI",
         "CHANNEL": "Kanal",
@@ -29,8 +29,8 @@
         "ADD_LOG_ENTRY": "Eintrag hinzufügen",
         "INFO": "Info",
         "TIMESTAMP": "Zeit",
-        "DOWNLOAD_ALL_CSV": "Daten als CSV laden",
-        "DOWNLOAD_LOG_CSV": "Log als CSV laden",
+        "DOWNLOAD_ALL_CSV": "Daten als CSV speichern",
+        "DOWNLOAD_LOG_CSV": "Log als CSV speichern",
         "PRINT_PAGE": "Seite drucken",
         "RETURN_TO_NETWORK_LIST": "Zurück zur Netzwerkliste",
         "CONTINUE": "Messung aufnehmen",
@@ -72,7 +72,7 @@
       }
     },
     {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "languageCodes": [
         "en",
         "en_US",
@@ -82,8 +82,8 @@
         "VERSION": "Version",
         "RETRIEVING_ZIGBEE_NETWORKS": "Retrieving ZigBee networks, this takes only a few seconds...",
         "HELP_AND_INFO": "Help and Information",
-        "PLEASE_INSERT_DONGLE": "Please connect a RapidConnect ZigBee USB Stick to your computer to continue...",
-        "SCANNING_IS_DISABLED": "No RapidConnect USB dongle found, scanning is disabled!",
+        "PLEASE_INSERT_DONGLE": "Please connect a wireless USB stick to your computer to continue...",
+        "SCANNING_IS_DISABLED": "No wireless USB stick found, scanning is disabled!",
         "RSSI": "RSSI",
         "LQI": "LQI",
         "CHANNEL": "Channel",
@@ -130,7 +130,7 @@
             "RSSI_AND_LQI_FIVE": "A very strong signal that causes the receiver to saturate may give high RSSI and high LQI.",
             "EXAMPLE_NOT_RECOMMENDED": "Example: Installation not recommended",
             "EXAMPLE_RECOMMENDED": "Example: Installation recommended",
-            "CONTACT_SUPPORT": "Please address the local Dorma Kaba support contact for questions and support.",
+            "CONTACT_SUPPORT": "Please address the local dorma+kaba support contact for questions and support.",
             "DOWNLOAD": "For the latest Version of the ZigBee Site Survey Service Tool, please visit the Kaba extranet website"
           },
           "NO_WIFI_TITLE": "WiFi not available",
