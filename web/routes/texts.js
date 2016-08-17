@@ -12,7 +12,7 @@ const logger = core.getLogger('routes:texts');
 var texts = require('../../texts.json');
 
 if (settings.custom && settings.custom.enabled && settings.custom.texts) {
-  texts = require('../public/' + settings.custom.texts);
+  texts = require('../../public/' + settings.custom.texts);
   logger.info('Using custom texts');
 }
 
