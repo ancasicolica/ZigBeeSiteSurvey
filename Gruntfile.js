@@ -52,7 +52,7 @@ module.exports = function (grunt) {
           archive: 'dist/ZigBeeSiteSurvey-' + grunt.file.readJSON('package.json').version + '-Win-x64.zip'
         },
         files: [{
-          src: ['*.js', 'LICENSE', '*.json', 'node.exe', '*.md', 'lib/**', 'node_modules/**', 'public/**', 'routes/**', 'views/**'],
+          src: ['*.js', 'LICENSE', '*.json', 'node.exe', '*.md', 'lib/**', 'node_modules/**', 'web/**', 'bin/**'],
           dest: 'ZigBeeSiteSurvey-' + grunt.file.readJSON('package.json').version + '-Win-x64'
         }]
       }
