@@ -1,9 +1,9 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.2",
   "default": "en",
   "sets": [
     {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "languageCodes": [
         "de",
         "de_AT",
@@ -65,6 +65,8 @@
             "DOWNLOAD": "Die aktuelle Version des ZigBee Site Survey Tools ist im Kaba Extranet verfügbar"
           }
         },
+        "NO_WIFI_TITLE": "WiFi nicht verfügbar",
+        "NO_WIFI_INFO": "Entweder ist kein WiFi Adapter verfügbar oder er ist deaktiviert. Das System liefert folgende Meldung:",
         "ZIGBEE_NETWORKS_TAB": "ZigBee Netzwerke",
         "WIFI_COEXISTENCE_TAB": "WiFi Netzwerke",
         "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
@@ -72,7 +74,7 @@
       }
     },
     {
-      "version": "1.1.1",
+      "version": "1.1.2",
       "languageCodes": [
         "en",
         "en_US",
@@ -132,14 +134,12 @@
             "EXAMPLE_RECOMMENDED": "Example: Installation recommended",
             "CONTACT_SUPPORT": "Please address the local dorma+kaba support contact for questions and support.",
             "DOWNLOAD": "For the latest Version of the ZigBee Site Survey Service Tool, please visit the Kaba extranet website"
-          },
-          "NO_WIFI_TITLE": "WiFi not available",
-          "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:",
-          "ZIGBEE_NETWORKS_TAB": "ZigBee Networks",
-          "WIFI_COEXISTENCE_TAB": "WiFi Coexistence"
+          }
         },
+        "NO_WIFI_TITLE": "WiFi not available",
+        "NO_WIFI_INFO": "Either there is no WiFi adapter in your system or it is disabled. Please verify your settings, the following message was received by the system:",
         "ZIGBEE_NETWORKS_TAB": "ZigBee Networks",
-        "WIFI_COEXISTENCE_TAB": "WiFi Networks",
+        "WIFI_COEXISTENCE_TAB": "WiFi Coexistence",
         "UPDATE_AVAILABLE": "A new version is available",
         "UPDATE_GET_HERE": "Download"
       }
