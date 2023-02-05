@@ -41,3 +41,4 @@ public/custom/custom.css
 node.exe
 views/*.html
 
+/yarn.lock
