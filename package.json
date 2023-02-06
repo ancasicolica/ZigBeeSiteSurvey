@@ -23,8 +23,8 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">6.1.0",
-    "npm": "3.9.2"
+    "node": ">16.0.0",
+    "npm": ">8.0.0"
   },
   "scripts": {
     "start": "ls -al",
@@ -32,21 +32,21 @@
     "app": "ls -al"
   },
   "dependencies": {
-    "zigbee-survey-core": "ancasicolica/ZigBeeSiteSurveyCore#develop",
     "body-parser": "1.20.1",
     "compression": "1.7.4",
     "express": "4.18.2",
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "pug": "3.0.2",
-    "restify": "4.3.4",
+    "restify": "11.0.0",
+    "restify-clients": "4.2.0",
     "socket.io": "4.5.4",
-    "winston": "2.4.7"
+    "zigbee-survey-core": "ancasicolica/ZigBeeSiteSurveyCore#8c49d4f1afc5309e85f611207dd92d5639312e41"
   },
   "devDependencies": {
     "grunt": "1.6.1",
     "grunt-bump": "0.8.0",
-    "grunt-zip": "0.20.0",
-    "grunt-contrib-compress": "1.3.0"
+    "grunt-contrib-compress": "2.0.0",
+    "grunt-zip": "0.20.0"
   }
 }

@@ -5,18 +5,18 @@
  */
 
 
-const settings = require('./../settings');
-const core = require('zigbee-survey-core')(settings);
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
+const settings    = require('./../settings');
+const core        = require('zigbee-survey-core')(settings);
+const express     = require('express');
+const path        = require('path');
+const bodyParser  = require('body-parser');
 const compression = require('compression');
-const socket = require('./lib/socket');
-const logger = core.getLogger('server');
+const socket      = require('./lib/socket');
+const logger      = core.getLogger('server');
 const updateCheck = require('./../lib/updateCheck');
 
 // view engine setup
-var app = express();
+const app = express();
 app.use(require('./lib/expressLogger'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'web', 'views'));
@@ -32,7 +32,7 @@ app.use('/texts', require('./routes/texts'));
 app.use('/wifi', require('./routes/wifi'));
 
 updateCheck.init(settings);
-updateCheck.check((err, info) => {
+updateCheck.check(() => {
   // Async call when starting up, result is queried when a browser connection starts
 });
 
@@ -41,7 +41,7 @@ socket.init(app.listen(settings.port));
 core.on('usbConnected', device => {
   socket.emit('usbConnected', device);
 });
-core.on('usbDisconnected', ()=> {
+core.on('usbDisconnected', () => {
   socket.emit('usbDisconnected');
 });
 core.on('networks', networks => {
