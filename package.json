@@ -41,7 +41,7 @@
     "restify": "11.0.0",
     "restify-clients": "4.2.0",
     "socket.io": "4.5.4",
-    "zigbee-survey-core": "ancasicolica/ZigBeeSiteSurveyCore#8c49d4f1afc5309e85f611207dd92d5639312e41"
+    "zigbee-survey-core": "ancasicolica/ZigBeeSiteSurveyCore#a1b1e896d5125cc1054bdd1f9b9e570fcd9a2d8a"
   },
   "devDependencies": {
     "grunt": "1.6.1",
