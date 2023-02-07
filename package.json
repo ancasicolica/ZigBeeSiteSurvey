@@ -1,6 +1,6 @@
 {
   "name": "zigbee-survey-tool",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "title": "Node ZigBee Survey Tool",
   "productName": "ZigBee Site Survey",
   "description": "Check the ZigBee network data using MMBs RapidConnect",
