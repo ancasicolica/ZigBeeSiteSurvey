@@ -3,13 +3,13 @@
  * Created by kc on 10.12.15.
  */
 
-const express = require('express');
-const router = express.Router();
-const core = require('zigbee-survey-core')();
+const express  = require('express');
+const router   = express.Router();
+const core     = require('zigbee-survey-core')();
 const settings = require('../../settings');
-const logger = core.getLogger('routes:texts');
+const logger   = core.getLogger('routes:texts');
 
-var texts = require('../../texts.json');
+let texts = require('../../texts.json');
 
 if (settings.custom && settings.custom.enabled && settings.custom.texts) {
   texts = require('../public/' + settings.custom.texts);
@@ -20,7 +20,7 @@ if (settings.custom && settings.custom.enabled && settings.custom.texts) {
  * Scans all networks
  */
 router.get('/', function (req, res) {
-    res.send('var txt = ' + JSON.stringify(texts) + ';');
+  res.send('let txt = ' + JSON.stringify(texts) + ';');
 });
 
 

@@ -5,7 +5,7 @@
 
 const logger = require('zigbee-survey-core')().getLogger('express');
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   logger.info(req.method + ' ' + req.url);
   next();
 };

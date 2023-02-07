@@ -2,12 +2,12 @@
  * Gets the complete data of the ZigBee networks available
  */
 
-const express = require('express');
-const router = express.Router();
-const core = require('zigbee-survey-core')();
+const express     = require('express');
+const router      = express.Router();
+const core        = require('zigbee-survey-core')();
 const networkPool = core.getNetworkPool();
-const scanner = core.getScanner();
-const logger = core.getLogger('routes:networks');
+const scanner     = core.getScanner();
+const logger      = core.getLogger('routes:networks');
 
 const zigBeeFrequencies = {
   '11': 2405,
@@ -43,9 +43,9 @@ router.get('/', function (req, res) {
  * order to avoid browser interoperability problems.
  */
 router.get('/spectrum', (req, res) => {
-  var networks = networkPool.getNetworks();
+  let networks = networkPool.getNetworks();
 
-  var i = 0;
+  let i = 0;
   networks.forEach(n => {
     i++;
     logger.debug('ZigBee network', n);
@@ -53,16 +53,16 @@ router.get('/spectrum', (req, res) => {
     logger.debug(n);
     logger.debug('-------------------');
 
-    var chartData = core.createSpectrumChart({
-      frequency: zigBeeFrequencies[n.channel],
-      bandwith: zigBeeBandwith,
-      amplitude: n.rssi + 100,
+    let chartData = core.createSpectrumChart({
+      frequency  : zigBeeFrequencies[n.channel],
+      bandwith   : zigBeeBandwith,
+      amplitude  : n.rssi + 100,
       freqColName: 'xZigBee' + i,
       amplColName: 'dataZigBee' + i
     });
-    n.x = chartData.x;
-    n.data = chartData.data;
-    n.index = i;
+    n.x           = chartData.x;
+    n.data        = chartData.data;
+    n.index       = i;
     //n.history = []; // we don't care about the history in this case
   });
   res.send({status: 'ok', networks: networks});
@@ -73,7 +73,7 @@ router.get('/spectrum', (req, res) => {
  * purposes: see if a network is available, then forget about it.
  */
 router.get('/flush', function (req, res) {
-  var networks = networkPool.getNetworks();
+  let networks = networkPool.getNetworks();
   networkPool.reset();
   res.send(networks);
 });

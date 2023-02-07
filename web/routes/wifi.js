@@ -4,20 +4,20 @@
  */
 
 const express = require('express');
-const router = express.Router();
-const core = require('zigbee-survey-core')();
-const logger = core.getLogger('routes:wifi');
+const router  = express.Router();
+const core    = require('zigbee-survey-core')();
+const logger  = core.getLogger('routes:wifi');
 
 const wifiFrequencies = {
-  '1': 2412,
-  '2': 2417,
-  '3': 2422,
-  '4': 2427,
-  '5': 2432,
-  '6': 2437,
-  '7': 2442,
-  '8': 2447,
-  '9': 2452,
+  '1' : 2412,
+  '2' : 2417,
+  '3' : 2422,
+  '4' : 2427,
+  '5' : 2432,
+  '6' : 2437,
+  '7' : 2442,
+  '8' : 2447,
+  '9' : 2452,
   '10': 2457,
   '11': 2462,
   '12': 2467,
@@ -53,9 +53,9 @@ router.get('/spectrum', (req, res) => {
       }
 
       // Result: array with 2.4GHz networks
-      var net24 = [];
+      let net24 = [];
 
-      var i = 0;
+      let i = 0;
       networks.forEach(n => {
 
         // We concern only about 2.4 GHz networks
@@ -64,23 +64,22 @@ router.get('/spectrum', (req, res) => {
           logger.debug('Wifi 2.4 network found: ', n);
           // Convert integers to integers (as they should be already...)
           logger.debug(n);
-          n.channel = parseInt(n.channel, 10);
+          n.channel      = parseInt(n.channel, 10);
           n.signal_level = parseInt(n.rssi, 10);
           logger.debug('-------------------');
 
-          var chartData = core.createSpectrumChart({
-            frequency: wifiFrequencies[n.channel],
-            bandwith: wifiBandwith,
-            amplitude: n.rssi + 100,
+          let chartData = core.createSpectrumChart({
+            frequency  : wifiFrequencies[n.channel],
+            bandwith   : wifiBandwith,
+            amplitude  : n.rssi + 100,
             freqColName: 'xWifi' + i,
             amplColName: 'dataWifi' + i
           });
-          n.x = chartData.x;
-          n.data = chartData.data;
-          n.index = i;
+          n.x           = chartData.x;
+          n.data        = chartData.data;
+          n.index       = i;
           net24.push(n);
-        }
-        else {
+        } else {
           logger.debug('ignoring network:', n);
         }
       });

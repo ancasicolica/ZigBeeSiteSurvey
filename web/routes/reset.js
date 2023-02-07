@@ -4,14 +4,14 @@
  */
 
 const express = require('express');
-const router = express.Router();
-const core = require('zigbee-survey-core')();
+const router  = express.Router();
+const core    = require('zigbee-survey-core')();
 
 /**
  * Scans all networks
  */
 router.post('/', function (req, res) {
-  core.resetDongle(function() {
+  core.resetDongle(function () {
     core.determineDongleType();
     res.send({status: 'ok'});
   });

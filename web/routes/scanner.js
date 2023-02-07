@@ -3,12 +3,12 @@
  * Created by kc on 29.11.15.
  */
 
-const express = require('express');
-const router = express.Router();
-const core = require('zigbee-survey-core')();
-const scanner = core.getScanner();
+const express     = require('express');
+const router      = express.Router();
+const core        = require('zigbee-survey-core')();
+const scanner     = core.getScanner();
 const networkPool = core.getNetworkPool();
-const logger = core.getLogger('routes:scanner');
+const logger      = core.getLogger('routes:scanner');
 
 /**
  * Scans all networks

@@ -3,11 +3,11 @@
  * Created by kc on 16.07.15.
  */
 
-const logger = require('zigbee-survey-core')().getLogger('web:socket');
-const _ = require('lodash');
+const logger      = require('zigbee-survey-core')().getLogger('web:socket');
+const _           = require('lodash');
 const updateCheck = require('./../../lib/updateCheck');
-var io;
-var sockets = [];
+let io;
+let sockets       = [];
 
 module.exports = {
   /**
@@ -36,7 +36,7 @@ module.exports = {
    * @param data
    */
   emit: function (channel, data) {
-    for (var i = 0; i < sockets.length; i++) {
+    for (let i = 0; i < sockets.length; i++) {
       sockets[i].emit(channel, data);
     }
   },
@@ -45,7 +45,7 @@ module.exports = {
    * How many clients are connected?
    * @returns {Number}
    */
-  getNumberOfConnectedClients: function() {
+  getNumberOfConnectedClients: function () {
     return sockets.length;
   }
 };
